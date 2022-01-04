@@ -1,0 +1,32 @@
+﻿@startuml
+
+interface IService {
+    SearchAsync()
+}
+
+interface IPaymentMethod {
+    Pay()
+}
+
+IService o-- Driver
+IService o-- Passenger
+
+Order o-- Route
+Order o-- OrderStatus
+Order o-- Payment
+Order o-- CarType
+Order o-- Passenger
+Order o-- Date
+
+Payment o-- Sum
+Route o-- Point
+
+Driver o-- DriverRating
+Driver o-- Car
+Driver o-- Point
+
+Car o-- CarType
+Car o-- CarInfo
+CarInfo o-- CarNumber
+
+@enduml

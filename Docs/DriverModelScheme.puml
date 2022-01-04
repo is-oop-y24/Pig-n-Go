@@ -1,0 +1,67 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+class DriverModel
+{
+    +Guid Id;
+    +DriverInfo Info;
+    +CarInfo CarInfo;
+    +CartesianLocationUnit LocationUnit;
+    +DriverRating Rating;
+}
+
+class DriverInfo
+{
+    +Guid Id;
+    +string Name;
+    +string Surname;
+}
+
+class DriverRating
+{ 
+    -List<OrderRating> _ratingHistory;
+    +Guid Id;
+    +decimal AvrRating;
+    +IReadOnlyCollection<OrderRating> RatingHistory;
+}
+
+class OrderRating
+{
+    +Guid Id;
+    +int GivenRating;
+    +Passenger Author;
+}
+
+class CarInfo
+{
+    +Guid Id;
+    +string ModelName;
+    +string CarNumber;
+    +string Color;
+    +Tariff CarTariff;
+}
+
+class CartesianLocationUnit
+{
+    +decimal Abscissa
+    +decimal Ordinate
+}
+
+enum Tariff
+{
+    Economy
+    Comfort
+    Business
+    Elite
+}
+
+DriverModel o-- DriverRating
+DriverModel o-- DriverInfo
+DriverModel o-- CarInfo
+DriverModel o-- CartesianLocationUnit
+
+DriverRating o-- OrderRating
+
+CarInfo o-- Tariff
+
+@enduml

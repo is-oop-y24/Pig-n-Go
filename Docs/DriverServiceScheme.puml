@@ -1,0 +1,9 @@
+﻿@startuml
+interface IDriverService {
+    UpdateLocation()
+    AcceptOrder()
+    DeclineOrder()
+    Come()
+    FinishRide()
+}
+@enduml

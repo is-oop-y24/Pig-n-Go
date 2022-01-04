@@ -1,0 +1,9 @@
+﻿@startuml
+interface IPassengerService() {
+    StartSearch(Rout, CarType)
+    StopSearch()
+}
+
+Passenger o-- Order
+
+@enduml
