@@ -1,0 +1,32 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+class OrderModel {
+    +Guid Id
+    +OrderStatus Status
+    +Route Route
+    +PassengerModel Passenger
+    +DriverModel Driver
+    +DateTime CreateDateTime
+    +DateTime UpdateDateTime
+}
+
+enum OrderStatus {
+    Created
+    Accepted
+    Performed
+    Canceled
+}
+
+class Route {
+    -List<CartesianLocationUnit> _locationUnits
+    +Guid Id
+    +IReadOnlyCollection<Point> LocationUnits => _locationUnits
+}
+
+
+OrderModel *-- Route
+OrderModel *-- OrderStatus
+OrderModel o-- PassengerModel
+OrderModel o-- DriverModel
+@enduml

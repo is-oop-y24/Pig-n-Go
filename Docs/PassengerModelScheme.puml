@@ -1,0 +1,16 @@
+﻿@startuml
+'https://plantuml.com/sequence-diagram
+
+class PassengerModel {
+    +Guid id
+    +PassengerInfo info
+}
+
+class PassengerInfo {
+    +Guid id
+    +string name
+    +string surname 
+}
+
+PassengerModel *-- PassengerInfo
+@enduml
