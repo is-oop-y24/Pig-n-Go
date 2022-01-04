@@ -1,0 +1,51 @@
+﻿@startuml
+interface ITaxiService {
+    +Task HandleOrder(Order)
+    +Task StopSearch(Order)
+    +Task FinishOrder(Order)
+    +Task EsteemDriver(Driver, Mark)
+    -List<Driver> FindClosestDrivers(Point)
+    -void NotifyPassenger(Passenger, Driver)
+    -Task MakePayment(Driver)
+    -Task AskDriver(Driver)
+    -MakePayment(Order)
+}
+
+interface IDriverRepository {
+    void Add()
+    Driver Get()
+    void Remove()
+    void Update()
+}
+
+interface IPassengerRepository {
+    void Add()
+    Passenger Get()
+    void Remove()
+    void Update()
+}
+
+interface IOrderRepository {
+    void Add()
+    Order Get()
+    void Remove()
+    void Update()
+}
+
+TaxiService --o IDriverRepository
+TaxiService --o IPassengerRepository
+TaxiService --o IOrderRepository
+
+DbDriverRepository -u-|> IDriverRepository
+DbPassengerRepository -u-|> IPassengerRepository
+DbOrderRepository -u-|> IOrderRepository
+
+DbDriverRepository o-- TaxiContext
+DbPassengerRepository o-- TaxiContext
+DbOrderRepository o-- TaxiContext
+
+ITaxiService <|-- TaxiService
+TaxiContext o-- Driver
+TaxiContext o-- Passenger
+
+@enduml
