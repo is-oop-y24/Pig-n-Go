@@ -3,8 +3,9 @@
     public class ComfortTariff : TariffBase
     {
         public override decimal ChargePerLocationUnit
-        { 
+        {
             get => 3;
+            init { }
         }
     }
 }
