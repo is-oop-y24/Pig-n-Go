@@ -1,9 +1,34 @@
 ﻿@startuml
-interface IPassengerService() {
-    StartSearch(Rout, CarType)
-    StopSearch()
+'https://plantuml.com/class-diagram
+
+hide empty members
+
+interface IPassengerRepository
+{
+    - TaxiDbContext _dbContext
+    --
+    + Task Add(PassengerModel passenger)
+    + Task<PassengerModel> Get(Guid id)
+    + Task Update(PassengerModel passenger)
+    + Task Remove(PassengerModel passenger)
 }
 
-Passenger o-- Order
+interface IPassengerService
+{
+    - IPassengerRepository _repository
+    --
+    + Task Add(PassengerModel passenger)
+    + Task<PassengerModel> Get(Guid id)
+    + Task Update(PassengerModel passenger)
+    + Task Remove(PassengerModel passenger)
+}
+
+note as N1
+    Don't know what to do here, seems to me that we're missing <u>class IOrderService</u>
+end note
+
+IPassengerRepository <.. PassengerModel
+IPassengerService <.. IPassengerRepository
+IPassengerService <.. PassengerModel
 
 @enduml

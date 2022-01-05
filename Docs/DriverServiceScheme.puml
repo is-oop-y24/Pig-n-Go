@@ -1,9 +1,54 @@
 ﻿@startuml
-interface IDriverService {
-    UpdateLocation()
-    AcceptOrder()
-    DeclineOrder()
-    Come()
-    FinishRide()
+'https://plantuml.com/class-diagram
+
+hide empty members
+
+interface IDriverRepository
+{
+    - TaxiDbContext _dbContext
+    --
+    + Task Add(DriverModel driver)
+    + Task<DriverModel> Get(Guid id)
+    + Task Update(DriverModel driver)
+    + Task Remove(DriverModel driver)
 }
+
+interface IDriverService
+{
+    - IDriverRepository _repository
+    --
+    + Task Add(DriverModel driver)
+    + Task<DriverModel> Get(Guid id)
+    + Task Update(DriverModel driver)
+    + Task Remove(DriverModel driver)
+    --
+    + Task UpdateRating(DriverModel driver, OrderRating rating)
+    --
+    + Task Login(DriverModel driver)
+    + Task Logout(DriverModel driver)
+    --
+    + Task AcceptOrder(DriverModel driver, OrderModel order)
+    + Task StartOrder(DriverModel driver, OrderModel order)
+    + Task FinishOrder(DriverModel driver, OrderModel order)
+}
+
+note left of IDriverService::"Update(DriverModel driver)"
+    Method should be used to update <b>fields</b> of <u>class DriverModel</u> <b>directly</b>
+end note
+
+note left of IDriverService::"UpdateRating(DriverModel driver, OrderRating rating)"
+    Everything else that contains <b>any logic</b> (e. g. driver's rating) should be updated via <b>specific method</b>
+end note
+
+note left of IDriverService::"StartOrder(DriverModel driver, OrderModel order)"
+    Do we really need this method?
+end note
+
+IDriverRepository <.. DriverModel
+IDriverService <.. IDriverRepository
+IDriverService <.. DriverModel
+IDriverService <... OrderModel
+IDriverService <... OrderRating
+
+
 @enduml
