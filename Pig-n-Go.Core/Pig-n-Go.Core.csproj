@@ -5,4 +5,8 @@
         <RootNamespace>Pig_n_Go</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+        <None Include="..\.editorconfig" />
+    </ItemGroup>
+    
 </Project>

@@ -3,10 +3,13 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>Pig_n_Go.DriverClient</RootNamespace>
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+        <None Include="..\.editorconfig" />
+    </ItemGroup>
+    
     <ItemGroup>
       <ProjectReference Include="..\Pig-n-Go.Core\Pig-n-Go.Core.csproj" />
     </ItemGroup>

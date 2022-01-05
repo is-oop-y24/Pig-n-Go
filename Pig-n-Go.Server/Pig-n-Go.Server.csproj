@@ -2,14 +2,9 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>Pig_n_Go</RootNamespace>
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
     </PropertyGroup>
 
-    <ItemGroup>
-        <EditorConfigFiles Remove="..\.editorconfig" />
-    </ItemGroup>
-    
     <ItemGroup>
         <None Include="..\.editorconfig" />
     </ItemGroup>
