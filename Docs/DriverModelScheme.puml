@@ -11,10 +11,10 @@ class ComfortDriverModel
 class BusinessDriverModel
 class EliteDriverModel
 
-DriverModel <.. EconomyDriverModel
-DriverModel <.. ComfortDriverModel
-DriverModel <.. BusinessDriverModel
-DriverModel <.. EliteDriverModel
+IDriverModel <.. EconomyDriverModel
+IDriverModel <.. ComfortDriverModel
+IDriverModel <.. BusinessDriverModel
+IDriverModel <.. EliteDriverModel
 
 class ConcreteDriverModel
 {
