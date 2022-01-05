@@ -61,7 +61,7 @@ DriverModel o-- DriverRating
 DriverModel o-- DriverInfo
 DriverModel o-- CarInfo
 DriverModel o-- CartesianLocationUnit
-DriverModel o-d--- Tariff
+DriverModel o-l- Tariff
 
 DriverRating o-- OrderRating
 
