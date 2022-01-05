@@ -29,4 +29,9 @@ interface IOrderService
     + Task FinishOrder(OrderModel order)
 }
 
+IOrderRepository <.. OrderModel
+IOrderService <.. IOrderRepository
+IOrderService <... DriverModel
+IOrderService <.. OrderModel
+
 @enduml
