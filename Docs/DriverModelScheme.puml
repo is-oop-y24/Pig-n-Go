@@ -1,28 +1,24 @@
 ﻿@startuml
 'https://plantuml.com/class-diagram
 
-interface IDriverModel
+abstract class Tariff
 {
-    +decimal CalculatePayment()
+    decimal CalculatePayment();
 }
 
-class EconomyDriverModel
-class ComfortDriverModel
-class BusinessDriverModel
-class EliteDriverModel
+Tariff <.. EconomyTariff
+Tariff <.. ComfortTariff
+Tariff <.. BusinessTariff
+Tariff <.. EliteTariff
 
-IDriverModel <.. EconomyDriverModel
-IDriverModel <.. ComfortDriverModel
-IDriverModel <.. BusinessDriverModel
-IDriverModel <.. EliteDriverModel
-
-class ConcreteDriverModel
+class DriverModel
 {
     +Guid Id;
     +DriverInfo Info;
     +CarInfo CarInfo;
     +CartesianLocationUnit LocationUnit;
     +DriverRating Rating;
+    +Tariff ConcreteTariff;
 }
 
 class DriverInfo
@@ -53,7 +49,6 @@ class CarInfo
     +string ModelName;
     +string CarNumber;
     +string Color;
-    +Tariff CarTariff;
 }
 
 class CartesianLocationUnit
@@ -62,21 +57,11 @@ class CartesianLocationUnit
     +decimal Ordinate
 }
 
-enum Tariff
-{
-    Economy
-    Comfort
-    Business
-    Elite
-}
-
-ConcreteDriverModel o-- DriverRating
-ConcreteDriverModel o-- DriverInfo
-ConcreteDriverModel o-- CarInfo
-ConcreteDriverModel o-- CartesianLocationUnit
+DriverModel o-- DriverRating
+DriverModel o-- DriverInfo
+DriverModel o-- CarInfo
+DriverModel o-- CartesianLocationUnit
 
 DriverRating o-- OrderRating
-
-CarInfo o-- Tariff
 
 @enduml
