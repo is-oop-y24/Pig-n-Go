@@ -23,6 +23,9 @@ interface IOrderService
     + Task Remove(OrderModel order)
     --
     + Task AddDriver(OrderModel order, DriverModel driver)
+    --
+    + Task AcceptOrder(OrderModel order)
+    + Task DeclineOrder(OrderModel order)
     + Task FinishOrder(OrderModel order)
 }
 

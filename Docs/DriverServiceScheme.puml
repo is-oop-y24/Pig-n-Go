@@ -26,10 +26,6 @@ interface IDriverService
     --
     + Task Login(DriverModel driver)
     + Task Logout(DriverModel driver)
-    --
-    + Task AcceptOrder(DriverModel driver, OrderModel order)
-    + Task StartOrder(DriverModel driver, OrderModel order)
-    + Task FinishOrder(DriverModel driver, OrderModel order)
 }
 
 note left of IDriverService::"Update(DriverModel driver)"
@@ -38,10 +34,6 @@ end note
 
 note left of IDriverService::"UpdateRating(DriverModel driver, OrderRating rating)"
     Everything else that contains <b>any logic</b> (e. g. driver's rating) should be updated via <b>specific method</b>
-end note
-
-note left of IDriverService::"StartOrder(DriverModel driver, OrderModel order)"
-    Do we really need this method?
 end note
 
 IDriverRepository <.. DriverModel
