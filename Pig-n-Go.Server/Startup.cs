@@ -23,6 +23,11 @@ namespace Pig_n_Go
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<TaxiContext>();
+            services.AddScoped<ITaxiServiceAsync, TaxiServiceAsync>();
+            services.AddScoped<IDriverRepositoryAsync, DbDriverRepositoryAsync>();
+            services.AddScoped<IPassengerRepositoryAsync, DbPassengerRepositoryAsync>();
+            services.AddScoped<IOrderRepositoryAsync, DbOrderRepositoryAsync>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
