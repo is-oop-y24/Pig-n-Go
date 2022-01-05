@@ -13,7 +13,6 @@ namespace Pig_n_Go.Driver
         public double AvrRating
         {
             get { return RatingHistory.Select(rh => rh.Rating).Average(); }
-            private init { }
         }
     }
 }
