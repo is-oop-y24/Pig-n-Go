@@ -5,7 +5,6 @@
         public override decimal ChargePerLocationUnit
         { 
             get => 5;
-            set { }
         }
     }
 }

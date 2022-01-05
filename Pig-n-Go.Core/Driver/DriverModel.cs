@@ -5,7 +5,7 @@ namespace Pig_n_Go.Driver
 {
     public class DriverModel
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
         public DriverInfo DriverInfo { get; set; }
         public CarInfo CarInfo { get; set; }
         public CartesianLocationUnit Location { get; set; }

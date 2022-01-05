@@ -8,11 +8,12 @@ namespace Pig_n_Go.Driver
     public class DriverRating
     {
         public Guid Id { get; init; }
-        public List<OrderRating> RatingHistory { get; init; } = new List<OrderRating>();
+        public List<OrderRating> RatingHistory { get; private init; } = new List<OrderRating>();
 
         public double AvrRating
         {
             get { return RatingHistory.Select(rh => rh.Rating).Average(); }
+            private init { }
         }
     }
 }
