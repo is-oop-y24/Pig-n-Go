@@ -3,7 +3,7 @@
 
 interface IDriverModel
 {
-    CalculatePayment
+    +decimal CalculatePayment()
 }
 
 class EconomyDriverModel
