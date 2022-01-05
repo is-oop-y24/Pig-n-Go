@@ -1,7 +1,22 @@
 ﻿@startuml
 'https://plantuml.com/class-diagram
 
-class DriverModel
+interface IDriverModel
+{
+    CalculatePayment
+}
+
+class EconomyDriverModel
+class ComfortDriverModel
+class BusinessDriverModel
+class EliteDriverModel
+
+DriverModel <.. EconomyDriverModel
+DriverModel <.. ComfortDriverModel
+DriverModel <.. BusinessDriverModel
+DriverModel <.. EliteDriverModel
+
+class ConcreteDriverModel
 {
     +Guid Id;
     +DriverInfo Info;
@@ -55,10 +70,10 @@ enum Tariff
     Elite
 }
 
-DriverModel o-- DriverRating
-DriverModel o-- DriverInfo
-DriverModel o-- CarInfo
-DriverModel o-- CartesianLocationUnit
+ConcreteDriverModel o-- DriverRating
+ConcreteDriverModel o-- DriverInfo
+ConcreteDriverModel o-- CarInfo
+ConcreteDriverModel o-- CartesianLocationUnit
 
 DriverRating o-- OrderRating
 
