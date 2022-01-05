@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Pig_n_Go.Driver.Tariffs;
 
 namespace Pig_n_Go.Driver 
