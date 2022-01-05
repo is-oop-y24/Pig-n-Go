@@ -1,15 +1,15 @@
 ﻿@startuml
 'https://plantuml.com/class-diagram
 
-abstract class Tariff
+abstract class TariffBase
 {
-    decimal CalculatePayment();
+    +abstract decimal ChargePerLocationUnit
 }
 
-Tariff <.. EconomyTariff
-Tariff <.. ComfortTariff
-Tariff <.. BusinessTariff
-Tariff <.. EliteTariff
+TariffBase <.. EconomyTariff
+TariffBase <.. ComfortTariff
+TariffBase <.. BusinessTariff
+TariffBase <.. EliteTariff
 
 class DriverModel
 {
@@ -18,7 +18,7 @@ class DriverModel
     +CarInfo CarInfo;
     +CartesianLocationUnit LocationUnit;
     +DriverRating Rating;
-    +Tariff ConcreteTariff;
+    +TariffBase ConcreteTariff;
 }
 
 class DriverInfo
@@ -61,7 +61,7 @@ DriverModel o-- DriverRating
 DriverModel o-- DriverInfo
 DriverModel o-- CarInfo
 DriverModel o-- CartesianLocationUnit
-DriverModel o-l- Tariff
+DriverModel o-l- TariffBase
 
 DriverRating o-- OrderRating
 
