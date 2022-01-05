@@ -1,0 +1,29 @@
+﻿@startuml
+'https://plantuml.com/class-diagram
+
+hide empty members
+
+interface IOrderRepository
+{
+    - TaxiDbContext _dbContext
+    --
+    + Task Add(OrderModel order)
+    + Task<OrderModel> Get(Guid id)
+    + Task Update(OrderModel order)
+    + Task Remove(OrderModel order)
+}
+
+interface IOrderService
+{
+    - IOrderRepository _repository
+    --
+    + Task Add(OrderModel order)
+    + Task<OrderModel> Get(Guid id)
+    + Task Update(OrderModel order)
+    + Task Remove(OrderModel order)
+    --
+    + Task AddDriver(OrderModel order, DriverModel driver)
+    + Task FinishOrder(OrderModel order)
+}
+
+@enduml
