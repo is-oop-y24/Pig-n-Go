@@ -1,4 +1,4 @@
-﻿namespace Pig_n_Go
+﻿namespace Pig_n_Go.Passenger
 {
     public interface IPassengerService
     {
