@@ -6,22 +6,22 @@ namespace Pig_n_Go
 {
     public class DrOrderRepositoryAsync : IOrderRepositoryAsync
     {
-        public Task Add(OrderModel model)
+        public Task AddAsync(OrderModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task<OrderModel> Get(Guid id)
+        public Task<OrderModel> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task Remove(OrderModel model)
+        public Task RemoveAsync(OrderModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(OrderModel model)
+        public Task UpdateAsync(OrderModel model)
         {
             throw new NotImplementedException();
         }

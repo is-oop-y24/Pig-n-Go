@@ -6,22 +6,27 @@ namespace Pig_n_Go
 {
     public class DbDriverRepositoryAsync : IDriverRepositoryAsync
     {
-        public Task Add(DriverModel model)
+        private readonly TaxiContext _taxiContext;
+        public DbDriverRepositoryAsync(TaxiContext taxiContext) {
+            _taxiContext = taxiContext;
+        }
+
+        public Task AddAsync(DriverModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task<DriverModel> Get(Guid id)
+        public Task<DriverModel> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task Remove(DriverModel model)
+        public Task RemoveAsync(DriverModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(DriverModel model)
+        public Task UpdateAsync(DriverModel model)
         {
             throw new NotImplementedException();
         }

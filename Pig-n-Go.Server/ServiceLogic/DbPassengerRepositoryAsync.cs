@@ -6,22 +6,22 @@ namespace Pig_n_Go
 {
     public class DbPassengerRepositoryAsync : IPassengerRepositoryAsync
     {
-        public Task Add(PassengerModel model)
+        public Task AddAsync(PassengerModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task<PassengerModel> Get(Guid id)
+        public Task<PassengerModel> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task Remove(PassengerModel model)
+        public Task RemoveAsync(PassengerModel model)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(PassengerModel model)
+        public Task UpdateAsync(PassengerModel model)
         {
             throw new NotImplementedException();
         }
