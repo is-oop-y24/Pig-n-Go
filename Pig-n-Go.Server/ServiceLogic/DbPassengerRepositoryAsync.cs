@@ -6,24 +6,33 @@ namespace Pig_n_Go
 {
     public class DbPassengerRepositoryAsync : IPassengerRepositoryAsync
     {
-        public Task AddAsync(PassengerModel model)
-        {
-            throw new NotImplementedException();
+        private readonly TaxiContext _taxiContext;
+        
+        public DbPassengerRepositoryAsync(TaxiContext taxiContext) {
+            _taxiContext = taxiContext;
         }
 
-        public Task<PassengerModel> GetAsync(Guid id)
+        public async Task AddAsync(PassengerModel model)
         {
-            throw new NotImplementedException();
+            await _taxiContext.PassengerModels.AddAsync(model);
+            await _taxiContext.SaveChangesAsync();
         }
 
-        public Task RemoveAsync(PassengerModel model)
+        public async Task<PassengerModel> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _taxiContext.PassengerModels.FindAsync(id);
         }
 
-        public Task UpdateAsync(PassengerModel model)
+        public async Task RemoveAsync(PassengerModel model)
         {
-            throw new NotImplementedException();
+            _taxiContext.PassengerModels.Remove(model);
+            await _taxiContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(PassengerModel model)
+        {
+            _taxiContext.PassengerModels.Update(model);
+            await _taxiContext.SaveChangesAsync();
         }
     }
 }

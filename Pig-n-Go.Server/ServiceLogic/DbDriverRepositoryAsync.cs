@@ -11,24 +11,27 @@ namespace Pig_n_Go
             _taxiContext = taxiContext;
         }
 
-        public Task AddAsync(DriverModel model)
+        public async Task AddAsync(DriverModel model)
         {
-            throw new NotImplementedException();
+            await _taxiContext.DriversModels.AddAsync(model);
+            await _taxiContext.SaveChangesAsync();
         }
 
-        public Task<DriverModel> GetAsync(Guid id)
+        public async Task<DriverModel> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _taxiContext.DriversModels.FindAsync(id);
         }
 
-        public Task RemoveAsync(DriverModel model)
+        public async Task RemoveAsync(DriverModel model)
         {
-            throw new NotImplementedException();
+            _taxiContext.DriversModels.Remove(model);
+            await _taxiContext.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(DriverModel model)
+        public async Task UpdateAsync(DriverModel model)
         {
-            throw new NotImplementedException();
+            _taxiContext.DriversModels.Update(model);
+            await _taxiContext.SaveChangesAsync();
         }
     }
 }
