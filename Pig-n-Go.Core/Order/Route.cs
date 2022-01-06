@@ -6,7 +6,7 @@ namespace Pig_n_Go.Order
 {
     public class Route
     {
-        private List<CartesianLocationUnit> _locationUnits;
+        private readonly List<CartesianLocationUnit> _locationUnits;
 
         public Route(List<CartesianLocationUnit> locationUnits)
         {
