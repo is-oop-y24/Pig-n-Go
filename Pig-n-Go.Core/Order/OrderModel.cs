@@ -13,5 +13,6 @@ namespace Pig_n_Go.Order
         public DriverModel Driver { get; set; }
         public DateTime CreationDate { get; init; }
         public DateTime UpdateDate { get; set; }
+        public OrderRating Rating { get; set; }
     }
 }
