@@ -43,7 +43,7 @@ namespace Pig_n_Go
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
             app.UseEndpoints(
                 endpoints =>
                 {
