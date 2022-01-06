@@ -1,5 +1,6 @@
 ﻿using System;
 using Pig_n_Go.Driver;
+using Pig_n_Go.Driver.Tariffs;
 using Pig_n_Go.Passenger;
 
 namespace Pig_n_Go.Order
@@ -14,5 +15,6 @@ namespace Pig_n_Go.Order
         public DateTime CreationDate { get; init; }
         public DateTime UpdateDate { get; set; }
         public OrderRating Rating { get; set; }
+        public TariffBase Tariff { get; init; }
     }
 }
