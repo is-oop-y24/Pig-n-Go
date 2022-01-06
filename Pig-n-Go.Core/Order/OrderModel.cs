@@ -11,7 +11,7 @@ namespace Pig_n_Go.Order
         public Route Route { get; init; }
         public PassengerModel Passenger { get; init; }
         public DriverModel Driver { get; set; }
-        public DateTime CreateDateTime { get; init; }
-        public DateTime UpdateDateTime { get; set; }
+        public DateTime CreationDate { get; init; }
+        public DateTime UpdateDate { get; set; }
     }
 }
