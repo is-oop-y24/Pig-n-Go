@@ -2,6 +2,7 @@
 {
     public class CartesianLocationUnit
     {
-        
+        public decimal Abscissa { get; init; }
+        public decimal Ordinate { get; init; }
     }
 }

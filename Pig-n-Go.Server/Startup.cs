@@ -39,6 +39,7 @@ namespace Pig_n_Go
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+
                 app.UseHsts();
             }
 
@@ -49,12 +50,13 @@ namespace Pig_n_Go
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseEndpoints(
+                endpoints =>
+                {
+                    endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}");
+                });
         }
     }
 }
