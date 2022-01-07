@@ -33,6 +33,14 @@ namespace Pig_n_Go.DAL.Repositories
             return await _taxiDbContext.Orders.ToListAsync();
         }
 
+        public async Task<IReadOnlyCollection<OrderModel>> GetWhere(Func<OrderModel, bool> predicate)
+        {
+            return await _taxiDbContext.Orders
+                .Where(predicate)
+                .AsQueryable()
+                .ToListAsync();
+        }
+
         public async Task RemoveAsync(OrderModel model)
         {
             _taxiDbContext.Orders.Remove(model);
