@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pig_n_Go.DAL.DatabaseContexts;
+using Pig_n_Go.DAL.Repositories;
+using Pig_n_Go.DAL.Services;
 
 namespace Pig_n_Go
 {
@@ -23,7 +26,7 @@ namespace Pig_n_Go
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<TaxiContext>();
+            services.AddDbContext<TaxiDbContext>();
             services.AddScoped<ITaxiServiceAsync, TaxiServiceAsync>();
             services.AddScoped<IDriverRepositoryAsync, DbDriverRepositoryAsync>();
             services.AddScoped<IPassengerRepositoryAsync, DbPassengerRepositoryAsync>();
