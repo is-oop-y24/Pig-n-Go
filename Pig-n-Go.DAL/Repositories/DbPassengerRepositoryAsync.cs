@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Pig_n_Go.Core.Passenger;
 using Pig_n_Go.DAL.DatabaseContexts;
 
@@ -23,6 +25,11 @@ namespace Pig_n_Go.DAL.Repositories
         public async Task<PassengerModel> FindAsync(Guid id)
         {
             return await _taxiDbContext.Passengers.FindAsync(id);
+        }
+
+        public async Task<IReadOnlyCollection<PassengerModel>> GetAll()
+        {
+            return await _taxiDbContext.Passengers.ToListAsync();
         }
 
         public async Task RemoveAsync(PassengerModel model)

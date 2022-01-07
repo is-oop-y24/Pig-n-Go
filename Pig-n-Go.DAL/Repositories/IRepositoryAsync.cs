@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Pig_n_Go.DAL.Repositories
@@ -8,6 +9,7 @@ namespace Pig_n_Go.DAL.Repositories
     {
         Task AddAsync(TModel model);
         Task<TModel> FindAsync(Guid id);
+        Task<IReadOnlyCollection<TModel>> GetAll();
         Task RemoveAsync(TModel model);
         Task UpdateAsync(TModel model);
     }
