@@ -1,13 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>Pig_n_Go.Core</RootNamespace>
+        <RootNamespace>Pig_n_Go.BLL</RootNamespace>
     </PropertyGroup>
-
-    <ItemGroup>
-        <None Include="..\.editorconfig" />
-    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
@@ -15,5 +11,10 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
     </ItemGroup>
-    
+
+    <ItemGroup>
+      <ProjectReference Include="..\Pig-n-Go.Core\Pig-n-Go.Core.csproj" />
+      <ProjectReference Include="..\Pig-n-Go.DAL\Pig-n-Go.DAL.csproj" />
+    </ItemGroup>
+
 </Project>

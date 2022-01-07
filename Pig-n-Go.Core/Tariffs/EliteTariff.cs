@@ -1,10 +1,10 @@
-﻿namespace Pig_n_Go.Driver.Tariffs
+﻿namespace Pig_n_Go.Core.Tariffs
 {
-    public class ComfortTariff : TariffBase
+    public class EliteTariff : BaseTariff
     {
         public override decimal ChargePerLocationUnit
         {
-            get => 3;
+            get => 7;
             init { }
         }
     }

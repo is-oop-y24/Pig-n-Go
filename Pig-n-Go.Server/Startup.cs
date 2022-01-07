@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pig_n_Go.BLL.Services;
+using Pig_n_Go.DAL.DatabaseContexts;
+using Pig_n_Go.DAL.Repositories;
 
 namespace Pig_n_Go
 {
@@ -23,6 +21,11 @@ namespace Pig_n_Go
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<TaxiDbContext>();
+            services.AddScoped<ITaxiServiceAsync, TaxiServiceAsync>();
+            services.AddScoped<IDriverRepositoryAsync, DbDriverRepositoryAsync>();
+            services.AddScoped<IPassengerRepositoryAsync, DbPassengerRepositoryAsync>();
+            services.AddScoped<IOrderRepositoryAsync, DbOrderRepositoryAsync>();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -34,6 +37,7 @@ namespace Pig_n_Go
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+
                 app.UseHsts();
             }
 
