@@ -1,9 +1,9 @@
 ﻿using System;
-using Pig_n_Go.Driver;
-using Pig_n_Go.Driver.Tariffs;
-using Pig_n_Go.Passenger;
+using Pig_n_Go.Core.Driver;
+using Pig_n_Go.Core.Driver.Tariffs;
+using Pig_n_Go.Core.Passenger;
 
-namespace Pig_n_Go.Order
+namespace Pig_n_Go.Core.Order
 {
     public class OrderModel
     {
