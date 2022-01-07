@@ -10,6 +10,6 @@ namespace Pig_n_Go.Core.Driver
         public CarInfo CarInfo { get; set; }
         public CartesianLocationUnit Location { get; set; }
         public DriverRating DriverRating { get; set; }
-        public BaseTariff Tariff { get; set; }
+        public Tariff Tariff { get; set; }
     }
 }
