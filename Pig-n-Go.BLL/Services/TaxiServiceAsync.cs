@@ -41,7 +41,7 @@ namespace Pig_n_Go.BLL.Services
             throw new System.NotImplementedException();
         }
 
-        private Task<List<DriverModel>> FindClosestDrivers(CartesianLocationUnit location)
+        private Task<IReadOnlyCollection<DriverModel>> FindClosestDrivers(CartesianLocationUnit location)
         {
             throw new NotImplementedException();
         }
