@@ -15,9 +15,9 @@ namespace Pig_n_Go.BLL.Services
             _repository = repository;
         }
 
-        public async Task AddAsync(PassengerModel order)
+        public async Task AddAsync(PassengerModel passenger)
         {
-            await _repository.AddAsync(order);
+            await _repository.AddAsync(passenger);
         }
 
         public async Task<PassengerModel> FindAsync(Guid id)
