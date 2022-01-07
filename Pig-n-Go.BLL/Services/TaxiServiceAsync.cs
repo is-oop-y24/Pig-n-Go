@@ -6,7 +6,7 @@ using Pig_n_Go.Core.Order;
 using Pig_n_Go.Core.Passenger;
 using Pig_n_Go.DAL.Repositories;
 
-namespace Pig_n_Go.DAL.Services
+namespace Pig_n_Go.BLL.Services
 {
     public class TaxiServiceAsync : ITaxiServiceAsync
     {
@@ -21,22 +21,22 @@ namespace Pig_n_Go.DAL.Services
             _orderRepository = orderRepository;
         }
 
-        public async Task HandleOrderAsync(OrderModel order)
+        public async Task HandleOrderAsync(Guid orderId)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task StopSearchAsync(OrderModel order)
+        public async Task StopSearchAsync(Guid orderId)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task FinishOrderAsync(OrderModel order)
+        public async Task FinishOrderAsync(Guid orderId)
         {
             throw new System.NotImplementedException();
         }
 
-        public async Task EsteemDriverAsync(OrderModel order)
+        public async Task EsteemDriverAsync(Guid orderId)
         {
             throw new System.NotImplementedException();
         }

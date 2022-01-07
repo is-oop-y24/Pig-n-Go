@@ -10,7 +10,7 @@ namespace Pig_n_Go.Core.Driver
         public Guid Id { get; init; }
         public List<OrderRating> RatingHistory { get; private init; } = new List<OrderRating>();
 
-        public double AvrRating
+        public double AverageRating
         {
             get { return RatingHistory.Select(rh => rh.Rating).Average(); }
             private init { }
