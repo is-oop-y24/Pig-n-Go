@@ -10,6 +10,7 @@
     </ItemGroup>
     
     <ItemGroup>
+      <ProjectReference Include="..\Pig-n-Go.BLL\Pig-n-Go.BLL.csproj" />
       <ProjectReference Include="..\Pig-n-Go.Core\Pig-n-Go.Core.csproj" />
       <ProjectReference Include="..\Pig-n-Go.DAL\Pig-n-Go.DAL.csproj" />
     </ItemGroup>
