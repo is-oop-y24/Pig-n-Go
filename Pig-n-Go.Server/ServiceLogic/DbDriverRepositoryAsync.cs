@@ -7,7 +7,9 @@ namespace Pig_n_Go
     public class DbDriverRepositoryAsync : IDriverRepositoryAsync
     {
         private readonly TaxiContext _taxiContext;
-        public DbDriverRepositoryAsync(TaxiContext taxiContext) {
+
+        public DbDriverRepositoryAsync(TaxiContext taxiContext)
+        {
             _taxiContext = taxiContext;
         }
 

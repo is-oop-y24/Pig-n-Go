@@ -8,7 +8,8 @@ namespace Pig_n_Go
     {
         private readonly TaxiContext _taxiContext;
 
-        public DbOrderRepositoryAsync(TaxiContext taxiContext) {
+        public DbOrderRepositoryAsync(TaxiContext taxiContext)
+        {
             _taxiContext = taxiContext;
         }
 

@@ -7,8 +7,9 @@ namespace Pig_n_Go
     public class DbPassengerRepositoryAsync : IPassengerRepositoryAsync
     {
         private readonly TaxiContext _taxiContext;
-        
-        public DbPassengerRepositoryAsync(TaxiContext taxiContext) {
+
+        public DbPassengerRepositoryAsync(TaxiContext taxiContext)
+        {
             _taxiContext = taxiContext;
         }
 
