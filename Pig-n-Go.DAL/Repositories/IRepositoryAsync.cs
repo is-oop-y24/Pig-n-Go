@@ -7,7 +7,7 @@ namespace Pig_n_Go.DAL.Repositories
         where TModel : class
     {
         Task AddAsync(TModel model);
-        Task<TModel> GetAsync(Guid id);
+        Task<TModel> FindAsync(Guid id);
         Task RemoveAsync(TModel model);
         Task UpdateAsync(TModel model);
     }

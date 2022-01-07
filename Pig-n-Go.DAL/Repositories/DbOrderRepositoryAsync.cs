@@ -20,7 +20,7 @@ namespace Pig_n_Go.DAL.Repositories
             await _taxiDbContext.SaveChangesAsync();
         }
 
-        public async Task<OrderModel> GetAsync(Guid id)
+        public async Task<OrderModel> FindAsync(Guid id)
         {
             return await _taxiDbContext.Orders.FindAsync(id);
         }

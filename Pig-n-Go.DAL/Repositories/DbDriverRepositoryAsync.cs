@@ -20,7 +20,7 @@ namespace Pig_n_Go.DAL.Repositories
             await _taxiDbContext.SaveChangesAsync();
         }
 
-        public async Task<DriverModel> GetAsync(Guid id)
+        public async Task<DriverModel> FindAsync(Guid id)
         {
             return await _taxiDbContext.Drivers.FindAsync(id);
         }
