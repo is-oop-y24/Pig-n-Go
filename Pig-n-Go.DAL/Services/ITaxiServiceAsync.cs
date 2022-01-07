@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Pig_n_Go.Order;
+using Pig_n_Go.Core.Order;
 
-namespace Pig_n_Go
+namespace Pig_n_Go.DAL.Services
 {
     public interface ITaxiServiceAsync
     {
