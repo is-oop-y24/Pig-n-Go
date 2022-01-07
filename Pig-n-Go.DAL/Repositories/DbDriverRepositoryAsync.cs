@@ -34,6 +34,14 @@ namespace Pig_n_Go.DAL.Repositories
             return await _taxiDbContext.Drivers.ToListAsync();
         }
 
+        public async Task<IReadOnlyCollection<DriverModel>> GetWhere(Func<DriverModel, bool> predicate)
+        {
+            return await _taxiDbContext.Drivers
+                .Where(predicate)
+                .AsQueryable()
+                .ToListAsync();
+        }
+
         public async Task RemoveAsync(DriverModel model)
         {
             _taxiDbContext.Drivers.Remove(model);
