@@ -1,6 +1,6 @@
 ﻿namespace Pig_n_Go.Core.Tariffs
 {
-    public class BusinessTariff : TariffBase
+    public class BusinessTariff : BaseTariff
     {
         public override decimal ChargePerLocationUnit
         {
