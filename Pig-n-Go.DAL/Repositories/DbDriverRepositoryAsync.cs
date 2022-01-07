@@ -29,12 +29,12 @@ namespace Pig_n_Go.DAL.Repositories
             return await _taxiDbContext.Drivers.FindAsync(id);
         }
 
-        public async Task<IReadOnlyCollection<DriverModel>> GetAll()
+        public async Task<IReadOnlyCollection<DriverModel>> GetAllAsync()
         { 
             return await _taxiDbContext.Drivers.ToListAsync();
         }
 
-        public async Task<IReadOnlyCollection<DriverModel>> GetWhere(Func<DriverModel, bool> predicate)
+        public async Task<IReadOnlyCollection<DriverModel>> GetWhereAsync(Func<DriverModel, bool> predicate)
         {
             return await _taxiDbContext.Drivers
                 .Where(predicate)
