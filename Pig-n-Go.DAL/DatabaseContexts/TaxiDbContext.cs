@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Pig_n_Go.Driver;
-using Pig_n_Go.Order;
-using Pig_n_Go.Passenger;
+using Pig_n_Go.Core.Driver;
+using Pig_n_Go.Core.Order;
+using Pig_n_Go.Core.Passenger;
 
-namespace Pig_n_Go
+namespace Pig_n_Go.DAL.DatabaseContexts
 {
     public sealed class TaxiDbContext : DbContext
     {

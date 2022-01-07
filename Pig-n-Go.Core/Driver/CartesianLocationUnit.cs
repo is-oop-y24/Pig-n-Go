@@ -1,4 +1,4 @@
-﻿namespace Pig_n_Go.Driver
+﻿namespace Pig_n_Go.Core.Driver
 {
     public class CartesianLocationUnit
     {

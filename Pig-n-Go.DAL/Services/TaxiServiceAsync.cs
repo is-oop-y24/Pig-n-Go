@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Pig_n_Go.Driver;
-using Pig_n_Go.Order;
-using Pig_n_Go.Passenger;
+using Pig_n_Go.Core.Driver;
+using Pig_n_Go.Core.Order;
+using Pig_n_Go.Core.Passenger;
+using Pig_n_Go.DAL.Repositories;
 
-namespace Pig_n_Go
+namespace Pig_n_Go.DAL.Services
 {
     public class TaxiServiceAsync : ITaxiServiceAsync
     {
@@ -59,6 +60,5 @@ namespace Pig_n_Go
         {
             throw new NotImplementedException();
         }
-        
     }
 }

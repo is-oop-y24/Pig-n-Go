@@ -1,7 +1,7 @@
 using System;
-using Pig_n_Go.Driver.Tariffs;
+using Pig_n_Go.Core.Driver.Tariffs;
 
-namespace Pig_n_Go.Driver 
+namespace Pig_n_Go.Core.Driver 
 {
     public class DriverModel
     {

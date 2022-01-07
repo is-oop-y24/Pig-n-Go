@@ -1,4 +1,4 @@
-﻿namespace Pig_n_Go.Driver.Tariffs
+﻿namespace Pig_n_Go.Core.Driver.Tariffs
 {
     public class ComfortTariff : TariffBase
     {
