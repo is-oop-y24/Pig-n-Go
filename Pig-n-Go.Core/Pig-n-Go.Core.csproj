@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>Pig_n_Go</RootNamespace>
+        <RootNamespace>Pig_n_Go.Core</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

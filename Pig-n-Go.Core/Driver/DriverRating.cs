@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Pig_n_Go.Order;
+using Pig_n_Go.Core.Order;
 
-namespace Pig_n_Go.Driver
+namespace Pig_n_Go.Core.Driver
 {
     public class DriverRating
     {

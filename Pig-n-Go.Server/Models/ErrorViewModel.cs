@@ -1,5 +1,3 @@
-using System;
-
 namespace Pig_n_Go.Models
 {
     public class ErrorViewModel
