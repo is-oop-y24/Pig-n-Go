@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Pig_n_Go.Core.Order;
 using Pig_n_Go.DAL.DatabaseContexts;
 
@@ -23,6 +26,19 @@ namespace Pig_n_Go.DAL.Repositories
         public async Task<OrderModel> FindAsync(Guid id)
         {
             return await _taxiDbContext.Orders.FindAsync(id);
+        }
+
+        public async Task<IReadOnlyCollection<OrderModel>> GetAllAsync()
+        {
+            return await _taxiDbContext.Orders.ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<OrderModel>> GetWhereAsync(Func<OrderModel, bool> predicate)
+        {
+            return await _taxiDbContext.Orders
+                .Where(predicate)
+                .AsQueryable()
+                .ToListAsync();
         }
 
         public async Task RemoveAsync(OrderModel model)
