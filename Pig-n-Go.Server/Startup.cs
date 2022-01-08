@@ -28,6 +28,7 @@ namespace Pig_n_Go
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new OrderMapper());
+                mc.AddProfile(new DriverMapper());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
