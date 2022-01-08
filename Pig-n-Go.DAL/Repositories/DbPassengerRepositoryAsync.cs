@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Pig_n_Go.Core.Passenger;
 using Pig_n_Go.DAL.DatabaseContexts;
 
@@ -23,6 +26,19 @@ namespace Pig_n_Go.DAL.Repositories
         public async Task<PassengerModel> FindAsync(Guid id)
         {
             return await _taxiDbContext.Passengers.FindAsync(id);
+        }
+
+        public async Task<IReadOnlyCollection<PassengerModel>> GetAllAsync()
+        {
+            return await _taxiDbContext.Passengers.ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<PassengerModel>> GetWhereAsync(Func<PassengerModel, bool> predicate)
+        {
+            return await _taxiDbContext.Passengers
+                .Where(predicate)
+                .AsQueryable()
+                .ToListAsync();
         }
 
         public async Task RemoveAsync(PassengerModel model)

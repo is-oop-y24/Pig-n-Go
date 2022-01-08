@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.DAL.DatabaseContexts;
 
@@ -23,6 +27,19 @@ namespace Pig_n_Go.DAL.Repositories
         public async Task<DriverModel> FindAsync(Guid id)
         {
             return await _taxiDbContext.Drivers.FindAsync(id);
+        }
+
+        public async Task<IReadOnlyCollection<DriverModel>> GetAllAsync()
+        { 
+            return await _taxiDbContext.Drivers.ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<DriverModel>> GetWhereAsync(Func<DriverModel, bool> predicate)
+        {
+            return await _taxiDbContext.Drivers
+                .Where(predicate)
+                .AsQueryable()
+                .ToListAsync();
         }
 
         public async Task RemoveAsync(DriverModel model)
