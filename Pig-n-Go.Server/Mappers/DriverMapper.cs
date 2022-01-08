@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Pig_n_Go.Common.DTO.Driver;
 using Pig_n_Go.Core.Driver;
-using Pig_n_Go.Core.DTO.Driver;
 
 namespace Pig_n_Go.Mappers.Order
 {
