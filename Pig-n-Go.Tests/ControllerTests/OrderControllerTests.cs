@@ -1,5 +1,11 @@
-﻿using NUnit.Framework;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using Pig_n_Go.BLL.Services;
 using Pig_n_Go.Controllers;
+using Pig_n_Go.DAL.DatabaseContexts;
+using Pig_n_Go.DAL.Repositories;
+using Pig_n_Go.Mappers.Order;
 
 namespace Pig_n_Go.Tests.ControllerTests
 {
@@ -8,13 +14,29 @@ namespace Pig_n_Go.Tests.ControllerTests
         [SetUp]
         public void Setup()
         {
-            var orderController = new OrderController();
         }
 
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            var optionsBuilder = new DbContextOptionsBuilder<TaxiDbContext>();
+            DbContextOptions<TaxiDbContext> options = optionsBuilder.UseSqlite($"Filename=Taxi.Database").Options;
+            var taxiDbContext = new TaxiDbContext(options);
+
+            var dbOrderRepository = new DbOrderRepositoryAsync(taxiDbContext);
+            var dbDriverRepository = new DbDriverRepositoryAsync(taxiDbContext);
+
+            IOrderServiceAsync orderServiceAsync = new OrderServiceAsync(dbOrderRepository, dbDriverRepository);
+            
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrderMapper());
+                mc.AddProfile(new DriverMapper());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+
+            var orderController = new OrderController(orderServiceAsync, mapper);
         }
     }
 }
