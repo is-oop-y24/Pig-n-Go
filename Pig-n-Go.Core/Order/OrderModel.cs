@@ -8,8 +8,6 @@ namespace Pig_n_Go.Core.Order
 {
     public class OrderModel
     {
-        private OrderStatus _status;
-
         public Guid Id { get; init; }
         public Route Route { get; init; }
         public PassengerModel Passenger { get; init; }
@@ -19,17 +17,7 @@ namespace Pig_n_Go.Core.Order
         public OrderRating Rating { get; set; }
         public Tariff Tariff { get; init; }
 
-        public OrderStatus Status
-        {
-            get => _status;
-            set
-            {
-                StatusHistory.Entries.Add(new OrderStatusHistoryEntry
-                    { Status = value, Time = DateTime.Now });
-                _status = value;
-            }
-        }
-
+        public OrderStatus Status { get; set; }
         public OrderStatusHistory StatusHistory { get; init; } = new OrderStatusHistory();
     }
 }
