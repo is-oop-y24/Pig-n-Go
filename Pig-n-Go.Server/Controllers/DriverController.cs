@@ -10,104 +10,101 @@ using Pig_n_Go.Core.Driver;
 
 namespace Pig_n_Go.Controllers
 {
-    public class DriverController : Controller
+    [ApiController]
+    [Route("/drivers")]
+    public class DriverController : ControllerBase
     {
-        [ApiController]
-        [Route("/orders")]
-        public class ReportController : ControllerBase
+        private readonly IDriverServiceAsync _service;
+        private readonly IMapper _mapper;
+
+        public DriverController(IDriverServiceAsync service, IMapper mapper)
         {
-            private readonly IDriverServiceAsync _service;
-            private readonly IMapper _mapper;
+            _service = service;
+            _mapper = mapper;
+        }
 
-            public ReportController(IDriverServiceAsync service, IMapper mapper)
-            {
-                _service = service;
-                _mapper = mapper;
-            }
+        [HttpPost("add")]
+        public async Task<IActionResult> AddDriver([FromBody] DriverCreationArguments arguments)
+        {
+            DriverModel driver = _mapper.Map<DriverModel>(arguments);
 
-            [HttpPost("add")]
-            public async Task<IActionResult> AddDriver([FromBody] DriverCreationArguments arguments)
-            {
-                DriverModel driver = _mapper.Map<DriverModel>(arguments);
+            await _service.AddAsync(driver);
+            return Ok();
+        }
 
-                await _service.AddAsync(driver);
-                return Ok();
-            }
+        [HttpGet("get")]
+        public async Task<IActionResult> GetDriver([FromQuery] Guid orderId)
+        {
+            if (orderId == Guid.Empty)
+                return BadRequest();
 
-            [HttpGet("get")]
-            public async Task<IActionResult> GetDriver([FromQuery] Guid orderId)
-            {
-                if (orderId == Guid.Empty)
-                    return BadRequest();
+            DriverModel driver = await _service.FindAsync(orderId);
 
-                DriverModel driver = await _service.FindAsync(orderId);
+            if (driver == null)
+                return NotFound();
 
-                if (driver == null)
-                    return NotFound();
+            return Ok(_mapper.Map<DriverDTO>(driver));
+        }
 
-                return Ok(_mapper.Map<DriverDTO>(driver));
-            }
+        [HttpGet("get-all")]
+        public async Task<IActionResult> GetAllDrivers()
+        {
+            IReadOnlyCollection<DriverModel> drivers = await _service.GetAllAsync();
 
-            [HttpGet("get-all")]
-            public async Task<IActionResult> GetAllDrivers()
-            {
-                IReadOnlyCollection<DriverModel> drivers = await _service.GetAllAsync();
+            if (drivers == null || drivers.Count == 0)
+                return NotFound();
 
-                if (drivers == null || drivers.Count == 0)
-                    return NotFound();
+            return Ok(drivers.Select(d => _mapper.Map<DriverDTO>(d)).ToList());
+        }
 
-                return Ok(drivers.Select(d => _mapper.Map<DriverDTO>(d)).ToList());
-            }
+        [HttpDelete("remove")]
+        public async Task<IActionResult> RemoveDriver([FromQuery] Guid driverId)
+        {
+            if (driverId == Guid.Empty)
+                return BadRequest();
 
-            [HttpDelete("remove")]
-            public async Task<IActionResult> RemoveDriver([FromQuery] Guid driverId)
-            {
-                if (driverId == Guid.Empty)
-                    return BadRequest();
+            await _service.RemoveAsync(driverId);
+            return Ok();
+        }
 
-                await _service.RemoveAsync(driverId);
-                return Ok();
-            }
+        [HttpPatch("update-location")]
+        public async Task<IActionResult> UpdateLocation([FromQuery] Guid driverId, Guid locationUnitId)
+        {
+            if (driverId == Guid.Empty || locationUnitId == Guid.Empty)
+                return BadRequest();
 
-            [HttpPatch("update-location")]
-            public async Task<IActionResult> UpdateLocation([FromQuery] Guid driverId, Guid locationUnitId)
-            {
-                if (driverId == Guid.Empty || locationUnitId == Guid.Empty)
-                    return BadRequest();
+            await _service.UpdateLocation(driverId, locationUnitId);
+            return Ok();
+        }
 
-                await _service.UpdateLocation(driverId, locationUnitId);
-                return Ok();
-            }
+        [HttpPatch("update-rating")]
+        public async Task<IActionResult> UpdateRating([FromQuery] Guid driverId, Guid orderId)
+        {
+            if (driverId == Guid.Empty || orderId == Guid.Empty)
+                return BadRequest();
 
-            [HttpPatch("update-rating")]
-            public async Task<IActionResult> UpdateRating([FromQuery] Guid driverId, Guid orderId)
-            {
-                if (driverId == Guid.Empty || orderId == Guid.Empty)
-                    return BadRequest();
+            await _service.UpdateRating(driverId, orderId);
+            return Ok();
+        }
 
-                await _service.UpdateRating(driverId, orderId);
-                return Ok();
-            }
+        [HttpPatch("login")]
+        public async Task<IActionResult> Login([FromQuery] Guid driverId)
+        {
+            if (driverId == Guid.Empty)
+                return BadRequest();
 
-            [HttpPatch("login")]
-            public async Task<IActionResult> Login([FromQuery] Guid driverId)
-            {
-                if (driverId == Guid.Empty)
-                    return BadRequest();
+            await _service.Login(driverId);
+            return Ok();
+        }
 
-                await _service.Login(driverId);
-                return Ok();
-            }
+        [HttpPatch("logout")]
+        public async Task<IActionResult> Logout([FromQuery] Guid driverId)
+        {
+            if (driverId == Guid.Empty)
+                return BadRequest();
 
-            [HttpPatch("logout")]
-            public async Task<IActionResult> Logout([FromQuery] Guid driverId)
-            {
-                if (driverId == Guid.Empty)
-                    return BadRequest();
-
-                await _service.Logout(driverId);
-                return Ok();
-            }
+            await _service.Logout(driverId);
+            return Ok();
         }
     }
 }

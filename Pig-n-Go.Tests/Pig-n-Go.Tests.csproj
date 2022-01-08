@@ -14,4 +14,9 @@
         <PackageReference Include="coverlet.collector" Version="3.0.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Pig-n-Go.BLL\Pig-n-Go.BLL.csproj" />
+      <ProjectReference Include="..\Pig-n-Go.Server\Pig-n-Go.Server.csproj" />
+    </ItemGroup>
+
 </Project>
