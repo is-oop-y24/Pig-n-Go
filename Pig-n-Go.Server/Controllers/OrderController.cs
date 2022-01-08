@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Pig_n_Go.BLL.Services;
-using Pig_n_Go.Core.DTO.Order;
+using Pig_n_Go.Common.DTO.Order;
 using Pig_n_Go.Core.Order;
 
 namespace Pig_n_Go.Controllers
