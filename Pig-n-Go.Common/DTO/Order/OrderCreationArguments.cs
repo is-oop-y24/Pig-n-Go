@@ -6,7 +6,7 @@ using Pig_n_Go.Core.Tariffs;
 
 namespace Pig_n_Go.Common.DTO.Order
 {
-    public class OrderCreateArguments
+    public class OrderCreationArguments
     {
         public OrderStatus Status { get; set; }
         public Route Route { get; init; }

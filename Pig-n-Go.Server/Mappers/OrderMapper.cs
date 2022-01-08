@@ -8,7 +8,7 @@ namespace Pig_n_Go.Mappers.Order
     {
         public OrderMapper()
         {
-            CreateMap<OrderCreateArguments, OrderModel>();
+            CreateMap<OrderCreationArguments, OrderModel>();
             CreateMap<OrderDTO, OrderModel>();
             CreateMap<OrderModel, OrderDTO>();
         }

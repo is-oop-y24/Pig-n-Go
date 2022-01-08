@@ -26,7 +26,7 @@ namespace Pig_n_Go.Controllers
             }
 
             [HttpPost("add")]
-            public async Task<IActionResult> AddOrder([FromBody] OrderCreateArguments arguments)
+            public async Task<IActionResult> AddOrder([FromBody] OrderCreationArguments arguments)
             {
                 OrderModel order = _mapper.Map<OrderModel>(arguments);
 
