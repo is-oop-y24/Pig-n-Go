@@ -26,7 +26,7 @@ namespace Pig_n_Go.Controllers
             }
 
             [HttpPost("add")]
-            public async Task<IActionResult> AddDriver([FromBody] DriverCreateArguments arguments)
+            public async Task<IActionResult> AddDriver([FromBody] DriverCreationArguments arguments)
             {
                 DriverModel driver = _mapper.Map<DriverModel>(arguments);
 
