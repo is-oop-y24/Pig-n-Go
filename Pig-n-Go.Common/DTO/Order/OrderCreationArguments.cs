@@ -8,13 +8,13 @@ namespace Pig_n_Go.Common.DTO.Order
 {
     public class OrderCreationArguments
     {
-        public OrderStatus Status { get; set; }
         public Route Route { get; init; }
         public PassengerModel Passenger { get; init; }
         public DriverModel Driver { get; set; }
         public DateTime CreationDate { get; init; }
         public DateTime UpdateDate { get; set; }
         public OrderRating Rating { get; set; }
-        public Tariff Tariff { get; set; }
+        public Tariff Tariff { get; init; }
+        public OrderStatus Status { get; set; }
     }
 }
