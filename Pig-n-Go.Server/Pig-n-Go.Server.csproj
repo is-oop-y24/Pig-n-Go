@@ -11,11 +11,13 @@
     
     <ItemGroup>
       <ProjectReference Include="..\Pig-n-Go.BLL\Pig-n-Go.BLL.csproj" />
+      <ProjectReference Include="..\Pig-n-Go.Common\Pig-n-Go.Common.csproj" />
       <ProjectReference Include="..\Pig-n-Go.Core\Pig-n-Go.Core.csproj" />
       <ProjectReference Include="..\Pig-n-Go.DAL\Pig-n-Go.DAL.csproj" />
     </ItemGroup>
     
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="11.0.0" />
       <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

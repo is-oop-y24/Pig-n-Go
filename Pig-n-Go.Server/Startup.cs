@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Pig_n_Go.BLL.Services;
 using Pig_n_Go.DAL.DatabaseContexts;
 using Pig_n_Go.DAL.Repositories;
+using Pig_n_Go.Mappers.Order;
 
 namespace Pig_n_Go
 {
@@ -22,12 +24,22 @@ namespace Pig_n_Go
         {
             services.AddControllersWithViews();
             services.AddDbContext<TaxiDbContext>();
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OrderMapper());
+                mc.AddProfile(new DriverMapper());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             services.AddScoped<ITaxiServiceAsync, TaxiServiceAsync>();
             services.AddScoped<IDriverRepositoryAsync, DbDriverRepositoryAsync>();
             services.AddScoped<IPassengerRepositoryAsync, DbPassengerRepositoryAsync>();
             services.AddScoped<IOrderRepositoryAsync, DbOrderRepositoryAsync>();
         }
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
