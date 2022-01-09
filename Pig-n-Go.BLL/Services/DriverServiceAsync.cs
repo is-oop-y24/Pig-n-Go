@@ -18,9 +18,9 @@ namespace Pig_n_Go.BLL.Services
             _orderRepository = orderRepository;
         }
 
-        public async Task AddAsync(DriverModel driver)
+        public async Task AddAsync(DriverModel model)
         {
-            await _driverRepository.AddAsync(driver);
+            await _driverRepository.AddAsync(model);
         }
 
         public async Task<DriverModel> FindAsync(Guid id)
@@ -28,9 +28,19 @@ namespace Pig_n_Go.BLL.Services
             return await _driverRepository.FindAsync(id);
         }
 
-        public Task<IReadOnlyCollection<DriverModel>> GetAllAsync()
+        public async Task<IReadOnlyCollection<DriverModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _driverRepository.GetAllAsync();
+        }
+
+        public async Task<IReadOnlyCollection<DriverModel>> GetWhereAsync(Func<DriverModel, bool> predicate)
+        {
+            return await _driverRepository.GetWhereAsync(predicate);
+        }
+
+        public async Task UpdateAsync(DriverModel model)
+        {
+            await _driverRepository.UpdateAsync(model);
         }
 
         public async Task RemoveAsync(Guid id)
@@ -53,14 +63,16 @@ namespace Pig_n_Go.BLL.Services
             await _driverRepository.UpdateAsync(driver);
         }
 
-        public Task Login(Guid driverId)
+        public async Task GoOnline(Guid driverId)
         {
-            throw new NotImplementedException();
+            DriverModel driver = await _driverRepository.FindAsync(driverId);
+            await _driverRepository.GoOnline(driver);
         }
 
-        public Task Logout(Guid driverId)
+        public async Task GoOffline(Guid driverId)
         {
-            throw new NotImplementedException();
+            DriverModel driver = await _driverRepository.FindAsync(driverId);
+            await _driverRepository.GoOffline(driver);
         }
     }
 }

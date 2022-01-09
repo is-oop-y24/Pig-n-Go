@@ -18,9 +18,9 @@ namespace Pig_n_Go.BLL.Services
             _driverRepository = driverRepository;
         }
 
-        public async Task AddAsync(OrderModel order)
+        public async Task AddAsync(OrderModel model)
         {
-            await _orderRepository.AddAsync(order);
+            await _orderRepository.AddAsync(model);
         }
 
         public async Task<OrderModel> FindAsync(Guid id)
@@ -28,9 +28,19 @@ namespace Pig_n_Go.BLL.Services
             return await _orderRepository.FindAsync(id);
         }
 
-        public Task<IReadOnlyCollection<OrderModel>> GetAllAsync()
+        public async Task<IReadOnlyCollection<OrderModel>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _orderRepository.GetAllAsync();
+        }
+
+        public async Task<IReadOnlyCollection<OrderModel>> GetWhereAsync(Func<OrderModel, bool> predicate)
+        {
+            return await _orderRepository.GetWhereAsync(predicate);
+        }
+
+        public async Task UpdateAsync(OrderModel model)
+        {
+            await _orderRepository.UpdateAsync(model);
         }
 
         public async Task RemoveAsync(Guid id)
