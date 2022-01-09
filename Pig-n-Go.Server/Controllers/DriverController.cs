@@ -93,7 +93,7 @@ namespace Pig_n_Go.Controllers
             if (driverId == Guid.Empty)
                 return BadRequest();
 
-            await _service.Login(driverId);
+            await _service.GoOnline(driverId);
             return Ok();
         }
 
@@ -103,7 +103,7 @@ namespace Pig_n_Go.Controllers
             if (driverId == Guid.Empty)
                 return BadRequest();
 
-            await _service.Logout(driverId);
+            await _service.GoOffline(driverId);
             return Ok();
         }
     }

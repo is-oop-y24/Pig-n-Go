@@ -9,7 +9,7 @@ namespace Pig_n_Go.BLL.Services
         Task UpdateLocation(Guid driverId, Guid locationUnitId);
         Task UpdateRating(Guid driverId, Guid orderId);
 
-        Task Login(Guid driverId);
-        Task Logout(Guid driverId);
+        Task GoOnline(Guid driverId);
+        Task GoOffline(Guid driverId);
     }
 }
