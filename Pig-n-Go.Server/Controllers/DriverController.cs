@@ -33,12 +33,12 @@ namespace Pig_n_Go.Controllers
         }
 
         [HttpGet("get")]
-        public async Task<IActionResult> GetDriver([FromQuery] Guid orderId)
+        public async Task<IActionResult> GetDriver([FromQuery] Guid driverId)
         {
-            if (orderId == Guid.Empty)
+            if (driverId == Guid.Empty)
                 return BadRequest();
 
-            DriverModel driver = await _service.FindAsync(orderId);
+            DriverModel driver = await _service.FindAsync(driverId);
 
             if (driver == null)
                 return NotFound();
