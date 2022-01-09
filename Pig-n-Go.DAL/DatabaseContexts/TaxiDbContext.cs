@@ -17,8 +17,8 @@ namespace Pig_n_Go.DAL.DatabaseContexts
         public DbSet<PassengerModel> Passengers { get; private set; }
         public DbSet<OrderModel> Orders { get; private set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-        }
+        public DbSet<DriverModel> ActiveDrivers { get; private set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) { }
     }
 }
