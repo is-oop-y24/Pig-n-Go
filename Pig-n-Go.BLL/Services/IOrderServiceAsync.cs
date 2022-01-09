@@ -6,10 +6,10 @@ namespace Pig_n_Go.BLL.Services
 {
     public interface IOrderServiceAsync : IServiceAsync<OrderModel>
     {
-        Task AddDriver(Guid orderId, Guid driverId);
-
-        Task AcceptOrder(Guid orderId);
-        Task DeclineOrder(Guid orderId);
-        Task FinishOrder(Guid orderId);
+        Task HandleOrderAsync(OrderModel order);
+        Task CancelOrderAsync(Guid orderId);
+        Task AcceptOrderAsync(Guid orderId, Guid driverId);
+        Task DeclineOrderAsync(Guid orderId, Guid driverId);
+        Task FinishOrderAsync(Guid orderId);
     }
 }
