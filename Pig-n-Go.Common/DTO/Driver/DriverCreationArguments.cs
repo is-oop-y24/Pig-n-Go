@@ -1,6 +1,5 @@
 ﻿using Pig_n_Go.Core.Driver;
 using Pig_n_Go.Core.Tariffs;
-using Pig_n_Go.Driver;
 
 namespace Pig_n_Go.Common.DTO.Driver
 {
