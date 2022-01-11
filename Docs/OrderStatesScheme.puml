@@ -1,0 +1,48 @@
+﻿@startuml
+'https://plantuml.com/state-diagram
+
+hide empty description
+
+state Created {
+    Created : Пассажир создал заказ
+}
+
+state Searching {
+    Searching : - Поиск водителей
+    Searching : - Опрос водителей
+}
+
+state Accepted {
+    Accepted : Водитель принял заказ
+    Accepted : Водитель в пути
+}
+
+state Waiting {
+    Waiting : Водитель ждет пассажира
+}
+
+state OnTheWay {
+    OnTheWay : Поездка началась
+}
+
+state Finished #lightgreen {
+    Finished : Заказ выполнен
+}
+
+state Cancelled #pink {
+    Cancelled : Заказ отменен
+}
+
+[*] --> Created
+Created --> Cancelled
+Created -> Searching
+Searching -> Accepted
+Searching --> Cancelled
+Accepted --> Cancelled
+Accepted -> Waiting
+Waiting -> OnTheWay
+Waiting -[dashed]-> Cancelled
+OnTheWay --> Finished 
+OnTheWay -[dashed]-> Cancelled
+
+@enduml
