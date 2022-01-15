@@ -70,7 +70,7 @@ namespace Pig_n_Go.Controllers
         }
 
         [HttpPatch("{passengerId}/pay")]
-        public async Task<IActionResult> Pay(Guid passengerId)
+        public async Task<IActionResult> Pay([FromQuery] Guid passengerId)
         {
             await _passengerService.Pay(passengerId);
             return Ok();
