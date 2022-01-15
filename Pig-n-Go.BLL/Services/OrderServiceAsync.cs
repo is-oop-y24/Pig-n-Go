@@ -59,8 +59,8 @@ namespace Pig_n_Go.BLL.Services
 
         public async Task HandleOrderAsync(OrderModel order)
         {
-            if (order == null)
-                throw new NullReferenceException(nameof(order));
+            if (order is null)
+                throw new ArgumentNullException(nameof(order));
             if (order.Status != OrderStatus.Created)
                 throw new TaxiException($"Order status must be {OrderStatus.Created}");
             order.Status = OrderStatus.Search;
