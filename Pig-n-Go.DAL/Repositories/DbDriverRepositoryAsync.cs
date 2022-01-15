@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +29,7 @@ namespace Pig_n_Go.DAL.Repositories
         }
 
         public async Task<IReadOnlyCollection<DriverModel>> GetAllAsync()
-        { 
+        {
             return await _taxiDbContext.Drivers.ToListAsync();
         }
 
@@ -51,6 +50,18 @@ namespace Pig_n_Go.DAL.Repositories
         public async Task UpdateAsync(DriverModel model)
         {
             _taxiDbContext.Drivers.Update(model);
+            await _taxiDbContext.SaveChangesAsync();
+        }
+
+        public async Task GoOnline(DriverModel driver)
+        {
+            await _taxiDbContext.ActiveDrivers.AddAsync(driver);
+            await _taxiDbContext.SaveChangesAsync();
+        }
+
+        public async Task GoOffline(DriverModel driver)
+        {
+            _taxiDbContext.ActiveDrivers.Remove(driver);
             await _taxiDbContext.SaveChangesAsync();
         }
     }
