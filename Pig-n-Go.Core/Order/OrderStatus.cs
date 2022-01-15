@@ -3,8 +3,9 @@
     public enum OrderStatus
     {
         Created,
+        Search,
         Accepted,
-        Performed,
+        Finished,
         Cancelled,
     }
 }
