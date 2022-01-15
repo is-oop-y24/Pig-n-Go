@@ -40,7 +40,7 @@ namespace Pig_n_Go.Controllers
 
             DriverModel driver = await _service.FindAsync(driverId);
 
-            if (driver == null)
+            if (driver is null)
                 return NotFound();
 
             return Ok(_mapper.Map<DriverDTO>(driver));
@@ -51,7 +51,7 @@ namespace Pig_n_Go.Controllers
         {
             IReadOnlyCollection<DriverModel> drivers = await _service.GetAllAsync();
 
-            if (drivers == null || drivers.Count == 0)
+            if (drivers is null || drivers.Count == 0)
                 return NotFound();
 
             return Ok(drivers.Select(d => _mapper.Map<DriverDTO>(d)).ToList());
@@ -68,7 +68,7 @@ namespace Pig_n_Go.Controllers
         }
 
         [HttpPatch("update/location")]
-        public async Task<IActionResult> UpdateLocation([FromQuery] Guid driverId, Guid locationUnitId)
+        public async Task<IActionResult> UpdateLocation([FromQuery] Guid driverId, [FromQuery] Guid locationUnitId)
         {
             if (driverId == Guid.Empty || locationUnitId == Guid.Empty)
                 return BadRequest();
@@ -78,7 +78,7 @@ namespace Pig_n_Go.Controllers
         }
 
         [HttpPatch("update/rating")]
-        public async Task<IActionResult> UpdateRating([FromQuery] Guid driverId, Guid orderId)
+        public async Task<IActionResult> UpdateRating([FromQuery] Guid driverId, [FromQuery] Guid orderId)
         {
             if (driverId == Guid.Empty || orderId == Guid.Empty)
                 return BadRequest();

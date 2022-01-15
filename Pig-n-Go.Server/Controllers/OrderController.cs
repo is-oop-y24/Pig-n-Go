@@ -40,7 +40,7 @@ namespace Pig_n_Go.Controllers
 
             OrderModel order = await _service.FindAsync(orderId);
 
-            if (order == null)
+            if (order is null)
                 return NotFound();
 
             return Ok(_mapper.Map<OrderDTO>(order));
@@ -51,7 +51,7 @@ namespace Pig_n_Go.Controllers
         {
             IReadOnlyCollection<OrderModel> orders = await _service.GetAllAsync();
 
-            if (orders == null || orders.Count == 0)
+            if (orders is null || orders.Count == 0)
                 return NotFound();
 
             return Ok(orders.Select(o => _mapper.Map<OrderDTO>(o)).ToList());
@@ -68,7 +68,7 @@ namespace Pig_n_Go.Controllers
         }
 
         [HttpPost("add-driver")] // smth different?
-        public async Task<IActionResult> AddDriver([FromQuery] Guid orderId, Guid driverId)
+        public async Task<IActionResult> AddDriver([FromQuery] Guid orderId, [FromQuery] Guid driverId)
         {
             if (orderId == Guid.Empty || driverId == Guid.Empty)
                 return BadRequest();
