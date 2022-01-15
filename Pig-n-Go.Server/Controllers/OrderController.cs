@@ -67,7 +67,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPost("add-driver")] // smth different?
+        [HttpPost("add-driver")]
         public async Task<IActionResult> AddDriver([FromQuery] Guid orderId, [FromQuery] Guid driverId)
         {
             if (orderId == Guid.Empty || driverId == Guid.Empty)

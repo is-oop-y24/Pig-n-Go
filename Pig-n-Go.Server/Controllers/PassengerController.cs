@@ -69,7 +69,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPatch("{passengerId}/pay")] // why not "pay", and request id from query|body|sth ?
+        [HttpPatch("{passengerId}/pay")]
         public async Task<IActionResult> Pay(Guid passengerId)
         {
             await _passengerService.Pay(passengerId);
