@@ -23,7 +23,7 @@ namespace Pig_n_Go.Controllers
             _mapper = mapper;
         }
 
-        [Route("add")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddPassenger([FromBody] PassengerCreationArguments args)
         {
             PassengerModel passenger = _mapper.Map<PassengerModel>(args);
@@ -33,7 +33,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [Route("get")]
+        [HttpGet("get")]
         public async Task<IActionResult> GetPassenger([FromQuery] Guid passengerId)
         {
             if (passengerId == Guid.Empty)
@@ -47,7 +47,7 @@ namespace Pig_n_Go.Controllers
             return Ok(_mapper.Map<PassengerDTO>(passenger));
         }
 
-        [Route("all")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAllPassengers()
         {
             IReadOnlyCollection<PassengerModel> passengers = await _passengerService.GetAllAsync();
@@ -59,7 +59,7 @@ namespace Pig_n_Go.Controllers
             return Ok(dtos);
         }
 
-        [Route("remove")]
+        [HttpDelete("remove")]
         public async Task<IActionResult> RemovePassenger([FromQuery] Guid passengerId)
         {
             if (passengerId == Guid.Empty)
@@ -69,7 +69,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [Route("{passengerId}/pay")] // why not "pay", and request id from query|body|sth ?
+        [HttpPatch("{passengerId}/pay")] // why not "pay", and request id from query|body|sth ?
         public async Task<IActionResult> Pay(Guid passengerId)
         {
             await _passengerService.Pay(passengerId);
