@@ -11,7 +11,7 @@ using Pig_n_Go.Core.Driver;
 namespace Pig_n_Go.Controllers
 {
     [ApiController]
-    [Route("/drivers")]
+    [Route("drivers")]
     public class DriverController : ControllerBase
     {
         private readonly IDriverServiceAsync _service;
@@ -46,7 +46,7 @@ namespace Pig_n_Go.Controllers
             return Ok(_mapper.Map<DriverDTO>(driver));
         }
 
-        [HttpGet("get-all")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAllDrivers()
         {
             IReadOnlyCollection<DriverModel> drivers = await _service.GetAllAsync();
@@ -67,7 +67,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPatch("update-location")]
+        [HttpPatch("update/location")]
         public async Task<IActionResult> UpdateLocation([FromQuery] Guid driverId, Guid locationUnitId)
         {
             if (driverId == Guid.Empty || locationUnitId == Guid.Empty)
@@ -77,7 +77,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPatch("update-rating")]
+        [HttpPatch("update/rating")]
         public async Task<IActionResult> UpdateRating([FromQuery] Guid driverId, Guid orderId)
         {
             if (driverId == Guid.Empty || orderId == Guid.Empty)

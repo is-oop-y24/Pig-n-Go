@@ -11,7 +11,7 @@ using Pig_n_Go.Core.Passenger;
 namespace Pig_n_Go.Controllers
 {
     [ApiController]
-    [Route("/passengers")]
+    [Route("passengers")]
     public class PassengerController : Controller
     {
         private readonly IPassengerServiceAsync _passengerService;
@@ -47,7 +47,7 @@ namespace Pig_n_Go.Controllers
             return Ok(_mapper.Map<PassengerDTO>(passenger));
         }
 
-        [Route("get-all")]
+        [Route("all")]
         public async Task<IActionResult> GetAllPassengers()
         {
             IReadOnlyCollection<PassengerModel> passengers = await _passengerService.GetAllAsync();
@@ -69,7 +69,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [Route("{passengerId}/pay")]
+        [Route("{passengerId}/pay")] // why not "pay", and request id from query|body|sth ?
         public async Task<IActionResult> Pay(Guid passengerId)
         {
             await _passengerService.Pay(passengerId);
