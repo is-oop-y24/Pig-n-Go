@@ -2,7 +2,7 @@
 
 namespace Pig_n_Go.BLL.Services.Tools
 {
-    public interface IDistanceMeter
+    public interface IDistanceCalculator
     {
         decimal GetDistance(CartesianLocationUnit unit1, CartesianLocationUnit unit2);
     }

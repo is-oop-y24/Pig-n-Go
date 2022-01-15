@@ -15,14 +15,14 @@ namespace Pig_n_Go.BLL.Services
     {
         private readonly IOrderRepositoryAsync _orderRepository;
         private readonly IDriverRepositoryAsync _driverRepository;
-        private readonly IDistanceMeter _distanceMeter;
+        private readonly IDistanceCalculator _distanceCalculator;
         private readonly decimal _maxDriverDistance;
 
-        public OrderServiceAsync(IOrderRepositoryAsync orderRepository, IDriverRepositoryAsync driverRepository, IDistanceMeter distanceMeter, decimal maxDriverDistance)
+        public OrderServiceAsync(IOrderRepositoryAsync orderRepository, IDriverRepositoryAsync driverRepository, IDistanceCalculator distanceCalculator, decimal maxDriverDistance)
         {
             _orderRepository = orderRepository;
             _driverRepository = driverRepository;
-            _distanceMeter = distanceMeter;
+            _distanceCalculator = distanceCalculator;
             _maxDriverDistance = maxDriverDistance;
         }
         
@@ -105,7 +105,7 @@ namespace Pig_n_Go.BLL.Services
         private async Task<List<DriverModel>> FindClosestDrivers(CartesianLocationUnit locationUnit)
         {
             return new List<DriverModel>(await _driverRepository.GetWhereAsync(driver =>
-                _distanceMeter.GetDistance(driver.Location, locationUnit) < _maxDriverDistance));
+                _distanceCalculator.GetDistance(driver.Location, locationUnit) < _maxDriverDistance));
         }
 
         private async Task<OrderModel> GetOrderAsync(Guid orderId)
