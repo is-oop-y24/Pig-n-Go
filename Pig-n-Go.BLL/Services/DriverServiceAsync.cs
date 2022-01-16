@@ -60,7 +60,7 @@ namespace Pig_n_Go.BLL.Services
             OrderModel order = await _orderRepository.FindAsync(orderId);
 
             driver.DriverRating.RatingHistory.Add(order.Rating);
-            await _driverRepository.UpdateAsync(driver);
+            await UpdateAsync(driver);
         }
 
         public async Task GoOnline(Guid driverId)
