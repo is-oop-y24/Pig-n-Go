@@ -26,11 +26,12 @@ namespace Pig_n_Go.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddPassenger([FromBody] PassengerCreationArguments args)
         {
+            if (args.PassengerInfo?.Name is null || args.PassengerInfo?.Surname is null)
+                return BadRequest();
             PassengerModel passenger = _mapper.Map<PassengerModel>(args);
 
-            await _passengerService.AddAsync(passenger);
-
-            return Ok();
+            PassengerModel result = await _passengerService.AddAsync(passenger);
+            return Ok(result);
         }
 
         [HttpGet("get")]
@@ -41,7 +42,7 @@ namespace Pig_n_Go.Controllers
 
             PassengerModel passenger = await _passengerService.FindAsync(passengerId);
 
-            if (passenger == null)
+            if (passenger is null)
                 return NotFound();
 
             return Ok(_mapper.Map<PassengerDTO>(passenger));
@@ -52,7 +53,7 @@ namespace Pig_n_Go.Controllers
         {
             IReadOnlyCollection<PassengerModel> passengers = await _passengerService.GetAllAsync();
 
-            if (passengers == null || passengers.Count == 0)
+            if (passengers is null || passengers.Count == 0)
                 return NotFound();
 
             IEnumerable<PassengerDTO> dtos = passengers.Select(p => _mapper.Map<PassengerDTO>(p));
@@ -69,8 +70,8 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPatch("{passengerId}/pay")]
-        public async Task<IActionResult> Pay([FromQuery] Guid passengerId)
+        [HttpPatch("{passengerId:guid}/pay")]
+        public async Task<IActionResult> Pay([FromRoute] Guid passengerId)
         {
             await _passengerService.Pay(passengerId);
             return Ok();

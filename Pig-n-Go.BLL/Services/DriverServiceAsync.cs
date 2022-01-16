@@ -18,9 +18,9 @@ namespace Pig_n_Go.BLL.Services
             _orderRepository = orderRepository;
         }
 
-        public async Task AddAsync(DriverModel model)
+        public async Task<DriverModel> AddAsync(DriverModel model)
         {
-            await _driverRepository.AddAsync(model);
+            return await _driverRepository.AddAsync(model);
         }
 
         public async Task<DriverModel> FindAsync(Guid id)

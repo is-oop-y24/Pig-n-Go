@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.DAL.DatabaseContexts;
 
@@ -17,10 +18,12 @@ namespace Pig_n_Go.DAL.Repositories
             _taxiDbContext = taxiDbContext;
         }
 
-        public async Task AddAsync(DriverModel model)
+        public async Task<DriverModel> AddAsync(DriverModel model)
         {
-            await _taxiDbContext.Drivers.AddAsync(model);
+            EntityEntry<DriverModel> driver = await _taxiDbContext.Drivers.AddAsync(model);
             await _taxiDbContext.SaveChangesAsync();
+
+            return driver.Entity;
         }
 
         public async Task<DriverModel> FindAsync(Guid id)

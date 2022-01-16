@@ -28,8 +28,8 @@ namespace Pig_n_Go.Controllers
         {
             DriverModel driver = _mapper.Map<DriverModel>(arguments);
 
-            await _service.AddAsync(driver);
-            return Ok();
+            DriverModel result = await _service.AddAsync(driver);
+            return Ok(result);
         }
 
         [HttpGet("get")]
@@ -87,7 +87,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPatch("login")]
+        [HttpPut("login")]
         public async Task<IActionResult> Login([FromQuery] Guid driverId)
         {
             if (driverId == Guid.Empty)
@@ -97,7 +97,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPatch("logout")]
+        [HttpPut("logout")]
         public async Task<IActionResult> Logout([FromQuery] Guid driverId)
         {
             if (driverId == Guid.Empty)
