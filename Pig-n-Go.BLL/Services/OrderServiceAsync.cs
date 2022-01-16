@@ -84,6 +84,13 @@ namespace Pig_n_Go.BLL.Services
             await UpdateAsync(order);
         }
 
+        public async Task UpdateStatusAsync(Guid orderId, OrderStatus newStatus)
+        {
+            OrderModel order = await GetOrderAsync(orderId);
+            order.Status = newStatus;
+            await UpdateAsync(order);
+        }
+
         public async Task AcceptOrderAsync(Guid orderId, Guid driverId)
         {
             OrderModel order = await GetOrderAsync(orderId);
