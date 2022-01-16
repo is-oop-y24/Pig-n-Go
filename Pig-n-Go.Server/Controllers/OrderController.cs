@@ -11,7 +11,7 @@ using Pig_n_Go.Core.Order;
 namespace Pig_n_Go.Controllers
 {
     [ApiController]
-    [Route("/orders")]
+    [Route("orders")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderServiceAsync _service;
@@ -40,18 +40,18 @@ namespace Pig_n_Go.Controllers
 
             OrderModel order = await _service.FindAsync(orderId);
 
-            if (order == null)
+            if (order is null)
                 return NotFound();
 
             return Ok(_mapper.Map<OrderDTO>(order));
         }
 
-        [HttpGet("get-all")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAllOrders()
         {
             IReadOnlyCollection<OrderModel> orders = await _service.GetAllAsync();
 
-            if (orders == null || orders.Count == 0)
+            if (orders is null || orders.Count == 0)
                 return NotFound();
 
             return Ok(orders.Select(o => _mapper.Map<OrderDTO>(o)).ToList());
@@ -68,7 +68,7 @@ namespace Pig_n_Go.Controllers
         }
 
         [HttpPost("add-driver")]
-        public async Task<IActionResult> AddDriver([FromQuery] Guid orderId, Guid driverId)
+        public async Task<IActionResult> AddDriver([FromQuery] Guid orderId, [FromQuery] Guid driverId)
         {
             if (orderId == Guid.Empty || driverId == Guid.Empty)
                 return BadRequest();
@@ -77,7 +77,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPatch("accept-order")]
+        [HttpPatch("accept")]
         public async Task<IActionResult> AcceptOrder([FromQuery] Guid orderId)
         {
             if (orderId == Guid.Empty)
@@ -87,7 +87,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPatch("decline-order")]
+        [HttpPatch("decline")]
         public async Task<IActionResult> DeclineOrder([FromQuery] Guid orderId)
         {
             if (orderId == Guid.Empty)
@@ -97,7 +97,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPost("finish-order")]
+        [HttpPost("finish")]
         public async Task<IActionResult> FinishOrder([FromQuery] Guid orderId)
         {
             if (orderId == Guid.Empty)
