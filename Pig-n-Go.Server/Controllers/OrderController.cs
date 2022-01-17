@@ -67,33 +67,23 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPost("add-driver")]
-        public async Task<IActionResult> AddDriver([FromQuery] Guid orderId, [FromQuery] Guid driverId)
-        {
-            if (orderId == Guid.Empty || driverId == Guid.Empty)
-                return BadRequest();
-
-            await _service.AddDriver(orderId, driverId);
-            return Ok();
-        }
-
         [HttpPatch("accept")]
-        public async Task<IActionResult> AcceptOrder([FromQuery] Guid orderId)
+        public async Task<IActionResult> AcceptOrder([FromQuery] Guid orderId, [FromQuery] Guid driverId)
         {
             if (orderId == Guid.Empty)
                 return BadRequest();
 
-            await _service.AcceptOrder(orderId);
+            await _service.AcceptOrderAsync(orderId, driverId);
             return Ok();
         }
 
         [HttpPatch("decline")]
-        public async Task<IActionResult> DeclineOrder([FromQuery] Guid orderId)
+        public async Task<IActionResult> DeclineOrder([FromQuery] Guid orderId, [FromQuery] Guid driverId)
         {
             if (orderId == Guid.Empty)
                 return BadRequest();
 
-            await _service.DeclineOrder(orderId);
+            await _service.DeclineOrderAsync(orderId, driverId);
             return Ok();
         }
 
@@ -103,7 +93,7 @@ namespace Pig_n_Go.Controllers
             if (orderId == Guid.Empty)
                 return BadRequest();
 
-            await _service.FinishOrder(orderId);
+            await _service.FinishOrderAsync(orderId);
             return Ok();
         }
     }
