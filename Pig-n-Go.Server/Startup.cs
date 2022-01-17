@@ -34,7 +34,7 @@ namespace Pig_n_Go
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddScoped<ITaxiServiceAsync, TaxiServiceAsync>();
+            services.AddScoped<IOrderServiceAsync, OrderServiceAsync>();
             services.AddScoped<IDriverRepositoryAsync, DbDriverRepositoryAsync>();
             services.AddScoped<IPassengerRepositoryAsync, DbPassengerRepositoryAsync>();
             services.AddScoped<IOrderRepositoryAsync, DbOrderRepositoryAsync>();
