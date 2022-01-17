@@ -29,15 +29,19 @@ namespace Pig_n_Go
             {
                 mc.AddProfile(new OrderMapper());
                 mc.AddProfile(new DriverMapper());
+                mc.AddProfile(new PassengerMapper());
             });
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddScoped<IOrderServiceAsync, OrderServiceAsync>();
             services.AddScoped<IDriverRepositoryAsync, DbDriverRepositoryAsync>();
             services.AddScoped<IPassengerRepositoryAsync, DbPassengerRepositoryAsync>();
             services.AddScoped<IOrderRepositoryAsync, DbOrderRepositoryAsync>();
+
+            services.AddScoped<IPassengerServiceAsync, PassengerServiceAsync>();
+            services.AddScoped<IDriverServiceAsync, DriverServiceAsync>();
+            services.AddScoped<IOrderServiceAsync, OrderServiceAsync>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
