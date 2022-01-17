@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using Pig_n_Go.BLL.Services;
+using Pig_n_Go.BLL.Services.Tools;
 using Pig_n_Go.Controllers;
 using Pig_n_Go.DAL.DatabaseContexts;
 using Pig_n_Go.DAL.Repositories;
@@ -25,8 +26,11 @@ namespace Pig_n_Go.Tests.ControllerTests
 
             var dbOrderRepository = new DbOrderRepositoryAsync(taxiDbContext);
             var dbDriverRepository = new DbDriverRepositoryAsync(taxiDbContext);
+            IDistanceCalculator calculator = new NativeDistanceCalculator();
+            // TODO: adequate value for maxDriverDistance
+            decimal maxDriverDistance = decimal.MaxValue;
 
-            IOrderServiceAsync orderServiceAsync = new OrderServiceAsync(dbOrderRepository, dbDriverRepository);
+            IOrderServiceAsync orderServiceAsync = new OrderServiceAsync(dbOrderRepository, dbDriverRepository, calculator, maxDriverDistance);
             
             var mapperConfig = new MapperConfiguration(mc =>
             {
