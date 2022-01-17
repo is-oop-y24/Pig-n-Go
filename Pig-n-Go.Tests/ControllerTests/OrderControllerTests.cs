@@ -24,6 +24,7 @@ namespace Pig_n_Go.Tests.ControllerTests
 
             var dbOrderRepository = new DbOrderRepositoryAsync(taxiDbContext);
             var dbDriverRepository = new DbDriverRepositoryAsync(taxiDbContext);
+
             var distanceCalculator = new NativeDistanceCalculator();
             var maxDriverDistance = new DriverDistanceLimit();
 

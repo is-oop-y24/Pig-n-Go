@@ -69,7 +69,8 @@ namespace Pig_n_Go.BLL.Services
             if (order.Status != OrderStatus.Created)
                 throw new TaxiException($"Order status must be {OrderStatus.Created}");
 
-            order.Status = OrderStatus.Search;
+            order.Status = OrderStatus.Searching;
+
             await AddAsync(order);
             List<DriverModel> drivers = await FindClosestDrivers(order.Route.LocationUnits.First());
             IEnumerable<Task> askingTasks = drivers.Select(AskDriver);
@@ -93,7 +94,7 @@ namespace Pig_n_Go.BLL.Services
         public async Task AcceptOrderAsync(Guid orderId, Guid driverId)
         {
             OrderModel order = await GetOrderAsync(orderId);
-            if (order.Status != OrderStatus.Search)
+            if (order.Status != OrderStatus.Searching)
                 throw new TaxiException("Order isn't active now.");
             DriverModel driverModel = await _driverRepository.FindAsync(driverId)
                                    ?? throw new TaxiException("Driver doesn't exist.");
