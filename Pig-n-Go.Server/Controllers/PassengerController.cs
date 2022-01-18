@@ -51,10 +51,7 @@ namespace Pig_n_Go.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllPassengers()
         {
-            IReadOnlyCollection<PassengerModel> passengers = await _passengerService.GetAllAsync();
-
-            if (passengers is null || passengers.Count == 0)
-                return NotFound();
+            IReadOnlyCollection<PassengerModel> passengers = await _passengerService.GetAllAsync() ?? new List<PassengerModel>();
 
             IEnumerable<PassengerDTO> dtos = passengers.Select(p => _mapper.Map<PassengerDTO>(p));
             return Ok(dtos);
