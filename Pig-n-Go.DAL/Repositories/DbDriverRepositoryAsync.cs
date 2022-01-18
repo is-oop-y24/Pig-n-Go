@@ -30,21 +30,21 @@ namespace Pig_n_Go.DAL.Repositories
         public async Task<DriverModel> FindAsync(Guid id)
         {
             return await _taxiDbContext.Drivers
-                                       .LoadDriverDependencies()
+                                       .LoadDependencies()
                                        .FirstOrDefaultAsync(model => model.Id == id);
         }
 
         public async Task<IReadOnlyCollection<DriverModel>> GetAllAsync()
         {
             return await _taxiDbContext.Drivers
-                                       .LoadDriverDependencies()
+                                       .LoadDependencies()
                                        .ToListAsync();
         }
 
         public async Task<IReadOnlyCollection<DriverModel>> GetWhereAsync(Func<DriverModel, bool> predicate)
         {
             return await _taxiDbContext.Drivers
-                                       .LoadDriverDependencies()
+                                       .LoadDependencies()
                                        .Where(predicate)
                                        .AsQueryable()
                                        .ToListAsync();

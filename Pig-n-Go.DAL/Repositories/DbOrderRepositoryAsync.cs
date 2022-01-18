@@ -30,21 +30,21 @@ namespace Pig_n_Go.DAL.Repositories
         public async Task<OrderModel> FindAsync(Guid id)
         {
             return await _taxiDbContext.Orders
-                                       .LoadOrderDependencies()
+                                       .LoadDependencies()
                                        .FirstOrDefaultAsync(model => model.Id == id);
         }
 
         public async Task<IReadOnlyCollection<OrderModel>> GetAllAsync()
         {
             return await _taxiDbContext.Orders
-                                       .LoadOrderDependencies()
+                                       .LoadDependencies()
                                        .ToListAsync();
         }
 
         public async Task<IReadOnlyCollection<OrderModel>> GetWhereAsync(Func<OrderModel, bool> predicate)
         {
             return await _taxiDbContext.Orders
-                                       .LoadOrderDependencies()
+                                       .LoadDependencies()
                                        .Where(predicate)
                                        .AsQueryable()
                                        .ToListAsync();

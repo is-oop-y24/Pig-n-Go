@@ -8,7 +8,7 @@ namespace Pig_n_Go.DAL.Extensions
 {
     public static class LoadExtension
     {
-        public static IIncludableQueryable<DriverModel, Tariff> LoadDriverDependencies(
+        public static IIncludableQueryable<DriverModel, Tariff> LoadDependencies(
             this DbSet<DriverModel> drivers)
         {
             return drivers
@@ -18,7 +18,7 @@ namespace Pig_n_Go.DAL.Extensions
                    .Include(model => model.Tariff);
         }
 
-        public static IIncludableQueryable<OrderModel, Tariff> LoadOrderDependencies(
+        public static IIncludableQueryable<OrderModel, Tariff> LoadDependencies(
             this DbSet<OrderModel> orders)
         {
             return orders
