@@ -34,6 +34,9 @@ namespace Pig_n_Go.Tests.ControllerTests
                 distanceCalculator,
                 maxDriverDistance);
 
+            IPassengerRepositoryAsync passengerRepositoryAsync = new DbPassengerRepositoryAsync(taxiDbContext);
+            IPassengerServiceAsync passengerServiceAsync = new PassengerServiceAsync(passengerRepositoryAsync);
+
             var mapperConfig = new MapperConfiguration(
                 mc =>
                 {
@@ -43,7 +46,7 @@ namespace Pig_n_Go.Tests.ControllerTests
 
             IMapper mapper = mapperConfig.CreateMapper();
 
-            var orderController = new OrderController(orderServiceAsync, mapper);
+            var orderController = new OrderController(orderServiceAsync, passengerServiceAsync, mapper);
         }
     }
 }
