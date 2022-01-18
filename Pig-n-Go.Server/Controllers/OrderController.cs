@@ -57,7 +57,7 @@ namespace Pig_n_Go.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllOrders()
         {
-            IReadOnlyCollection<OrderModel> orders = await _orderService.GetAllAsync() ?? new List<OrderModel>();   
+            IReadOnlyCollection<OrderModel> orders = await _orderService.GetAllAsync() ?? new List<OrderModel>();
 
             return Ok(orders.Select(o => _mapper.Map<OrderDTO>(o)).ToList());
         }

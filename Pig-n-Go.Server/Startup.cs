@@ -35,7 +35,6 @@ namespace Pig_n_Go
                         options.SerializerSettings.Formatting = Formatting.Indented;
                     });
 
-
             services.AddDbContext<TaxiDbContext>(
                 options =>
                 {
@@ -69,7 +68,6 @@ namespace Pig_n_Go
 
             services.AddScoped<IDistanceCalculator, NativeDistanceCalculator>();
             services.AddScoped<IDriverDistanceLimit, DriverDistanceLimit>();
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
