@@ -51,10 +51,9 @@ namespace Pig_n_Go.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllPassengers()
         {
-            IReadOnlyCollection<PassengerModel> passengers = await _passengerService.GetAllAsync() ?? new List<PassengerModel>();
+            IReadOnlyCollection<PassengerModel> passengers = await _passengerService.GetAllAsync();
 
-            IEnumerable<PassengerDTO> dtos = passengers.Select(p => _mapper.Map<PassengerDTO>(p));
-            return Ok(dtos);
+            return Ok(passengers.Select(p => _mapper.Map<PassengerDTO>(p)));
         }
 
         [HttpDelete("remove")]

@@ -53,7 +53,7 @@ namespace Pig_n_Go.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllDrivers()
         {
-            IReadOnlyCollection<DriverModel> drivers = await _service.GetAllAsync() ?? new List<DriverModel>();
+            IReadOnlyCollection<DriverModel> drivers = await _service.GetAllAsync();
 
             return Ok(drivers.Select(d => _mapper.Map<DriverDTO>(d)).ToList());
         }
