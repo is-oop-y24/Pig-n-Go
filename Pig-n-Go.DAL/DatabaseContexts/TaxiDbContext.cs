@@ -27,7 +27,13 @@ namespace Pig_n_Go.DAL.DatabaseContexts
             modelBuilder.Entity<ComfortTariff>();
             modelBuilder.Entity<EconomyTariff>();
             modelBuilder.Entity<EliteTariff>();
-            modelBuilder.Entity<PassengerModel>().OwnsOne<PassengerInfo>("PassengerInfo");
+
+            modelBuilder.Entity<PassengerModel>().OwnsOne<PassengerInfo>($"{nameof(PassengerModel.PassengerInfo)}");
+
+            modelBuilder.Entity<DriverModel>().OwnsOne<DriverInfo>($"{nameof(DriverModel.DriverInfo)}");
+            modelBuilder.Entity<DriverModel>().OwnsOne<CartesianLocationUnit>($"{nameof(DriverModel.Location)}");
+
+            modelBuilder.Entity<Route>().OwnsMany<CartesianLocationUnit>($"{nameof(Route.LocationUnits)}");
         }
     }
 }
