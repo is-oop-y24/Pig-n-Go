@@ -49,9 +49,12 @@ namespace Pig_n_Go.BLL.Services
             await _driverRepository.RemoveAsync(driver);
         }
 
-        public Task UpdateLocation(Guid driverId, Guid locationUnitId)
+        public async Task UpdateLocation(Guid driverId, CartesianLocationUnit locationUnit)
         {
-            throw new NotImplementedException();
+            DriverModel driver = await _driverRepository.FindAsync(driverId);
+
+            driver.Location = locationUnit;
+            await _driverRepository.UpdateAsync(driver);
         }
 
         public async Task UpdateRating(Guid driverId, Guid orderId)

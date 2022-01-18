@@ -6,7 +6,7 @@ namespace Pig_n_Go.BLL.Services
 {
     public interface IDriverServiceAsync : IServiceAsync<DriverModel>
     {
-        Task UpdateLocation(Guid driverId, Guid locationUnitId);
+        Task UpdateLocation(Guid driverId, CartesianLocationUnit locationUnit);
         Task UpdateRating(Guid driverId, Guid orderId);
 
         Task GoOnline(Guid driverId);
