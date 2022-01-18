@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Pig_n_Go.Core.Order;
 using Pig_n_Go.DAL.DatabaseContexts;
+using Pig_n_Go.DAL.Extensions;
 
 namespace Pig_n_Go.DAL.Repositories
 {
@@ -28,20 +29,25 @@ namespace Pig_n_Go.DAL.Repositories
 
         public async Task<OrderModel> FindAsync(Guid id)
         {
-            return await _taxiDbContext.Orders.FindAsync(id);
+            return await _taxiDbContext.Orders
+                                       .LoadOrderDependencies()
+                                       .FirstOrDefaultAsync(model => model.Id == id);
         }
 
         public async Task<IReadOnlyCollection<OrderModel>> GetAllAsync()
         {
-            return await _taxiDbContext.Orders.ToListAsync();
+            return await _taxiDbContext.Orders
+                                       .LoadOrderDependencies()
+                                       .ToListAsync();
         }
 
         public async Task<IReadOnlyCollection<OrderModel>> GetWhereAsync(Func<OrderModel, bool> predicate)
         {
             return await _taxiDbContext.Orders
-                .Where(predicate)
-                .AsQueryable()
-                .ToListAsync();
+                                       .LoadOrderDependencies()
+                                       .Where(predicate)
+                                       .AsQueryable()
+                                       .ToListAsync();
         }
 
         public async Task RemoveAsync(OrderModel model)

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.DAL.DatabaseContexts;
+using Pig_n_Go.DAL.Extensions;
 
 namespace Pig_n_Go.DAL.Repositories
 {
@@ -28,20 +29,25 @@ namespace Pig_n_Go.DAL.Repositories
 
         public async Task<DriverModel> FindAsync(Guid id)
         {
-            return await _taxiDbContext.Drivers.FindAsync(id);
+            return await _taxiDbContext.Drivers
+                                       .LoadDriverDependencies()
+                                       .FirstOrDefaultAsync(model => model.Id == id);
         }
 
         public async Task<IReadOnlyCollection<DriverModel>> GetAllAsync()
         {
-            return await _taxiDbContext.Drivers.ToListAsync();
+            return await _taxiDbContext.Drivers
+                                       .LoadDriverDependencies()
+                                       .ToListAsync();
         }
 
         public async Task<IReadOnlyCollection<DriverModel>> GetWhereAsync(Func<DriverModel, bool> predicate)
         {
             return await _taxiDbContext.Drivers
-                .Where(predicate)
-                .AsQueryable()
-                .ToListAsync();
+                                       .LoadDriverDependencies()
+                                       .Where(predicate)
+                                       .AsQueryable()
+                                       .ToListAsync();
         }
 
         public async Task RemoveAsync(DriverModel model)
