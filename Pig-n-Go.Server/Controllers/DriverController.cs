@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pig_n_Go.BLL.Services;
 using Pig_n_Go.Common.DTO.Driver;
 using Pig_n_Go.Core.Driver;
+using Pig_n_Go.Core.Tariffs;
 
 namespace Pig_n_Go.Controllers
 {
@@ -27,6 +28,9 @@ namespace Pig_n_Go.Controllers
         public async Task<IActionResult> AddDriver([FromBody] DriverCreationArguments arguments)
         {
             DriverModel driver = _mapper.Map<DriverModel>(arguments);
+
+            driver.Tariff = new EconomyTariff(); // TODO: temporary solution, need to figure out how to receive tariffs
+            driver.DriverRating = new DriverRating(); // TODO: mapper doesn't get it
 
             DriverModel result = await _service.AddAsync(driver);
             return Ok(result);
@@ -49,10 +53,7 @@ namespace Pig_n_Go.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllDrivers()
         {
-            IReadOnlyCollection<DriverModel> drivers = await _service.GetAllAsync();
-
-            if (drivers is null || drivers.Count == 0)
-                return NotFound();
+            IReadOnlyCollection<DriverModel> drivers = await _service.GetAllAsync() ?? new List<DriverModel>();
 
             return Ok(drivers.Select(d => _mapper.Map<DriverDTO>(d)).ToList());
         }
@@ -68,12 +69,14 @@ namespace Pig_n_Go.Controllers
         }
 
         [HttpPatch("update/location")]
-        public async Task<IActionResult> UpdateLocation([FromQuery] Guid driverId, [FromQuery] Guid locationUnitId)
+        public async Task<IActionResult> UpdateLocation(
+            [FromQuery] Guid driverId,
+            [FromBody] CartesianLocationUnit locationUnit)
         {
-            if (driverId == Guid.Empty || locationUnitId == Guid.Empty)
+            if (driverId == Guid.Empty || locationUnit is null)
                 return BadRequest();
 
-            await _service.UpdateLocation(driverId, locationUnitId);
+            await _service.UpdateLocation(driverId, locationUnit);
             return Ok();
         }
 
