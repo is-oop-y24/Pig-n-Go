@@ -11,5 +11,6 @@ namespace Pig_n_Go.BLL.Services
         Task AcceptOrderAsync(Guid orderId, Guid driverId);
         Task DeclineOrderAsync(Guid orderId, Guid driverId);
         Task FinishOrderAsync(Guid orderId);
+        Task UpdateStatusAsync(Guid orderId, OrderStatus newStatus);
     }
 }
