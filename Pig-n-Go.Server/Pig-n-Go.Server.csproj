@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+        <RootNamespace>Pig_n_Go.Server</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

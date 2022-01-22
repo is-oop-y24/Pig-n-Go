@@ -8,7 +8,7 @@ using Pig_n_Go.Common.DTO.Driver;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.Core.Tariffs;
 
-namespace Pig_n_Go.Controllers
+namespace Pig_n_Go.Server.Controllers
 {
     [ApiController]
     [Route("drivers")]

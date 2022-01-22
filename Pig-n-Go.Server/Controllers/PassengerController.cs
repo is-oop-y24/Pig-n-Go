@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pig_n_Go.Application.Services;
 using Pig_n_Go.Common.DTO.Passenger;
 
-namespace Pig_n_Go.Controllers
+namespace Pig_n_Go.Server.Controllers
 {
     [ApiController]
     [Route("passengers")]
