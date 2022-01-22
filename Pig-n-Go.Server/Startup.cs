@@ -1,10 +1,13 @@
+using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -70,7 +73,7 @@ namespace Pig_n_Go
             services.AddScoped<IDriverDistanceLimit, DriverDistanceLimit>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Program> logger)
         {
             if (env.IsDevelopment())
             {
@@ -84,6 +87,12 @@ namespace Pig_n_Go
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.Use(async (context, next) =>
+            {
+                logger.LogInformation($"Processing request: {context.Request.Path}{context.Request.QueryString}");
+                await next.Invoke();
+            });
 
             app.UseCors(
                 policy =>
