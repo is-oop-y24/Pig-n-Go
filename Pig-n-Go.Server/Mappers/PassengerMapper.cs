@@ -9,8 +9,8 @@ namespace Pig_n_Go.Mappers.Order
         public PassengerMapper()
         {
             CreateMap<PassengerCreationArguments, PassengerModel>();
-            CreateMap<PassengerDTO, PassengerModel>();
-            CreateMap<PassengerModel, PassengerDTO>();
+            CreateMap<PassengerDto, PassengerModel>();
+            CreateMap<PassengerModel, PassengerDto>();
         }
     }
 }

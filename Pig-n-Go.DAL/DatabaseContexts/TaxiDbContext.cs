@@ -17,17 +17,12 @@ namespace Pig_n_Go.DAL.DatabaseContexts
         public DbSet<DriverModel> Drivers { get; private set; }
         public DbSet<PassengerModel> Passengers { get; private set; }
         public DbSet<OrderModel> Orders { get; private set; }
+        public DbSet<TariffModel> Tariffs { get; private set; }
 
         public DbSet<DriverModel> ActiveDrivers { get; private set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Tariff>();
-            modelBuilder.Entity<BusinessTariff>();
-            modelBuilder.Entity<ComfortTariff>();
-            modelBuilder.Entity<EconomyTariff>();
-            modelBuilder.Entity<EliteTariff>();
-
             modelBuilder.Entity<PassengerModel>().OwnsOne(model => model.PassengerInfo);
 
             modelBuilder.Entity<DriverModel>().OwnsOne(model => model.DriverInfo);
