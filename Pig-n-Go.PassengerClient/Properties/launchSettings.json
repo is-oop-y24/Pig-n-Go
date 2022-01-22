@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebApplication": {
+    "Pig-n-Go.PassengerClient": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
