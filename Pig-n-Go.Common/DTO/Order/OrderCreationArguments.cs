@@ -6,6 +6,6 @@ namespace Pig_n_Go.Common.DTO.Order
     public class OrderCreationArguments
     {
         public Route Route { get; init; }
-        public Tariff Tariff { get; init; }
+        public TariffModel Tariff { get; init; }
     }
 }
