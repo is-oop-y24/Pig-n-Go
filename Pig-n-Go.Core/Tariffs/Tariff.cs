@@ -4,7 +4,7 @@ namespace Pig_n_Go.Core.Tariffs
 {
     public abstract class Tariff
     {
-        public Guid Id { get; private init; } = Guid.NewGuid();
+        public Guid Id { get; private init; }
         public abstract decimal ChargePerLocationUnit { get; init; }
     }
 }

@@ -13,9 +13,7 @@ namespace Pig_n_Go.Tests.ControllerTests
     public class OrderControllerTests
     {
         [SetUp]
-        public void Setup()
-        {
-        }
+        public void Setup() { }
 
         [Test]
         public void Test1()
@@ -26,21 +24,29 @@ namespace Pig_n_Go.Tests.ControllerTests
 
             var dbOrderRepository = new DbOrderRepositoryAsync(taxiDbContext);
             var dbDriverRepository = new DbDriverRepositoryAsync(taxiDbContext);
-            IDistanceCalculator calculator = new NativeDistanceCalculator();
-            // TODO: adequate value for maxDriverDistance
-            decimal maxDriverDistance = decimal.MaxValue;
 
-            IOrderServiceAsync orderServiceAsync = new OrderServiceAsync(dbOrderRepository, dbDriverRepository, calculator, maxDriverDistance);
-            
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new OrderMapper());
-                mc.AddProfile(new DriverMapper());
-            });
+            var distanceCalculator = new NativeDistanceCalculator();
+            var maxDriverDistance = new DriverDistanceLimit();
+
+            IOrderServiceAsync orderServiceAsync = new OrderServiceAsync(
+                dbOrderRepository,
+                dbDriverRepository,
+                distanceCalculator,
+                maxDriverDistance);
+
+            IPassengerRepositoryAsync passengerRepositoryAsync = new DbPassengerRepositoryAsync(taxiDbContext);
+            IPassengerServiceAsync passengerServiceAsync = new PassengerServiceAsync(passengerRepositoryAsync);
+
+            var mapperConfig = new MapperConfiguration(
+                mc =>
+                {
+                    mc.AddProfile(new OrderMapper());
+                    mc.AddProfile(new DriverMapper());
+                });
 
             IMapper mapper = mapperConfig.CreateMapper();
 
-            var orderController = new OrderController(orderServiceAsync, mapper);
+            var orderController = new OrderController(orderServiceAsync, passengerServiceAsync, mapper);
         }
     }
 }

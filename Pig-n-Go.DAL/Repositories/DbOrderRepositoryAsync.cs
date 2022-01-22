@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Pig_n_Go.Core.Order;
 using Pig_n_Go.DAL.DatabaseContexts;
+using Pig_n_Go.DAL.Extensions;
 
 namespace Pig_n_Go.DAL.Repositories
 {
@@ -17,28 +19,35 @@ namespace Pig_n_Go.DAL.Repositories
             _taxiDbContext = taxiDbContext;
         }
 
-        public async Task AddAsync(OrderModel model)
+        public async Task<OrderModel> AddAsync(OrderModel model)
         {
-            await _taxiDbContext.Orders.AddAsync(model);
+            EntityEntry<OrderModel> order = await _taxiDbContext.Orders.AddAsync(model);
             await _taxiDbContext.SaveChangesAsync();
+
+            return order.Entity;
         }
 
         public async Task<OrderModel> FindAsync(Guid id)
         {
-            return await _taxiDbContext.Orders.FindAsync(id);
+            return await _taxiDbContext.Orders
+                                       .LoadDependencies()
+                                       .FirstOrDefaultAsync(model => model.Id == id);
         }
 
         public async Task<IReadOnlyCollection<OrderModel>> GetAllAsync()
         {
-            return await _taxiDbContext.Orders.ToListAsync();
+            return await _taxiDbContext.Orders
+                                       .LoadDependencies()
+                                       .ToListAsync();
         }
 
         public async Task<IReadOnlyCollection<OrderModel>> GetWhereAsync(Func<OrderModel, bool> predicate)
         {
             return await _taxiDbContext.Orders
-                .Where(predicate)
-                .AsQueryable()
-                .ToListAsync();
+                                       .LoadDependencies()
+                                       .Where(predicate)
+                                       .AsQueryable()
+                                       .ToListAsync();
         }
 
         public async Task RemoveAsync(OrderModel model)

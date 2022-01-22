@@ -8,7 +8,6 @@ namespace Pig_n_Go.Common.DTO.Driver
         public DriverInfo DriverInfo { get; set; }
         public CarInfo CarInfo { get; set; }
         public CartesianLocationUnit Location { get; set; }
-        public DriverRating DriverRating { get; set; }
         public Tariff Tariff { get; set; }
     }
 }

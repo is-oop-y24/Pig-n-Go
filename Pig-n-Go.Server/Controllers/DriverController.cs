@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pig_n_Go.BLL.Services;
 using Pig_n_Go.Common.DTO.Driver;
 using Pig_n_Go.Core.Driver;
+using Pig_n_Go.Core.Tariffs;
 
 namespace Pig_n_Go.Controllers
 {
@@ -28,8 +29,11 @@ namespace Pig_n_Go.Controllers
         {
             DriverModel driver = _mapper.Map<DriverModel>(arguments);
 
-            await _service.AddAsync(driver);
-            return Ok();
+            driver.Tariff = new EconomyTariff(); // TODO: temporary solution, need to figure out how to receive tariffs
+            driver.DriverRating = new DriverRating(); // TODO: mapper doesn't get it
+
+            DriverModel result = await _service.AddAsync(driver);
+            return Ok(result);
         }
 
         [HttpGet("get")]
@@ -51,9 +55,6 @@ namespace Pig_n_Go.Controllers
         {
             IReadOnlyCollection<DriverModel> drivers = await _service.GetAllAsync();
 
-            if (drivers is null || drivers.Count == 0)
-                return NotFound();
-
             return Ok(drivers.Select(d => _mapper.Map<DriverDTO>(d)).ToList());
         }
 
@@ -68,12 +69,14 @@ namespace Pig_n_Go.Controllers
         }
 
         [HttpPatch("update/location")]
-        public async Task<IActionResult> UpdateLocation([FromQuery] Guid driverId, [FromQuery] Guid locationUnitId)
+        public async Task<IActionResult> UpdateLocation(
+            [FromQuery] Guid driverId,
+            [FromBody] CartesianLocationUnit locationUnit)
         {
-            if (driverId == Guid.Empty || locationUnitId == Guid.Empty)
+            if (driverId == Guid.Empty || locationUnit is null)
                 return BadRequest();
 
-            await _service.UpdateLocation(driverId, locationUnitId);
+            await _service.UpdateLocation(driverId, locationUnit);
             return Ok();
         }
 
@@ -87,7 +90,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPatch("login")]
+        [HttpPut("login")]
         public async Task<IActionResult> Login([FromQuery] Guid driverId)
         {
             if (driverId == Guid.Empty)
@@ -97,7 +100,7 @@ namespace Pig_n_Go.Controllers
             return Ok();
         }
 
-        [HttpPatch("logout")]
+        [HttpPut("logout")]
         public async Task<IActionResult> Logout([FromQuery] Guid driverId)
         {
             if (driverId == Guid.Empty)

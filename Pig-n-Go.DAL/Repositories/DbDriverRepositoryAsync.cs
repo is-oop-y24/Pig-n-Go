@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.DAL.DatabaseContexts;
+using Pig_n_Go.DAL.Extensions;
 
 namespace Pig_n_Go.DAL.Repositories
 {
@@ -17,28 +19,35 @@ namespace Pig_n_Go.DAL.Repositories
             _taxiDbContext = taxiDbContext;
         }
 
-        public async Task AddAsync(DriverModel model)
+        public async Task<DriverModel> AddAsync(DriverModel model)
         {
-            await _taxiDbContext.Drivers.AddAsync(model);
+            EntityEntry<DriverModel> driver = await _taxiDbContext.Drivers.AddAsync(model);
             await _taxiDbContext.SaveChangesAsync();
+
+            return driver.Entity;
         }
 
         public async Task<DriverModel> FindAsync(Guid id)
         {
-            return await _taxiDbContext.Drivers.FindAsync(id);
+            return await _taxiDbContext.Drivers
+                                       .LoadDependencies()
+                                       .FirstOrDefaultAsync(model => model.Id == id);
         }
 
         public async Task<IReadOnlyCollection<DriverModel>> GetAllAsync()
         {
-            return await _taxiDbContext.Drivers.ToListAsync();
+            return await _taxiDbContext.Drivers
+                                       .LoadDependencies()
+                                       .ToListAsync();
         }
 
         public async Task<IReadOnlyCollection<DriverModel>> GetWhereAsync(Func<DriverModel, bool> predicate)
         {
             return await _taxiDbContext.Drivers
-                .Where(predicate)
-                .AsQueryable()
-                .ToListAsync();
+                                       .LoadDependencies()
+                                       .Where(predicate)
+                                       .AsQueryable()
+                                       .ToListAsync();
         }
 
         public async Task RemoveAsync(DriverModel model)

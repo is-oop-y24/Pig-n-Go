@@ -9,10 +9,6 @@ EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.Core", "Pig-n-Go.Core\Pig-n-Go.Core.csproj", "{BDB6643C-155E-4CC3-A39A-4E06B0FA7443}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.PassengerClient", "Pig-n-Go.PassengerClient\Pig-n-Go.PassengerClient.csproj", "{B3E03D11-9AEF-4DD1-9FFC-AE989335E056}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.DriverClient", "Pig-n-Go.DriverClient\Pig-n-Go.DriverClient.csproj", "{4E959FAE-2584-4BFC-B3C2-3729140DDD2E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.DAL", "Pig-n-Go.DAL\Pig-n-Go.DAL.csproj", "{09613836-3C65-474A-82CC-AD9E4856D9F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.BLL", "Pig-n-Go.BLL\Pig-n-Go.BLL.csproj", "{2AC3227F-55A9-4694-BB30-B49EB0CCBC57}"
@@ -20,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.Tests", "Pig-n-Go.Tests\Pig-n-Go.Tests.csproj", "{1120299F-698A-489C-B50A-0E3F972038BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.Common", "Pig-n-Go.Common\Pig-n-Go.Common.csproj", "{0EAC729E-388B-4163-B5C3-044C932FABB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{40886AFE-9DB9-49FD-92E0-DF01AD96AD72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,14 +33,6 @@ Global
 		{BDB6643C-155E-4CC3-A39A-4E06B0FA7443}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDB6643C-155E-4CC3-A39A-4E06B0FA7443}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDB6643C-155E-4CC3-A39A-4E06B0FA7443}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3E03D11-9AEF-4DD1-9FFC-AE989335E056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3E03D11-9AEF-4DD1-9FFC-AE989335E056}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3E03D11-9AEF-4DD1-9FFC-AE989335E056}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3E03D11-9AEF-4DD1-9FFC-AE989335E056}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E959FAE-2584-4BFC-B3C2-3729140DDD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E959FAE-2584-4BFC-B3C2-3729140DDD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E959FAE-2584-4BFC-B3C2-3729140DDD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E959FAE-2584-4BFC-B3C2-3729140DDD2E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{09613836-3C65-474A-82CC-AD9E4856D9F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{09613836-3C65-474A-82CC-AD9E4856D9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09613836-3C65-474A-82CC-AD9E4856D9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,5 +49,9 @@ Global
 		{0EAC729E-388B-4163-B5C3-044C932FABB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EAC729E-388B-4163-B5C3-044C932FABB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EAC729E-388B-4163-B5C3-044C932FABB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40886AFE-9DB9-49FD-92E0-DF01AD96AD72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40886AFE-9DB9-49FD-92E0-DF01AD96AD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40886AFE-9DB9-49FD-92E0-DF01AD96AD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40886AFE-9DB9-49FD-92E0-DF01AD96AD72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

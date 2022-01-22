@@ -16,41 +16,45 @@ namespace Pig_n_Go.BLL.Services
         private readonly IOrderRepositoryAsync _orderRepository;
         private readonly IDriverRepositoryAsync _driverRepository;
         private readonly IDistanceCalculator _distanceCalculator;
-        private readonly decimal _maxDriverDistance;
+        private readonly IDriverDistanceLimit _maxDriverDistance;
 
-        public OrderServiceAsync(IOrderRepositoryAsync orderRepository, IDriverRepositoryAsync driverRepository, IDistanceCalculator distanceCalculator, decimal maxDriverDistance)
+        public OrderServiceAsync(
+            IOrderRepositoryAsync orderRepository,
+            IDriverRepositoryAsync driverRepository,
+            IDistanceCalculator distanceCalculator,
+            IDriverDistanceLimit maxDriverDistance)
         {
             _orderRepository = orderRepository;
             _driverRepository = driverRepository;
             _distanceCalculator = distanceCalculator;
             _maxDriverDistance = maxDriverDistance;
         }
-        
-        public async Task AddAsync(OrderModel model)
+
+        public async Task<OrderModel> AddAsync(OrderModel model)
         {
-            await _orderRepository.AddAsync(model);
+            return await _orderRepository.AddAsync(model);
         }
-        
+
         public async Task<OrderModel> FindAsync(Guid id)
         {
             return await _orderRepository.FindAsync(id);
         }
-        
+
         public async Task<IReadOnlyCollection<OrderModel>> GetAllAsync()
         {
             return await _orderRepository.GetAllAsync();
         }
-        
+
         public async Task<IReadOnlyCollection<OrderModel>> GetWhereAsync(Func<OrderModel, bool> predicate)
         {
             return await _orderRepository.GetWhereAsync(predicate);
         }
-        
+
         public async Task UpdateAsync(OrderModel model)
         {
             await _orderRepository.UpdateAsync(model);
         }
-        
+
         public async Task RemoveAsync(Guid id)
         {
             OrderModel order = await _orderRepository.FindAsync(id);
@@ -61,9 +65,12 @@ namespace Pig_n_Go.BLL.Services
         {
             if (order is null)
                 throw new ArgumentNullException(nameof(order));
+
             if (order.Status != OrderStatus.Created)
                 throw new TaxiException($"Order status must be {OrderStatus.Created}");
+
             order.Status = OrderStatus.Searching;
+
             await AddAsync(order);
             List<DriverModel> drivers = await FindClosestDrivers(order.Route.LocationUnits.First());
             IEnumerable<Task> askingTasks = drivers.Select(AskDriver);
@@ -76,7 +83,7 @@ namespace Pig_n_Go.BLL.Services
             order.Status = OrderStatus.Cancelled;
             await UpdateAsync(order);
         }
-        
+
         public async Task FinishOrderAsync(Guid orderId)
         {
             OrderModel order = await GetOrderAsync(orderId);
@@ -97,7 +104,7 @@ namespace Pig_n_Go.BLL.Services
             if (order.Status != OrderStatus.Searching)
                 throw new TaxiException("Order isn't active now.");
             DriverModel driverModel = await _driverRepository.FindAsync(driverId)
-                                      ?? throw new TaxiException("Driver doesn't exist.");
+                                   ?? throw new TaxiException("Driver doesn't exist.");
             order.Driver = driverModel;
             order.Status = OrderStatus.Accepted;
             await Task.WhenAll(NotifyPassenger(order.Passenger), UpdateAsync(order));
@@ -111,14 +118,15 @@ namespace Pig_n_Go.BLL.Services
 
         private async Task<List<DriverModel>> FindClosestDrivers(CartesianLocationUnit locationUnit)
         {
-            return new List<DriverModel>(await _driverRepository.GetWhereAsync(driver =>
-                _distanceCalculator.GetDistance(driver.Location, locationUnit) < _maxDriverDistance));
+            return new List<DriverModel>(
+                await _driverRepository.GetWhereAsync(
+                    driver =>
+                        _distanceCalculator.GetDistance(driver.Location, locationUnit) < _maxDriverDistance.MaxValue));
         }
 
         private async Task<OrderModel> GetOrderAsync(Guid orderId)
         {
-            return await FindAsync(orderId) ?? 
-                   throw new TaxiException("Order doesn't exist.");
+            return await FindAsync(orderId) ?? throw new TaxiException("Order doesn't exist.");
         }
 
         private async Task NotifyPassenger(PassengerModel orderPassenger)

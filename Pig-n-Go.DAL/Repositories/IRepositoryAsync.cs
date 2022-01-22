@@ -7,7 +7,7 @@ namespace Pig_n_Go.DAL.Repositories
     public interface IRepositoryAsync<TModel>
         where TModel : class
     {
-        Task AddAsync(TModel model);
+        Task<TModel> AddAsync(TModel model);
         Task<TModel> FindAsync(Guid id);
         Task<IReadOnlyCollection<TModel>> GetAllAsync();
         Task<IReadOnlyCollection<TModel>> GetWhereAsync(Func<TModel, bool> predicate);
