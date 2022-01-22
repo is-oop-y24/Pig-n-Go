@@ -2,63 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Pig_n_Go.BLL.Services.Tools;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.Core.Order;
 using Pig_n_Go.Core.Passenger;
 using Pig_n_Go.Core.Tools;
-using Pig_n_Go.DAL.Repositories;
 
-namespace Pig_n_Go.BLL.Services
+namespace Pig_n_Go.Core.Services
 {
-    public class OrderServiceAsync : IOrderServiceAsync
+    public class OrderService : IOrderService
     {
-        private readonly IOrderRepositoryAsync _orderRepository;
-        private readonly IDriverRepositoryAsync _driverRepository;
         private readonly IDistanceCalculator _distanceCalculator;
-        private readonly IDriverDistanceLimit _maxDriverDistance;
+        private readonly DriverDistanceLimit _maxDriverDistance;
 
-        public OrderServiceAsync(
-            IOrderRepositoryAsync orderRepository,
-            IDriverRepositoryAsync driverRepository,
+        public OrderService(
             IDistanceCalculator distanceCalculator,
-            IDriverDistanceLimit maxDriverDistance)
+            DriverDistanceLimit maxDriverDistance)
         {
-            _orderRepository = orderRepository;
-            _driverRepository = driverRepository;
             _distanceCalculator = distanceCalculator;
             _maxDriverDistance = maxDriverDistance;
-        }
-
-        public async Task<OrderModel> AddAsync(OrderModel model)
-        {
-            return await _orderRepository.AddAsync(model);
-        }
-
-        public async Task<OrderModel> FindAsync(Guid id)
-        {
-            return await _orderRepository.FindAsync(id);
-        }
-
-        public async Task<IReadOnlyCollection<OrderModel>> GetAllAsync()
-        {
-            return await _orderRepository.GetAllAsync();
-        }
-
-        public async Task<IReadOnlyCollection<OrderModel>> GetWhereAsync(Func<OrderModel, bool> predicate)
-        {
-            return await _orderRepository.GetWhereAsync(predicate);
-        }
-
-        public async Task UpdateAsync(OrderModel model)
-        {
-            await _orderRepository.UpdateAsync(model);
-        }
-
-        public async Task RemoveAsync(Guid id)
-        {
-            OrderModel order = await _orderRepository.FindAsync(id);
-            await _orderRepository.RemoveAsync(order);
         }
 
         public async Task HandleOrderAsync(OrderModel order)

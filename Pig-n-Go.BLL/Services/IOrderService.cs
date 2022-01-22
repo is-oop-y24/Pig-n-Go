@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Pig_n_Go.Core.Order;
 
-namespace Pig_n_Go.BLL.Services
+namespace Pig_n_Go.Core.Services
 {
-    public interface IOrderServiceAsync : IServiceAsync<OrderModel>
+    public interface IOrderService
     {
         Task HandleOrderAsync(OrderModel order);
         Task CancelOrderAsync(Guid orderId);
