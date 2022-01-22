@@ -8,10 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Pig_n_Go.BLL.Services;
-using Pig_n_Go.BLL.Services.Tools;
+using Pig_n_Go.Core.Services;
+using Pig_n_Go.Core.Tools;
 using Pig_n_Go.DAL.DatabaseContexts;
-using Pig_n_Go.DAL.Repositories;
 using Pig_n_Go.Mappers.Order;
 
 namespace Pig_n_Go
@@ -58,16 +57,12 @@ namespace Pig_n_Go
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pig-n-Go.Server", Version = "v1" });
                 });
 
-            services.AddScoped<IDriverRepositoryAsync, DbDriverRepositoryAsync>();
-            services.AddScoped<IPassengerRepositoryAsync, DbPassengerRepositoryAsync>();
-            services.AddScoped<IOrderRepositoryAsync, DbOrderRepositoryAsync>();
-
-            services.AddScoped<IPassengerServiceAsync, PassengerServiceAsync>();
-            services.AddScoped<IDriverServiceAsync, DriverServiceAsync>();
-            services.AddScoped<IOrderServiceAsync, OrderServiceAsync>();
+            services.AddScoped<IPassengerService, PassengerService>();
+            services.AddScoped<IDriverService, DriverService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             services.AddScoped<IDistanceCalculator, NativeDistanceCalculator>();
-            services.AddScoped<IDriverDistanceLimit, DriverDistanceLimit>();
+            services.AddScoped<DriverDistanceLimit>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
