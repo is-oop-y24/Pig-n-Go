@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>Pig_n_Go.PassengerClient</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,7 +21,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Pig-n-Go.Common\Pig-n-Go.Common.csproj" />
-      <ProjectReference Include="..\Pig-n-Go.Core\Pig-n-Go.Core.csproj" />
+      <ProjectReference Include="..\Pig-n-Go.BLL\Pig-n-Go.BLL.csproj" />
     </ItemGroup>
 
 </Project>
