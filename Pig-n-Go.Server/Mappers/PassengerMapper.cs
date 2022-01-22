@@ -2,13 +2,13 @@
 using Pig_n_Go.Common.DTO.Passenger;
 using Pig_n_Go.Core.Passenger;
 
-namespace Pig_n_Go.Mappers.Order
+namespace Pig_n_Go.Server.Mappers
 {
     public class PassengerMapper : Profile
     {
         public PassengerMapper()
         {
-            CreateMap<PassengerCreationArguments, PassengerModel>();
+            CreateMap<PassengerCreationArguments, PassengerDto>();
             CreateMap<PassengerDto, PassengerModel>();
             CreateMap<PassengerModel, PassengerDto>();
         }
