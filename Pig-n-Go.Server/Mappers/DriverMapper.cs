@@ -9,8 +9,8 @@ namespace Pig_n_Go.Mappers.Order
         public DriverMapper()
         {
             CreateMap<DriverCreationArguments, DriverModel>();
-            CreateMap<DriverDTO, DriverModel>();
-            CreateMap<DriverModel, DriverDTO>();
+            CreateMap<DriverDto, DriverModel>();
+            CreateMap<DriverModel, DriverDto>();
         }
     }
 }

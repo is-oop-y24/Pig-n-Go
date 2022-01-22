@@ -6,7 +6,7 @@ using Pig_n_Go.Core.Tariffs;
 
 namespace Pig_n_Go.Common.DTO.Order
 {
-    public class OrderDTO
+    public class OrderDto
     {
         public Guid Id { get; init; }
         public Route Route { get; init; }
@@ -15,7 +15,7 @@ namespace Pig_n_Go.Common.DTO.Order
         public DateTime CreationDate { get; init; }
         public DateTime UpdateDate { get; set; }
         public OrderRating Rating { get; set; }
-        public Tariff Tariff { get; init; }
+        public TariffModel Tariff { get; init; }
         public OrderStatus Status { get; set; }
         public OrderStatusHistory StatusHistory { get; init; } = new OrderStatusHistory();
     }
