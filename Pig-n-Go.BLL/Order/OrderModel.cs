@@ -14,7 +14,7 @@ namespace Pig_n_Go.Core.Order
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
         public OrderRating Rating { get; set; }
-        public Tariff Tariff { get; set; }
+        public TariffModel Tariff { get; set; }
 
         public OrderStatus Status { get; set; }
         public OrderStatusHistory StatusHistory { get; init; } = new OrderStatusHistory();
