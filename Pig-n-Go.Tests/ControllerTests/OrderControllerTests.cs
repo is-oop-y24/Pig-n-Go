@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using Pig_n_Go.BLL.Services;
-using Pig_n_Go.BLL.Services.Tools;
 using Pig_n_Go.Controllers;
+using Pig_n_Go.Core.Services;
+using Pig_n_Go.Core.Tools;
 using Pig_n_Go.DAL.DatabaseContexts;
-using Pig_n_Go.DAL.Repositories;
 using Pig_n_Go.Mappers.Order;
 
 namespace Pig_n_Go.Tests.ControllerTests
@@ -22,20 +21,14 @@ namespace Pig_n_Go.Tests.ControllerTests
             DbContextOptions<TaxiDbContext> options = optionsBuilder.UseSqlite($"Filename=Taxi.Database").Options;
             var taxiDbContext = new TaxiDbContext(options);
 
-            var dbOrderRepository = new DbOrderRepositoryAsync(taxiDbContext);
-            var dbDriverRepository = new DbDriverRepositoryAsync(taxiDbContext);
-
             var distanceCalculator = new NativeDistanceCalculator();
-            var maxDriverDistance = new DriverDistanceLimit();
+            var maxDriverDistance = new DriverDistanceLimit { MaxValue = 10.0m };
 
-            IOrderServiceAsync orderServiceAsync = new OrderServiceAsync(
-                dbOrderRepository,
-                dbDriverRepository,
+            IOrderService orderService = new OrderService(
                 distanceCalculator,
                 maxDriverDistance);
 
-            IPassengerRepositoryAsync passengerRepositoryAsync = new DbPassengerRepositoryAsync(taxiDbContext);
-            IPassengerServiceAsync passengerServiceAsync = new PassengerServiceAsync(passengerRepositoryAsync);
+            IPassengerService passengerService = new PassengerService();
 
             var mapperConfig = new MapperConfiguration(
                 mc =>
@@ -46,7 +39,7 @@ namespace Pig_n_Go.Tests.ControllerTests
 
             IMapper mapper = mapperConfig.CreateMapper();
 
-            var orderController = new OrderController(orderServiceAsync, passengerServiceAsync, mapper);
+            var orderController = new OrderController(orderService, passengerService, mapper);
         }
     }
 }

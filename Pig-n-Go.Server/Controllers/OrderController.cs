@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Pig_n_Go.BLL.Services;
 using Pig_n_Go.Common.DTO.Order;
 using Pig_n_Go.Core.Order;
-using Pig_n_Go.Core.Tariffs;
+using Pig_n_Go.Core.Services;
 
 namespace Pig_n_Go.Controllers
 {
@@ -15,11 +14,11 @@ namespace Pig_n_Go.Controllers
     [Route("orders")]
     public class OrderController : ControllerBase
     {
-        private readonly IOrderServiceAsync _orderService;
-        private readonly IPassengerServiceAsync _passengerService;
+        private readonly IOrderService _orderService;
+        private readonly IPassengerService _passengerService;
         private readonly IMapper _mapper;
 
-        public OrderController(IOrderServiceAsync orderService, IPassengerServiceAsync passengerService, IMapper mapper)
+        public OrderController(IOrderService orderService, IPassengerService passengerService, IMapper mapper)
         {
             _orderService = orderService;
             _passengerService = passengerService;
@@ -51,7 +50,7 @@ namespace Pig_n_Go.Controllers
             if (order is null)
                 return NotFound();
 
-            return Ok(_mapper.Map<OrderDTO>(order));
+            return Ok(_mapper.Map<OrderDto>(order));
         }
 
         [HttpGet("all")]
@@ -59,7 +58,7 @@ namespace Pig_n_Go.Controllers
         {
             IReadOnlyCollection<OrderModel> orders = await _orderService.GetAllAsync();
 
-            return Ok(orders.Select(o => _mapper.Map<OrderDTO>(o)).ToList());
+            return Ok(orders.Select(o => _mapper.Map<OrderDto>(o)).ToList());
         }
 
         [HttpDelete("remove")]
