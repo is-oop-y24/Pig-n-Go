@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using Pig_n_Go.Core.Driver;
-using Pig_n_Go.Core.Order;
-using Pig_n_Go.Core.Tariffs;
+using Pig_n_Go.BLL.Driver;
+using Pig_n_Go.BLL.Order;
+using Pig_n_Go.BLL.Tariffs;
 
 namespace Pig_n_Go.DAL.Extensions
 {

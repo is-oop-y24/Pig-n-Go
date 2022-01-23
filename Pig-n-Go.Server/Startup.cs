@@ -13,8 +13,8 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Pig_n_Go.Application.Services;
-using Pig_n_Go.Core.Services;
-using Pig_n_Go.Core.Tools;
+using Pig_n_Go.BLL.Services;
+using Pig_n_Go.BLL.Tools;
 using Pig_n_Go.DAL.DatabaseContexts;
 using Pig_n_Go.Server.Mappers;
 

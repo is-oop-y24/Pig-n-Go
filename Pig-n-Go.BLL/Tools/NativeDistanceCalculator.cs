@@ -1,7 +1,7 @@
 ﻿using System;
-using Pig_n_Go.Core.Driver;
+using Pig_n_Go.BLL.Driver;
 
-namespace Pig_n_Go.Core.Tools
+namespace Pig_n_Go.BLL.Tools
 {
     public class NativeDistanceCalculator : IDistanceCalculator
     {

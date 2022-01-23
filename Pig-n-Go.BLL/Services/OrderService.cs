@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Pig_n_Go.Core.Driver;
-using Pig_n_Go.Core.Order;
-using Pig_n_Go.Core.Passenger;
-using Pig_n_Go.Core.Tools;
+using Pig_n_Go.BLL.Driver;
+using Pig_n_Go.BLL.Order;
+using Pig_n_Go.BLL.Passenger;
+using Pig_n_Go.BLL.Tools;
 
-namespace Pig_n_Go.Core.Services
+namespace Pig_n_Go.BLL.Services
 {
     public class OrderService : IOrderService
     {

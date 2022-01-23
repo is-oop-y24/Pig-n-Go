@@ -6,9 +6,9 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
+using Pig_n_Go.BLL.Passenger;
+using Pig_n_Go.BLL.Services;
 using Pig_n_Go.Common.Passenger;
-using Pig_n_Go.Core.Passenger;
-using Pig_n_Go.Core.Services;
 using Pig_n_Go.DAL.DatabaseContexts;
 
 namespace Pig_n_Go.Application.Services

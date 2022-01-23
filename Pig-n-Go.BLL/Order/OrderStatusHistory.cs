@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Pig_n_Go.Core.Order
+namespace Pig_n_Go.BLL.Order
 {
     public class OrderStatusHistory
     {

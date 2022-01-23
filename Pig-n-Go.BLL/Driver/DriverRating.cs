@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Pig_n_Go.Core.Order;
+using Pig_n_Go.BLL.Order;
 
-namespace Pig_n_Go.Core.Driver
+namespace Pig_n_Go.BLL.Driver
 {
     public class DriverRating
     {
