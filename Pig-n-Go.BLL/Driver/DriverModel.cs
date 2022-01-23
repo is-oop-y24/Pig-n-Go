@@ -11,5 +11,6 @@ namespace Pig_n_Go.Core.Driver
         public CartesianLocationUnit Location { get; set; }
         public DriverRating DriverRating { get; set; }
         public TariffModel Tariff { get; set; }
+        public bool IsOnline { get; set; }
     }
 }

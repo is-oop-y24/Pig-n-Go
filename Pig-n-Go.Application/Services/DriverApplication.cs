@@ -102,7 +102,7 @@ namespace Pig_n_Go.Application.Services
             TariffModel tariffModel = await _dbContext.Tariffs.FindAsync(tariffId);
 
             driverModel.Tariff = tariffModel;
-            driverModel.IsActive = true;
+            driverModel.IsOnline = true;
 
             _dbContext.Drivers.Update(driverModel);
             await _dbContext.SaveChangesAsync();
@@ -116,7 +116,7 @@ namespace Pig_n_Go.Application.Services
                                                       .FirstOrDefaultAsync(model => model.Id == driverId);
 
             driverModel.Tariff = null;
-            driverModel.IsActive = false;
+            driverModel.IsOnline = false;
 
             _dbContext.Drivers.Update(driverModel);
             await _dbContext.SaveChangesAsync();
