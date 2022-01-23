@@ -3,6 +3,7 @@ using Pig_n_Go.BLL.Driver;
 using Pig_n_Go.BLL.Order;
 using Pig_n_Go.BLL.Passenger;
 using Pig_n_Go.BLL.Tariffs;
+using Pig_n_Go.DAL.Extensions;
 
 namespace Pig_n_Go.DAL.DatabaseContexts
 {
@@ -25,7 +26,6 @@ namespace Pig_n_Go.DAL.DatabaseContexts
 
             modelBuilder.Entity<DriverModel>().OwnsOne(model => model.DriverInfo);
             modelBuilder.Entity<DriverModel>().OwnsOne(model => model.Location);
-
             modelBuilder.Entity<DriverModel>().OwnsOne(model => model.CarInfo);
 
             modelBuilder.Entity<Route>()
@@ -36,6 +36,8 @@ namespace Pig_n_Go.DAL.DatabaseContexts
                                 builder.Property<int>("Id");
                                 builder.HasKey("Id");
                             });
+
+            modelBuilder.Seed();
         }
     }
 }
