@@ -1,6 +1,6 @@
 ﻿using System;
+using Pig_n_Go.Common.Tariff;
 using Pig_n_Go.Core.Driver;
-using Pig_n_Go.Core.Tariffs;
 
 namespace Pig_n_Go.Common.Driver
 {
@@ -11,6 +11,6 @@ namespace Pig_n_Go.Common.Driver
         public CarInfo CarInfo { get; set; }
         public CartesianLocationUnit Location { get; set; }
         public DriverRating DriverRating { get; set; }
-        public TariffModel Tariff { get; set; }
+        public TariffDto Tariff { get; set; }
     }
 }
