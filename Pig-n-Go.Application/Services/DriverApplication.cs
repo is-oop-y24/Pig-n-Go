@@ -10,6 +10,7 @@ using Pig_n_Go.Core.Driver;
 using Pig_n_Go.Core.Order;
 using Pig_n_Go.Core.Services;
 using Pig_n_Go.DAL.DatabaseContexts;
+using Pig_n_Go.DAL.Extensions;
 
 namespace Pig_n_Go.Application.Services
 {
@@ -21,8 +22,7 @@ namespace Pig_n_Go.Application.Services
 
         public DriverApplication(TaxiDbContext dbContext,
             IMapper mapper,
-            IDriverService driverService,
-            IOrderService orderService)
+            IDriverService driverService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -31,9 +31,9 @@ namespace Pig_n_Go.Application.Services
 
         public async Task<DriverDto> AddAsync(DriverDto dto)
         {
-            DriverModel driverModel = _mapper.Map<DriverModel>(dto);
+            DriverModel model = _mapper.Map<DriverModel>(dto);
 
-            EntityEntry<DriverModel> result = await _dbContext.AddAsync(driverModel);
+            EntityEntry<DriverModel> result = await _dbContext.Drivers.AddAsync(model);
             await _dbContext.SaveChangesAsync();
 
             return _mapper.Map<DriverDto>(result.Entity);
@@ -41,13 +41,16 @@ namespace Pig_n_Go.Application.Services
 
         public async Task<DriverDto> FindAsync(Guid id)
         {
-            DriverModel result = await _dbContext.Drivers.FindAsync(id);
+            DriverModel result =
+                await _dbContext.Drivers.LoadDependencies().FirstOrDefaultAsync(model => model.Id == id);
             return _mapper.Map<DriverDto>(result);
         }
 
         public async Task<IReadOnlyCollection<DriverDto>> GetAllAsync()
         {
-            return await _dbContext.Drivers.Select(model => _mapper.Map<DriverDto>(model)).ToListAsync();
+            return await _dbContext.Drivers.LoadDependencies()
+                                   .Select(model => _mapper.Map<DriverDto>(model))
+                                   .ToListAsync();
         }
 
         public async Task RemoveAsync(Guid id)
@@ -58,7 +61,8 @@ namespace Pig_n_Go.Application.Services
 
         public async Task<DriverDto> UpdateLocation(Guid driverId, CartesianLocationUnit locationUnit)
         {
-            DriverModel result = await _dbContext.Drivers.FindAsync(driverId);
+            DriverModel result =
+                await _dbContext.Drivers.LoadDependencies().FirstOrDefaultAsync(model => model.Id == driverId);
 
             _driverService.UpdateLocation(result, locationUnit);
             _dbContext.Drivers.Update(result);
@@ -68,7 +72,8 @@ namespace Pig_n_Go.Application.Services
 
         public async Task<DriverDto> UpdateRating(Guid driverId, Guid orderId)
         {
-            DriverModel result = await _dbContext.Drivers.FindAsync(driverId);
+            DriverModel result =
+                await _dbContext.Drivers.LoadDependencies().FirstOrDefaultAsync(model => model.Id == driverId);
             OrderModel orderModel = await _dbContext.Orders.FindAsync(orderId);
 
             _driverService.UpdateRating(result, orderModel);
