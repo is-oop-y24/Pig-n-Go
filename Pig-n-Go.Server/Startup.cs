@@ -8,12 +8,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Pig_n_Go.Application.Services;
 using Pig_n_Go.Core.Services;
 using Pig_n_Go.Core.Tools;
 using Pig_n_Go.DAL.DatabaseContexts;
-using Pig_n_Go.Mappers.Order;
+using Pig_n_Go.Server.Mappers;
 
-namespace Pig_n_Go
+namespace Pig_n_Go.Server
 {
     public class Startup
     {
@@ -43,9 +44,10 @@ namespace Pig_n_Go
             var mapperConfig = new MapperConfiguration(
                 mc =>
                 {
-                    mc.AddProfile(new OrderMapper());
-                    mc.AddProfile(new DriverMapper());
-                    mc.AddProfile(new PassengerMapper());
+                    mc.AddProfile<OrderMapper>();
+                    mc.AddProfile<DriverMapper>();
+                    mc.AddProfile<PassengerMapper>();
+                    mc.AddProfile<TariffMapper>();
                 });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -63,6 +65,11 @@ namespace Pig_n_Go
 
             services.AddScoped<IDistanceCalculator, NativeDistanceCalculator>();
             services.AddScoped<DriverDistanceLimit>();
+
+            services.AddScoped<PassengerApplication>();
+            services.AddScoped<DriverApplication>();
+            services.AddScoped<OrderApplication>();
+            services.AddScoped<TariffApplication>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
