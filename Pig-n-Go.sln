@@ -7,17 +7,17 @@ ProjectSection(SolutionItems) = preProject
 	.editorconfig = .editorconfig
 EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.Core", "Pig-n-Go.Core\Pig-n-Go.Core.csproj", "{BDB6643C-155E-4CC3-A39A-4E06B0FA7443}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.BLL", "Pig-n-Go.BLL\Pig-n-Go.BLL.csproj", "{BDB6643C-155E-4CC3-A39A-4E06B0FA7443}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.DAL", "Pig-n-Go.DAL\Pig-n-Go.DAL.csproj", "{09613836-3C65-474A-82CC-AD9E4856D9F4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.BLL", "Pig-n-Go.BLL\Pig-n-Go.BLL.csproj", "{2AC3227F-55A9-4694-BB30-B49EB0CCBC57}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.Tests", "Pig-n-Go.Tests\Pig-n-Go.Tests.csproj", "{1120299F-698A-489C-B50A-0E3F972038BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.Common", "Pig-n-Go.Common\Pig-n-Go.Common.csproj", "{0EAC729E-388B-4163-B5C3-044C932FABB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{40886AFE-9DB9-49FD-92E0-DF01AD96AD72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.PassengerClient", "Pig-n-Go.PassengerClient\Pig-n-Go.PassengerClient.csproj", "{40886AFE-9DB9-49FD-92E0-DF01AD96AD72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.Application", "Pig-n-Go.Application\Pig-n-Go.Application.csproj", "{BBC50DE0-FD82-4DFE-B739-759CDBA8BC79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,6 @@ Global
 		{09613836-3C65-474A-82CC-AD9E4856D9F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09613836-3C65-474A-82CC-AD9E4856D9F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09613836-3C65-474A-82CC-AD9E4856D9F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2AC3227F-55A9-4694-BB30-B49EB0CCBC57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AC3227F-55A9-4694-BB30-B49EB0CCBC57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AC3227F-55A9-4694-BB30-B49EB0CCBC57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AC3227F-55A9-4694-BB30-B49EB0CCBC57}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1120299F-698A-489C-B50A-0E3F972038BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1120299F-698A-489C-B50A-0E3F972038BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1120299F-698A-489C-B50A-0E3F972038BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,5 +49,9 @@ Global
 		{40886AFE-9DB9-49FD-92E0-DF01AD96AD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40886AFE-9DB9-49FD-92E0-DF01AD96AD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40886AFE-9DB9-49FD-92E0-DF01AD96AD72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBC50DE0-FD82-4DFE-B739-759CDBA8BC79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBC50DE0-FD82-4DFE-B739-759CDBA8BC79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBC50DE0-FD82-4DFE-B739-759CDBA8BC79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBC50DE0-FD82-4DFE-B739-759CDBA8BC79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

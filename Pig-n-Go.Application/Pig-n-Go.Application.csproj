@@ -1,8 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>Pig_n_Go.Core</RootNamespace>
+        <RootNamespace>Pig_n_Go.Application</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -10,7 +10,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+        <ProjectReference Include="..\Pig-n-Go.Common\Pig-n-Go.Common.csproj"/>
+        <ProjectReference Include="..\Pig-n-Go.DAL\Pig-n-Go.DAL.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="11.0.0"/>
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

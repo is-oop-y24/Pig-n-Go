@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Pig_n_Go.BLL.Services;
-using Pig_n_Go.Common.DTO.Passenger;
-using Pig_n_Go.Core.Passenger;
+using Pig_n_Go.Application.Services;
+using Pig_n_Go.Common.Passenger;
 
-namespace Pig_n_Go.Controllers
+namespace Pig_n_Go.Server.Controllers
 {
     [ApiController]
     [Route("passengers")]
     public class PassengerController : Controller
     {
-        private readonly IPassengerServiceAsync _passengerService;
+        private readonly PassengerApplication _applicationService;
         private readonly IMapper _mapper;
 
-        public PassengerController(IPassengerServiceAsync passengerService, IMapper mapper)
+        public PassengerController(PassengerApplication applicationService, IMapper mapper)
         {
-            _passengerService = passengerService;
+            _applicationService = applicationService;
             _mapper = mapper;
         }
 
@@ -28,9 +26,9 @@ namespace Pig_n_Go.Controllers
         {
             if (args.PassengerInfo?.Name is null || args.PassengerInfo?.Surname is null)
                 return BadRequest();
-            PassengerModel passenger = _mapper.Map<PassengerModel>(args);
+            PassengerDto passenger = _mapper.Map<PassengerDto>(args);
 
-            PassengerModel result = await _passengerService.AddAsync(passenger);
+            PassengerDto result = await _applicationService.AddAsync(passenger);
             return Ok(result);
         }
 
@@ -40,20 +38,20 @@ namespace Pig_n_Go.Controllers
             if (passengerId == Guid.Empty)
                 return BadRequest();
 
-            PassengerModel passenger = await _passengerService.FindAsync(passengerId);
+            PassengerDto passenger = await _applicationService.FindAsync(passengerId);
 
             if (passenger is null)
                 return NotFound();
 
-            return Ok(_mapper.Map<PassengerDTO>(passenger));
+            return Ok(passenger);
         }
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAllPassengers()
         {
-            IReadOnlyCollection<PassengerModel> passengers = await _passengerService.GetAllAsync();
+            IReadOnlyCollection<PassengerDto> passengers = await _applicationService.GetAllAsync();
 
-            return Ok(passengers.Select(p => _mapper.Map<PassengerDTO>(p)));
+            return Ok(passengers);
         }
 
         [HttpDelete("remove")]
@@ -62,14 +60,14 @@ namespace Pig_n_Go.Controllers
             if (passengerId == Guid.Empty)
                 return BadRequest();
 
-            await _passengerService.RemoveAsync(passengerId);
+            await _applicationService.RemoveAsync(passengerId);
             return Ok();
         }
 
         [HttpPatch("{passengerId:guid}/pay")]
         public async Task<IActionResult> Pay([FromRoute] Guid passengerId)
         {
-            await _passengerService.Pay(passengerId);
+            await _applicationService.Pay(passengerId);
             return Ok();
         }
     }

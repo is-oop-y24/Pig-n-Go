@@ -1,20 +1,24 @@
+using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Pig_n_Go.BLL.Services;
-using Pig_n_Go.BLL.Services.Tools;
+using Pig_n_Go.Application.Services;
+using Pig_n_Go.Core.Services;
+using Pig_n_Go.Core.Tools;
 using Pig_n_Go.DAL.DatabaseContexts;
-using Pig_n_Go.DAL.Repositories;
-using Pig_n_Go.Mappers.Order;
+using Pig_n_Go.Server.Mappers;
 
-namespace Pig_n_Go
+namespace Pig_n_Go.Server
 {
     public class Startup
     {
@@ -44,9 +48,10 @@ namespace Pig_n_Go
             var mapperConfig = new MapperConfiguration(
                 mc =>
                 {
-                    mc.AddProfile(new OrderMapper());
-                    mc.AddProfile(new DriverMapper());
-                    mc.AddProfile(new PassengerMapper());
+                    mc.AddProfile<OrderMapper>();
+                    mc.AddProfile<DriverMapper>();
+                    mc.AddProfile<PassengerMapper>();
+                    mc.AddProfile<TariffMapper>();
                 });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -58,19 +63,20 @@ namespace Pig_n_Go
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pig-n-Go.Server", Version = "v1" });
                 });
 
-            services.AddScoped<IDriverRepositoryAsync, DbDriverRepositoryAsync>();
-            services.AddScoped<IPassengerRepositoryAsync, DbPassengerRepositoryAsync>();
-            services.AddScoped<IOrderRepositoryAsync, DbOrderRepositoryAsync>();
-
-            services.AddScoped<IPassengerServiceAsync, PassengerServiceAsync>();
-            services.AddScoped<IDriverServiceAsync, DriverServiceAsync>();
-            services.AddScoped<IOrderServiceAsync, OrderServiceAsync>();
+            services.AddScoped<IPassengerService, PassengerService>();
+            services.AddScoped<IDriverService, DriverService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             services.AddScoped<IDistanceCalculator, NativeDistanceCalculator>();
-            services.AddScoped<IDriverDistanceLimit, DriverDistanceLimit>();
+            services.AddScoped<DriverDistanceLimit>();
+
+            services.AddScoped<PassengerApplication>();
+            services.AddScoped<DriverApplication>();
+            services.AddScoped<OrderApplication>();
+            services.AddScoped<TariffApplication>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Program> logger)
         {
             if (env.IsDevelopment())
             {
@@ -85,6 +91,13 @@ namespace Pig_n_Go
 
             app.UseAuthorization();
 
+            app.Use(
+                async (context, next) =>
+                {
+                    logger.LogInformation($"Processing request: {context.Request.Path}{context.Request.QueryString}");
+                    await next.Invoke();
+                });
+
             app.UseCors(
                 policy =>
                 {
@@ -92,6 +105,18 @@ namespace Pig_n_Go
                           .AllowAnyMethod()
                           .WithHeaders(HeaderNames.ContentType);
                 });
+
+            app.UseExceptionHandler(
+                c => c.Run(
+                    async context =>
+                    {
+                        Exception exception = context.Features
+                                                     .Get<IExceptionHandlerPathFeature>()
+                                                     .Error;
+                        logger.LogError(exception.Message);
+                        var response = new { error = exception.Message };
+                        await context.Response.WriteAsJsonAsync(response);
+                    }));
 
             app.UseEndpoints(
                 endpoints =>

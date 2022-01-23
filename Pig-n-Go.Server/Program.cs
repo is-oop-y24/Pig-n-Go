@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Pig_n_Go
+namespace Pig_n_Go.Server
 {
     public class Program
     {

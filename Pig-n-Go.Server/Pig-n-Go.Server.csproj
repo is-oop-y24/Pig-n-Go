@@ -2,29 +2,26 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+        <RootNamespace>Pig_n_Go.Server</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\.editorconfig" />
+        <None Include="..\.editorconfig"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <ProjectReference Include="..\Pig-n-Go.BLL\Pig-n-Go.BLL.csproj" />
-      <ProjectReference Include="..\Pig-n-Go.Common\Pig-n-Go.Common.csproj" />
-      <ProjectReference Include="..\Pig-n-Go.Core\Pig-n-Go.Core.csproj" />
-      <ProjectReference Include="..\Pig-n-Go.DAL\Pig-n-Go.DAL.csproj" />
+        <ProjectReference Include="..\Pig-n-Go.Application\Pig-n-Go.Application.csproj"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="11.0.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.13" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.13" />
-      <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="AutoMapper" Version="11.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.13"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.13"/>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
     </ItemGroup>
-    
+
 </Project>
