@@ -98,13 +98,10 @@ namespace Pig_n_Go.Server
                     await next.Invoke();
                 });
 
-            app.UseCors(
-                policy =>
-                {
-                    policy.WithOrigins("http://localhost:6000", "https://localhost:6001")
-                          .AllowAnyMethod()
-                          .WithHeaders(HeaderNames.ContentType);
-                });
+            app.UseCors(policy => policy
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin());
 
             app.UseExceptionHandler(
                 c => c.Run(
