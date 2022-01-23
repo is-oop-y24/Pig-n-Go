@@ -87,18 +87,18 @@ namespace Pig_n_Go.Server.Controllers
             return Ok();
         }
 
-        [HttpPut("login")]
-        public async Task<IActionResult> Login([FromQuery] Guid driverId)
+        [HttpPut("online")]
+        public async Task<IActionResult> GoOnline([FromQuery] Guid driverId, [FromQuery] Guid tariffId)
         {
-            if (driverId == Guid.Empty)
+            if (driverId == Guid.Empty || tariffId == Guid.Empty)
                 return BadRequest();
 
-            await _applicationService.GoOnline(driverId);
+            await _applicationService.GoOnline(driverId, tariffId);
             return Ok();
         }
 
-        [HttpPut("logout")]
-        public async Task<IActionResult> Logout([FromQuery] Guid driverId)
+        [HttpPut("offline")]
+        public async Task<IActionResult> GoOffline([FromQuery] Guid driverId)
         {
             if (driverId == Guid.Empty)
                 return BadRequest();

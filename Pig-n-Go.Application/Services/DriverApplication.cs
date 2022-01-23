@@ -10,6 +10,7 @@ using Pig_n_Go.Common.Driver;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.Core.Order;
 using Pig_n_Go.Core.Services;
+using Pig_n_Go.Core.Tariffs;
 using Pig_n_Go.DAL.DatabaseContexts;
 using Pig_n_Go.DAL.Extensions;
 
@@ -94,10 +95,16 @@ namespace Pig_n_Go.Application.Services
             return _mapper.Map<DriverDto>(result);
         }
 
-        public async Task GoOnline(Guid driverId)
+        public async Task GoOnline(Guid driverId, Guid tariffId)
         {
-            DriverModel driverModel = await _dbContext.Drivers.FindAsync(driverId);
-            await _dbContext.ActiveDrivers.AddAsync(driverModel);
+            DriverModel driverModel = await _dbContext.Drivers.LoadDependencies()
+                                                      .FirstOrDefaultAsync(model => model.Id == driverId);
+            TariffModel tariffModel = await _dbContext.Tariffs.FindAsync(tariffId);
+
+            driverModel.Tariff = tariffModel;
+            driverModel.IsActive = true;
+
+            _dbContext.Drivers.Update(driverModel);
             await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"Set driver with id {driverId} online");
@@ -105,8 +112,13 @@ namespace Pig_n_Go.Application.Services
 
         public async Task GoOffline(Guid driverId)
         {
-            DriverModel driverModel = await _dbContext.Drivers.FindAsync(driverId);
-            _dbContext.ActiveDrivers.Remove(driverModel);
+            DriverModel driverModel = await _dbContext.Drivers.LoadDependencies()
+                                                      .FirstOrDefaultAsync(model => model.Id == driverId);
+
+            driverModel.Tariff = null;
+            driverModel.IsActive = false;
+
+            _dbContext.Drivers.Update(driverModel);
             await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"Set driver with id {driverId} offline");
