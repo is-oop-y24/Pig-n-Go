@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using Pig_n_Go.Controllers;
+using Pig_n_Go.Application.Services;
 using Pig_n_Go.Core.Services;
 using Pig_n_Go.Core.Tools;
 using Pig_n_Go.DAL.DatabaseContexts;
-using Pig_n_Go.Mappers.Order;
+using Pig_n_Go.Server.Controllers;
+using Pig_n_Go.Server.Mappers;
 
 namespace Pig_n_Go.Tests.ControllerTests
 {
@@ -24,12 +25,6 @@ namespace Pig_n_Go.Tests.ControllerTests
             var distanceCalculator = new NativeDistanceCalculator();
             var maxDriverDistance = new DriverDistanceLimit { MaxValue = 10.0m };
 
-            IOrderService orderService = new OrderService(
-                distanceCalculator,
-                maxDriverDistance);
-
-            IPassengerService passengerService = new PassengerService();
-
             var mapperConfig = new MapperConfiguration(
                 mc =>
                 {
@@ -39,7 +34,18 @@ namespace Pig_n_Go.Tests.ControllerTests
 
             IMapper mapper = mapperConfig.CreateMapper();
 
-            var orderController = new OrderController(orderService, passengerService, mapper);
+            var orderService = new OrderApplication(
+                taxiDbContext,
+                mapper,
+                new OrderService(
+                    distanceCalculator,
+                    maxDriverDistance));
+
+            var passengerService = new PassengerService();
+
+            var passengerApplication = new PassengerApplication(taxiDbContext, mapper, passengerService);
+
+            var orderController = new OrderController(orderService, passengerApplication, mapper);
         }
     }
 }

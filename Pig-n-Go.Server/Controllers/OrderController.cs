@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Pig_n_Go.Application.Services;
 using Pig_n_Go.Common.DTO.Order;
-using Pig_n_Go.Core.Order;
-using Pig_n_Go.Core.Services;
 
-namespace Pig_n_Go.Controllers
+namespace Pig_n_Go.Server.Controllers
 {
     [ApiController]
     [Route("orders")]
     public class OrderController : ControllerBase
     {
-        private readonly IOrderService _orderService;
-        private readonly IPassengerService _passengerService;
+        private readonly OrderApplication _orderService;
+        private readonly PassengerApplication _passengerService;
         private readonly IMapper _mapper;
 
-        public OrderController(IOrderService orderService, IPassengerService passengerService, IMapper mapper)
+        public OrderController(OrderApplication orderService, PassengerApplication passengerService, IMapper mapper)
         {
             _orderService = orderService;
             _passengerService = passengerService;
@@ -28,14 +25,10 @@ namespace Pig_n_Go.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddOrder([FromBody] OrderCreationArguments arguments, [FromQuery] Guid passengerId)
         {
-            OrderModel order = _mapper.Map<OrderModel>(arguments);
-            order.Passenger = await _passengerService.FindAsync(passengerId);
+            OrderDto dto = _mapper.Map<OrderDto>(arguments);
 
-            order.Tariff = new EconomyTariff(); // TODO: temporary solution, need to figure out how to receive tariffs
-            order.CreationDate = DateTime.Now; // TODO: mapper doesn't get it
-            order.UpdateDate = DateTime.Now; // TODO: mapper doesn't get it
+            OrderDto result = await _orderService.AddAsync(dto);
 
-            OrderModel result = await _orderService.AddAsync(order);
             return Ok(result);
         }
 
@@ -45,20 +38,18 @@ namespace Pig_n_Go.Controllers
             if (orderId == Guid.Empty)
                 return BadRequest();
 
-            OrderModel order = await _orderService.FindAsync(orderId);
+            OrderDto order = await _orderService.FindAsync(orderId);
 
             if (order is null)
                 return NotFound();
 
-            return Ok(_mapper.Map<OrderDto>(order));
+            return Ok(order);
         }
 
         [HttpGet("all")]
         public async Task<IActionResult> GetAllOrders()
         {
-            IReadOnlyCollection<OrderModel> orders = await _orderService.GetAllAsync();
-
-            return Ok(orders.Select(o => _mapper.Map<OrderDto>(o)).ToList());
+            return Ok(await _orderService.GetAllAsync());
         }
 
         [HttpDelete("remove")]

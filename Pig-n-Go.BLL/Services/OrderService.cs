@@ -22,7 +22,7 @@ namespace Pig_n_Go.Core.Services
             _maxDriverDistance = maxDriverDistance;
         }
 
-        public async Task HandleOrderAsync(OrderModel order)
+        public async Task<OrderModel> HandleOrderAsync(OrderModel order, List<DriverModel> drivers)
         {
             if (order is null)
                 throw new ArgumentNullException(nameof(order));
@@ -31,56 +31,56 @@ namespace Pig_n_Go.Core.Services
                 throw new TaxiException($"Order status must be {OrderStatus.Created}");
 
             order.Status = OrderStatus.Searching;
-
-            await AddAsync(order);
-            List<DriverModel> drivers = await FindClosestDrivers(order.Route.LocationUnits.First());
             IEnumerable<Task> askingTasks = drivers.Select(AskDriver);
+
             await Task.WhenAll(askingTasks);
+
+            return order;
         }
 
-        public async Task CancelOrderAsync(Guid orderId)
+        public async Task<OrderModel> CancelOrderAsync(OrderModel order)
         {
-            OrderModel order = await GetOrderAsync(orderId);
             order.Status = OrderStatus.Cancelled;
-            await UpdateAsync(order);
+            return await Task.FromResult(order);
         }
 
-        public async Task FinishOrderAsync(Guid orderId)
+        public async Task<OrderModel> FinishOrderAsync(OrderModel order)
         {
-            OrderModel order = await GetOrderAsync(orderId);
             order.Status = OrderStatus.Finished;
-            await UpdateAsync(order);
+            return await Task.FromResult(order);
         }
 
-        public async Task AcceptOrderAsync(Guid orderId, Guid driverId)
+        public async Task<OrderModel> AcceptOrderAsync(OrderModel order, DriverModel driver)
         {
-            OrderModel order = await GetOrderAsync(orderId);
             if (order.Status != OrderStatus.Searching)
                 throw new TaxiException("Order isn't active now.");
-            DriverModel driverModel = await _driverRepository.FindAsync(driverId)
-                                   ?? throw new TaxiException("Driver doesn't exist.");
-            order.Driver = driverModel;
+            order.Driver = driver;
             order.Status = OrderStatus.Accepted;
-            await Task.WhenAll(NotifyPassenger(order.Passenger), UpdateAsync(order));
+            await NotifyPassenger(order.Passenger);
+
+            return order;
         }
 
-        public async Task DeclineOrderAsync(Guid orderId, Guid driverId)
+        public async Task<OrderModel> DeclineOrderAsync(OrderModel order, DriverModel driver)
         {
             // Do we need it?
             throw new NotImplementedException();
         }
 
-        private async Task<List<DriverModel>> FindClosestDrivers(CartesianLocationUnit locationUnit)
+        public async Task<List<DriverModel>> FindClosestDrivers(
+            List<DriverModel> drivers,
+            CartesianLocationUnit locationUnit)
         {
-            return new List<DriverModel>(
-                await _driverRepository.GetWhereAsync(
-                    driver =>
-                        _distanceCalculator.GetDistance(driver.Location, locationUnit) < _maxDriverDistance.MaxValue));
-        }
+            var task = Task.Run(
+                () =>
+                {
+                    return drivers.Where(
+                                      model => _distanceCalculator.GetDistance(model.Location, locationUnit)
+                                             < _maxDriverDistance.MaxValue)
+                                  .ToList();
+                });
 
-        private async Task<OrderModel> GetOrderAsync(Guid orderId)
-        {
-            return await FindAsync(orderId) ?? throw new TaxiException("Order doesn't exist.");
+            return await task;
         }
 
         private async Task NotifyPassenger(PassengerModel orderPassenger)
