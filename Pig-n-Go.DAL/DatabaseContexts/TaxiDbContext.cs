@@ -28,13 +28,14 @@ namespace Pig_n_Go.DAL.DatabaseContexts
             modelBuilder.Entity<DriverModel>().OwnsOne(model => model.DriverInfo);
             modelBuilder.Entity<DriverModel>().OwnsOne(model => model.Location);
 
-            modelBuilder.Entity<Route>().OwnsMany(
-                route => route.LocationUnits,
-                builder =>
-                {
-                    builder.Property<int>("Id");
-                    builder.HasKey("Id");
-                });
+            modelBuilder.Entity<Route>()
+                        .OwnsMany(
+                            route => route.LocationUnits,
+                            builder =>
+                            {
+                                builder.Property<int>("Id");
+                                builder.HasKey("Id");
+                            });
         }
     }
 }

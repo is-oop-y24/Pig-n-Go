@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Pig_n_Go.Common.DTO.Tariff;
+using Pig_n_Go.Common.Tariff;
 using Pig_n_Go.Core.Tariffs;
 using Pig_n_Go.DAL.DatabaseContexts;
 

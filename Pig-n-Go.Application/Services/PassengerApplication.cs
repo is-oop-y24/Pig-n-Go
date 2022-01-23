@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Pig_n_Go.Common.DTO.Passenger;
+using Pig_n_Go.Common.Passenger;
 using Pig_n_Go.Core.Passenger;
 using Pig_n_Go.Core.Services;
 using Pig_n_Go.DAL.DatabaseContexts;

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Pig_n_Go.Application.Services;
-using Pig_n_Go.Common.DTO.Driver;
+using Pig_n_Go.Common.Driver;
 using Pig_n_Go.Core.Driver;
 
 namespace Pig_n_Go.Server.Controllers

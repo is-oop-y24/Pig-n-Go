@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Pig_n_Go.Common.DTO.Order;
+using Pig_n_Go.Common.Order;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.Core.Order;
 using Pig_n_Go.Core.Services;

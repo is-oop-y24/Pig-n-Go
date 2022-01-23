@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Pig_n_Go.Common.DTO.Tariff;
+using Pig_n_Go.Common.Tariff;
 using Pig_n_Go.Core.Tariffs;
 
 namespace Pig_n_Go.Server.Mappers

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Pig_n_Go.Common.DTO.Driver;
+using Pig_n_Go.Common.Driver;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.Core.Order;
 using Pig_n_Go.Core.Services;
@@ -20,7 +20,8 @@ namespace Pig_n_Go.Application.Services
         private readonly IMapper _mapper;
         private readonly IDriverService _driverService;
 
-        public DriverApplication(TaxiDbContext dbContext,
+        public DriverApplication(
+            TaxiDbContext dbContext,
             IMapper mapper,
             IDriverService driverService)
         {

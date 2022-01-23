@@ -1,7 +1,7 @@
 ﻿@page "/formexample"
 @using Pig_n_Go.Core.Passenger
-@using Pig_n_Go.Common.DTO.Passenger
-@inject HttpClient Http
+@using Pig_n_Go.Common.Passenger
+@inject HttpClient _http
 
 <h3>FormExample</h3>
 
@@ -34,7 +34,7 @@
 
     private async Task HandleValidSubmit()
     {
-        HttpResponseMessage response = await Http.PostAsJsonAsync(
+        HttpResponseMessage response = await _http.PostAsJsonAsync(
             "https://localhost:5001/passengers/add",
             new PassengerCreationArguments { PassengerInfo = _passengerInfo });
 

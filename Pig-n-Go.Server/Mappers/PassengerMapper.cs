@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Pig_n_Go.Common.DTO.Passenger;
+using Pig_n_Go.Common.Passenger;
 using Pig_n_Go.Core.Passenger;
 
 namespace Pig_n_Go.Server.Mappers

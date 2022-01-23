@@ -91,11 +91,12 @@ namespace Pig_n_Go.Server
 
             app.UseAuthorization();
 
-            app.Use(async (context, next) =>
-            {
-                logger.LogInformation($"Processing request: {context.Request.Path}{context.Request.QueryString}");
-                await next.Invoke();
-            });
+            app.Use(
+                async (context, next) =>
+                {
+                    logger.LogInformation($"Processing request: {context.Request.Path}{context.Request.QueryString}");
+                    await next.Invoke();
+                });
 
             app.UseCors(
                 policy =>
@@ -105,15 +106,17 @@ namespace Pig_n_Go.Server
                           .WithHeaders(HeaderNames.ContentType);
                 });
 
-            app.UseExceptionHandler(c => c.Run(async context =>
-            {
-                var exception = context.Features
-                    .Get<IExceptionHandlerPathFeature>()
-                    .Error;
-                logger.LogError(exception.Message);
-                var response = new { error = exception.Message };
-                await context.Response.WriteAsJsonAsync(response);
-            }));
+            app.UseExceptionHandler(
+                c => c.Run(
+                    async context =>
+                    {
+                        Exception exception = context.Features
+                                                     .Get<IExceptionHandlerPathFeature>()
+                                                     .Error;
+                        logger.LogError(exception.Message);
+                        var response = new { error = exception.Message };
+                        await context.Response.WriteAsJsonAsync(response);
+                    }));
 
             app.UseEndpoints(
                 endpoints =>

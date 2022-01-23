@@ -2,7 +2,7 @@
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.Core.Tariffs;
 
-namespace Pig_n_Go.Common.DTO.Driver
+namespace Pig_n_Go.Common.Driver
 {
     public class DriverDto
     {

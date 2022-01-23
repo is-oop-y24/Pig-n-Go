@@ -1,4 +1,4 @@
-﻿namespace Pig_n_Go.Common.DTO.Tariff
+﻿namespace Pig_n_Go.Common.Tariff
 {
     public class TariffCreationArguments
     {

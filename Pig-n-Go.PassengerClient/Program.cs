@@ -14,7 +14,7 @@ namespace Pig_n_Go.PassengerClient
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(
-                sp => new HttpClient
+                _ => new HttpClient
                 {
                     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress),
                 });

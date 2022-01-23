@@ -4,7 +4,7 @@ using Pig_n_Go.Core.Order;
 using Pig_n_Go.Core.Passenger;
 using Pig_n_Go.Core.Tariffs;
 
-namespace Pig_n_Go.Common.DTO.Order
+namespace Pig_n_Go.Common.Order
 {
     public class OrderDto
     {

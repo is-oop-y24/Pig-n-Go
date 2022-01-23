@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Pig_n_Go.Application.Services;
-using Pig_n_Go.Common.DTO.Tariff;
+using Pig_n_Go.Common.Tariff;
 
 namespace Pig_n_Go.Server.Controllers
 {
