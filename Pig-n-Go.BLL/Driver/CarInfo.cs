@@ -2,8 +2,8 @@
 {
     public class CarInfo
     {
-        public string ModelName { get; init; }
-        public string CarNumber { get; init; }
-        public string Color { get; init; }
+        public string ModelName { get; set; }
+        public string CarNumber { get; set; }
+        public string Color { get; set; }
     }
 }

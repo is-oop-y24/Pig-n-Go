@@ -2,8 +2,8 @@
 {
     public class CartesianLocationUnit
     {
-        public decimal Abscissa { get; init; }
-        public decimal Ordinate { get; init; }
+        public decimal Abscissa { get; set; }
+        public decimal Ordinate { get; set; }
 
         public override string ToString() => $"Cartesian({Abscissa}, {Ordinate})";
     }
