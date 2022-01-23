@@ -1,5 +1,5 @@
-﻿using Pig_n_Go.Common.Passenger;
-using Pig_n_Go.Common.Tariff;
+﻿using System;
+using Pig_n_Go.Common.Passenger;
 using Pig_n_Go.Core.Order;
 
 namespace Pig_n_Go.Common.Order
@@ -8,6 +8,6 @@ namespace Pig_n_Go.Common.Order
     {
         public Route Route { get; init; }
         public PassengerDto Passenger { get; set; }
-        public TariffCreationArguments Tariff { get; init; }
+        public Guid TariffId { get; init; }
     }
 }
