@@ -9,7 +9,7 @@ namespace Pig_n_Go.BLL.Driver
     public class DriverRating
     {
         public Guid Id { get; init; }
-        public List<OrderRating> RatingHistory { get; private init; } = new List<OrderRating>();
+        public List<OrderRating> RatingHistory { get; set; } = new List<OrderRating>();
 
         [JsonIgnore]
         public double AverageRating
