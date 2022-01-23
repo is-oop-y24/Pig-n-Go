@@ -1,12 +1,13 @@
-﻿using Pig_n_Go.Core.Passenger;
+﻿using System.Threading.Tasks;
+using Pig_n_Go.Core.Passenger;
 
 namespace Pig_n_Go.Core.Services
 {
     public class PassengerService : IPassengerService
     {
-        public PassengerModel Pay(PassengerModel passengerModel)
+        public async Task<PassengerModel> Pay(PassengerModel passengerModel)
         {
-            return passengerModel;
+            return await Task.FromResult(passengerModel);
         }
     }
 }

@@ -56,7 +56,7 @@ namespace Pig_n_Go.Application.Services
         {
             PassengerModel passengerModel = await _dbContext.Passengers.FindAsync(passengerId);
 
-            PassengerModel result = _service.Pay(passengerModel);
+            PassengerModel result = await _service.Pay(passengerModel);
             _dbContext.Passengers.Update(result);
             await _dbContext.SaveChangesAsync();
 
