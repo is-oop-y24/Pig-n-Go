@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Pig_n_Go.Application.Services;
 using Pig_n_Go.Common.DTO.Driver;
 using Pig_n_Go.Core.Driver;
-using Pig_n_Go.Core.Tariffs;
 
 namespace Pig_n_Go.Server.Controllers
 {
@@ -28,7 +27,6 @@ namespace Pig_n_Go.Server.Controllers
         {
             DriverDto driver = _mapper.Map<DriverDto>(arguments);
 
-            driver.Tariff = new TariffModel(); // TODO: temporary solution, need to figure out how to receive tariffs
             driver.DriverRating = new DriverRating(); // TODO: mapper doesn't get it
 
             DriverDto result = await _applicationService.AddAsync(driver);

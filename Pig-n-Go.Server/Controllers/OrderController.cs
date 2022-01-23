@@ -12,13 +12,11 @@ namespace Pig_n_Go.Server.Controllers
     public class OrderController : ControllerBase
     {
         private readonly OrderApplication _orderService;
-        private readonly PassengerApplication _passengerService;
         private readonly IMapper _mapper;
 
-        public OrderController(OrderApplication orderService, PassengerApplication passengerService, IMapper mapper)
+        public OrderController(OrderApplication orderService, IMapper mapper)
         {
             _orderService = orderService;
-            _passengerService = passengerService;
             _mapper = mapper;
         }
 
