@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 using Pig_n_Go.Common.Order;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.Core.Order;
@@ -17,14 +18,20 @@ namespace Pig_n_Go.Application.Services
     public class OrderApplication : IApplicationService<OrderDto>
     {
         private readonly TaxiDbContext _dbContext;
-        private readonly IMapper _mapper;
         private readonly IOrderService _service;
+        private readonly IMapper _mapper;
+        private readonly ILogger<OrderApplication> _logger;
 
-        public OrderApplication(TaxiDbContext dbContext, IMapper mapper, IOrderService service)
+        public OrderApplication(
+            TaxiDbContext dbContext,
+            IOrderService service,
+            IMapper mapper,
+            ILogger<OrderApplication> logger)
         {
             _dbContext = dbContext;
-            _mapper = mapper;
             _service = service;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<OrderDto> AddAsync(OrderDto dto)
@@ -33,6 +40,8 @@ namespace Pig_n_Go.Application.Services
 
             EntityEntry<OrderModel> result = await _dbContext.Orders.AddAsync(model);
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Add new order with id {result.Entity.Id}");
 
             return _mapper.Map<OrderDto>(result.Entity);
         }
@@ -54,6 +63,8 @@ namespace Pig_n_Go.Application.Services
         {
             _dbContext.Orders.Remove(await _dbContext.Orders.FindAsync(id));
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Remove order with id {id}");
         }
 
         public async Task HandleOrderAsync(Guid orderId)
@@ -65,6 +76,8 @@ namespace Pig_n_Go.Application.Services
                 order.Route.LocationUnits.ElementAtOrDefault(0));
 
             await _service.HandleOrderAsync(order, drivers);
+
+            _logger.LogInformation("Handle new order");
         }
 
         public async Task AcceptOrderAsync(Guid orderId, Guid driverId)
@@ -77,6 +90,8 @@ namespace Pig_n_Go.Application.Services
 
             _dbContext.Orders.Update(result);
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Accept order with id {orderId}");
         }
 
         public async Task DeclineOrderAsync(Guid orderId, Guid driverId)
@@ -89,6 +104,8 @@ namespace Pig_n_Go.Application.Services
 
             _dbContext.Orders.Update(result);
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Decline order with id {orderId}");
         }
 
         public async Task FinishOrderAsync(Guid orderId)
@@ -99,6 +116,8 @@ namespace Pig_n_Go.Application.Services
 
             _dbContext.Orders.Update(result);
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Finish order with id {orderId}");
         }
     }
 }

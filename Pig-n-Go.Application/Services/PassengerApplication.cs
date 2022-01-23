@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 using Pig_n_Go.Common.Passenger;
 using Pig_n_Go.Core.Passenger;
 using Pig_n_Go.Core.Services;
@@ -15,14 +16,20 @@ namespace Pig_n_Go.Application.Services
     public class PassengerApplication : IApplicationService<PassengerDto>
     {
         private readonly TaxiDbContext _dbContext;
-        private readonly IMapper _mapper;
         private readonly IPassengerService _service;
+        private readonly IMapper _mapper;
+        private readonly ILogger<PassengerApplication> _logger;
 
-        public PassengerApplication(TaxiDbContext dbContext, IMapper mapper, IPassengerService service)
+        public PassengerApplication(
+            TaxiDbContext dbContext,
+            IPassengerService service,
+            IMapper mapper,
+            ILogger<PassengerApplication> logger)
         {
             _dbContext = dbContext;
-            _mapper = mapper;
             _service = service;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<PassengerDto> AddAsync(PassengerDto dto)
@@ -31,6 +38,8 @@ namespace Pig_n_Go.Application.Services
 
             EntityEntry<PassengerModel> result = await _dbContext.AddAsync(passengerModel);
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Add new passenger with id {result.Entity.Id}");
 
             return _mapper.Map<PassengerDto>(result.Entity);
         }
@@ -50,6 +59,8 @@ namespace Pig_n_Go.Application.Services
         {
             _dbContext.Passengers.Remove(await _dbContext.Passengers.FindAsync(id));
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Remove passenger with id {id}");
         }
 
         public async Task<PassengerDto> Pay(Guid passengerId)
@@ -59,6 +70,8 @@ namespace Pig_n_Go.Application.Services
             PassengerModel result = await _service.Pay(passengerModel);
             _dbContext.Passengers.Update(result);
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Perform payment for passenger with id {passengerId}");
 
             return _mapper.Map<PassengerDto>(result);
         }

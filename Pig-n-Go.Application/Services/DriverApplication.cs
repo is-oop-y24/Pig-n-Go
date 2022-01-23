@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 using Pig_n_Go.Common.Driver;
 using Pig_n_Go.Core.Driver;
 using Pig_n_Go.Core.Order;
@@ -17,17 +18,20 @@ namespace Pig_n_Go.Application.Services
     public class DriverApplication : IApplicationService<DriverDto>
     {
         private readonly TaxiDbContext _dbContext;
-        private readonly IMapper _mapper;
         private readonly IDriverService _driverService;
+        private readonly IMapper _mapper;
+        private readonly ILogger<DriverApplication> _logger;
 
         public DriverApplication(
             TaxiDbContext dbContext,
+            IDriverService driverService,
             IMapper mapper,
-            IDriverService driverService)
+            ILogger<DriverApplication> logger)
         {
             _dbContext = dbContext;
-            _mapper = mapper;
             _driverService = driverService;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<DriverDto> AddAsync(DriverDto dto)
@@ -36,6 +40,8 @@ namespace Pig_n_Go.Application.Services
 
             EntityEntry<DriverModel> result = await _dbContext.Drivers.AddAsync(model);
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Add new driver with id {result.Entity.Id}");
 
             return _mapper.Map<DriverDto>(result.Entity);
         }
@@ -57,6 +63,9 @@ namespace Pig_n_Go.Application.Services
         public async Task RemoveAsync(Guid id)
         {
             _dbContext.Drivers.Remove(await _dbContext.Drivers.FindAsync(id));
+
+            _logger.LogInformation($"Remove driver with id {id}");
+
             await _dbContext.SaveChangesAsync();
         }
 
@@ -80,6 +89,8 @@ namespace Pig_n_Go.Application.Services
             _driverService.UpdateRating(result, orderModel);
             _dbContext.Drivers.Update(result);
 
+            _logger.LogInformation($"Update rating of driver with id {driverId}");
+
             return _mapper.Map<DriverDto>(result);
         }
 
@@ -88,6 +99,8 @@ namespace Pig_n_Go.Application.Services
             DriverModel driverModel = await _dbContext.Drivers.FindAsync(driverId);
             await _dbContext.ActiveDrivers.AddAsync(driverModel);
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Set driver with id {driverId} online");
         }
 
         public async Task GoOffline(Guid driverId)
@@ -95,6 +108,8 @@ namespace Pig_n_Go.Application.Services
             DriverModel driverModel = await _dbContext.Drivers.FindAsync(driverId);
             _dbContext.ActiveDrivers.Remove(driverModel);
             await _dbContext.SaveChangesAsync();
+
+            _logger.LogInformation($"Set driver with id {driverId} offline");
         }
     }
 }
