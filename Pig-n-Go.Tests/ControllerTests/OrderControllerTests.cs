@@ -41,7 +41,11 @@ namespace Pig_n_Go.Tests.ControllerTests
                     distanceCalculator,
                     maxDriverDistance));
 
-            var orderController = new OrderController(orderService, mapper);
+            var passengerService = new PassengerService();
+
+            var passengerApplication = new PassengerApplication(taxiDbContext, mapper, passengerService);
+
+            var orderController = new OrderController(orderService, passengerApplication, mapper);
         }
     }
 }

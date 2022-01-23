@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Pig_n_Go.Application.Services;
-using Pig_n_Go.Common.DTO.Order;
+using Pig_n_Go.Common.Order;
 
 namespace Pig_n_Go.Server.Controllers
 {
@@ -11,21 +11,24 @@ namespace Pig_n_Go.Server.Controllers
     [Route("orders")]
     public class OrderController : ControllerBase
     {
-        private readonly OrderApplication _orderService;
+        private readonly OrderApplication _orderApplication;
+        private readonly PassengerApplication _passengerApplication;
         private readonly IMapper _mapper;
 
-        public OrderController(OrderApplication orderService, IMapper mapper)
+        public OrderController(OrderApplication orderApplication, PassengerApplication passengerApplication, IMapper mapper)
         {
-            _orderService = orderService;
+            _orderApplication = orderApplication;
+            _passengerApplication = passengerApplication;
             _mapper = mapper;
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> AddOrder([FromBody] OrderCreationArguments arguments, [FromQuery] Guid passengerId)
         {
+            arguments.Passenger = await _passengerApplication.FindAsync(passengerId);
             OrderDto dto = _mapper.Map<OrderDto>(arguments);
 
-            OrderDto result = await _orderService.AddAsync(dto);
+            OrderDto result = await _orderApplication.AddAsync(dto);
 
             return Ok(result);
         }
@@ -36,7 +39,7 @@ namespace Pig_n_Go.Server.Controllers
             if (orderId == Guid.Empty)
                 return BadRequest();
 
-            OrderDto order = await _orderService.FindAsync(orderId);
+            OrderDto order = await _orderApplication.FindAsync(orderId);
 
             if (order is null)
                 return NotFound();
@@ -47,7 +50,7 @@ namespace Pig_n_Go.Server.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllOrders()
         {
-            return Ok(await _orderService.GetAllAsync());
+            return Ok(await _orderApplication.GetAllAsync());
         }
 
         [HttpDelete("remove")]
@@ -56,7 +59,7 @@ namespace Pig_n_Go.Server.Controllers
             if (orderId == Guid.Empty)
                 return BadRequest();
 
-            await _orderService.RemoveAsync(orderId);
+            await _orderApplication.RemoveAsync(orderId);
             return Ok();
         }
 
@@ -66,7 +69,7 @@ namespace Pig_n_Go.Server.Controllers
             if (orderId == Guid.Empty || driverId == Guid.Empty)
                 return BadRequest();
 
-            await _orderService.AcceptOrderAsync(orderId, driverId);
+            await _orderApplication.AcceptOrderAsync(orderId, driverId);
             return Ok();
         }
 
@@ -76,7 +79,7 @@ namespace Pig_n_Go.Server.Controllers
             if (orderId == Guid.Empty || driverId == Guid.Empty)
                 return BadRequest();
 
-            await _orderService.DeclineOrderAsync(orderId, driverId);
+            await _orderApplication.DeclineOrderAsync(orderId, driverId);
             return Ok();
         }
 
@@ -86,7 +89,7 @@ namespace Pig_n_Go.Server.Controllers
             if (orderId == Guid.Empty)
                 return BadRequest();
 
-            await _orderService.FinishOrderAsync(orderId);
+            await _orderApplication.FinishOrderAsync(orderId);
             return Ok();
         }
     }
