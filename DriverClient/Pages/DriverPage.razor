@@ -1,0 +1,116 @@
+﻿@page "/driverpage"
+@using Pig_n_Go.Core.Driver
+@using DriverClient.Tools
+@using Pig_n_Go.Common.DTO.Driver
+@using Pig_n_Go.Common.DTO.Order
+@using Pig_n_Go.Core.Order
+@inject HttpClient _http
+
+@if (_driverStatus == DriverStatus.LoggedOut) {
+    <h3>Register</h3>
+    <p/>
+    <EditForm Model="@_driverInfo" OnValidSubmit="@Register">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+    
+        <InputText id="name" @bind-Value="_driverInfo.Name" />
+        <p/>
+        <InputText id="surname" @bind-Value="_driverInfo.Surname" />
+        <p/>
+        <button type="submit">Register</button>
+    </EditForm>
+    
+    <p/>
+    <h4>or</h4>
+    <p/>
+    <h3>Login with ID</h3>
+    <EditForm Model="@_driverGuid" OnValidSubmit="@Login">
+        <InputText id="guid" @bind-Value="_driverGuid.StringGuid" />
+        <p/>
+        <button type="submit">Login</button>
+    </EditForm>
+}
+
+@if (_driverStatus == DriverStatus.LoggedIn) {
+    <h3>Hello, @_driverDto.DriverInfo.Name!</h3>
+    <p/>
+    <h4>Your location: @_currentLocation.Abscissa, @_currentLocation.Ordinate</h4>
+    <EditForm Model="_currentLocation" OnValidSubmit="@UpdateLocation">
+        <InputText id="abscissa" @bind-Value="_currentLocation.Abscissa"></InputText>
+        <InputText id="ordinate" @bind-Value="_currentLocation.Ordinate"></InputText>
+        <button type="submit">Update location</button>
+    </EditForm>
+    <p/>
+    
+    <h4>Available orders:</h4>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Start</th>
+            <th>Finish</th>
+        </tr>
+        @foreach (OrderDTO order in _orders) {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Route.LocationUnits.First().Abscissa, @order.Route.LocationUnits.First().Ordinate</td>
+                <td>@order.Route.LocationUnits.Last().Abscissa, @order.Route.LocationUnits.Last().Ordinate</td>
+            </tr>
+        }
+    </table>
+}
+
+@if (_driverStatus == DriverStatus.Driving) {
+    <h3>You're driving right now!</h3>
+    <h4>Route start: @_currentOrder.Route.LocationUnits.First().Abscissa, 
+        @_currentOrder.Route.LocationUnits.First().Ordinate</h4>
+    <h4>Route finish: @_currentOrder.Route.LocationUnits.Last().Abscissa, 
+        @_currentOrder.Route.LocationUnits.Last().Ordinate</h4>
+    <button @onClick="FinishOrder">Finish order</button>
+}
+
+@code {
+    private DriverDTO _driverDto;
+    private DriverInfo _driverInfo = new DriverInfo();
+    DriverStatus _driverStatus = DriverStatus.LoggedOut;
+
+    private DriverGuid _driverGuid = new DriverGuid();
+    private List<OrderDTO> _orders = new List<OrderDTO>();
+
+    private CartesianLocationUnitDto _currentLocation = new CartesianLocationUnitDto();
+    private OrderDTO _currentOrder;
+
+    private async Task Register() {
+        var creationArgs = new DriverCreationArguments
+        {
+            DriverInfo = _driverInfo
+        };
+        HttpResponseMessage response = await _http.PostAsJsonAsync("http://localhost:5001/drivers/add", creationArgs);
+
+        if (response.IsSuccessStatusCode)
+            _driverDto = await response.Content.ReadFromJsonAsync<DriverDTO>();
+        
+        _driverStatus = DriverStatus.LoggedIn;
+    }
+
+    private async Task Login() {
+        HttpResponseMessage response = await _http.GetAsync("https://localhost:5001/drivers/get?driverId=553428d7-dfe2-4306-83ea-7d853653a080");
+        if (response.IsSuccessStatusCode)
+            _driverDto = await response.Content.ReadFromJsonAsync<DriverDTO>();
+        _driverStatus = DriverStatus.LoggedIn;
+    }
+
+    private async Task UpdateLocation() {
+        // TODO get orders
+    }
+
+    private async Task AcceptOrder() {
+        // TODO logic
+        _driverStatus = DriverStatus.Driving;
+    }
+
+    private async Task FinishOrder() {
+        // TODO logic
+        _currentOrder = null;
+        _driverStatus = DriverStatus.LoggedIn;
+    }
+}
