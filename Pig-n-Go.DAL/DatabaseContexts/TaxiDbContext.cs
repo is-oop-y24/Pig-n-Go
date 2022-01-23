@@ -19,14 +19,14 @@ namespace Pig_n_Go.DAL.DatabaseContexts
         public DbSet<OrderModel> Orders { get; private set; }
         public DbSet<TariffModel> Tariffs { get; private set; }
 
-        public DbSet<DriverModel> ActiveDrivers { get; private set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PassengerModel>().OwnsOne(model => model.PassengerInfo);
 
             modelBuilder.Entity<DriverModel>().OwnsOne(model => model.DriverInfo);
             modelBuilder.Entity<DriverModel>().OwnsOne(model => model.Location);
+
+            modelBuilder.Entity<DriverModel>().OwnsOne(model => model.CarInfo);
 
             modelBuilder.Entity<Route>()
                         .OwnsMany(
