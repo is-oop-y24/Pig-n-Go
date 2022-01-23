@@ -6,7 +6,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Pig-n-Go.BLL\Pig-n-Go.BLL.csproj" />
+        <None Include="..\.editorconfig"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Pig-n-Go.BLL\Pig-n-Go.BLL.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
 </Project>
