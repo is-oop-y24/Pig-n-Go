@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Pig_n_Go.BLL.Order;
 using Pig_n_Go.Common.Order;
-using Pig_n_Go.Core.Order;
 
 namespace Pig_n_Go.Server.Mappers
 {

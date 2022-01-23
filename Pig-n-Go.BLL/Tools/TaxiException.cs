@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pig_n_Go.Core.Tools
+namespace Pig_n_Go.BLL.Tools
 {
     public class TaxiException : Exception
     {

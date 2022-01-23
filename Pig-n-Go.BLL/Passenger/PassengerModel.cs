@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pig_n_Go.Core.Passenger
+namespace Pig_n_Go.BLL.Passenger
 {
     public class PassengerModel
     {

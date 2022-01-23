@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Pig_n_Go.Core.Driver;
-using Pig_n_Go.Core.Order;
+using Pig_n_Go.BLL.Driver;
+using Pig_n_Go.BLL.Order;
 
-namespace Pig_n_Go.Core.Services
+namespace Pig_n_Go.BLL.Services
 {
     public interface IOrderService
     {

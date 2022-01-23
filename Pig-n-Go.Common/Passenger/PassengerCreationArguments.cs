@@ -1,4 +1,4 @@
-﻿using Pig_n_Go.Core.Passenger;
+﻿using Pig_n_Go.BLL.Passenger;
 
 namespace Pig_n_Go.Common.Passenger
 {

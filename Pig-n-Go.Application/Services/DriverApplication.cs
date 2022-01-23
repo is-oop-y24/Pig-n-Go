@@ -6,11 +6,11 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
+using Pig_n_Go.BLL.Driver;
+using Pig_n_Go.BLL.Order;
+using Pig_n_Go.BLL.Services;
+using Pig_n_Go.BLL.Tariffs;
 using Pig_n_Go.Common.Driver;
-using Pig_n_Go.Core.Driver;
-using Pig_n_Go.Core.Order;
-using Pig_n_Go.Core.Services;
-using Pig_n_Go.Core.Tariffs;
 using Pig_n_Go.DAL.DatabaseContexts;
 using Pig_n_Go.DAL.Extensions;
 

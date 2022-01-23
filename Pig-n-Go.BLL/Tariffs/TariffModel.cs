@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pig_n_Go.Core.Tariffs
+namespace Pig_n_Go.BLL.Tariffs
 {
     public class TariffModel
     {

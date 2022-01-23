@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Pig_n_Go.Core.Passenger;
+using Pig_n_Go.BLL.Passenger;
 
-namespace Pig_n_Go.Core.Services
+namespace Pig_n_Go.BLL.Services
 {
     public interface IPassengerService
     {
