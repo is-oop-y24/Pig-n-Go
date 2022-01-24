@@ -1,45 +1,70 @@
-﻿@page "/formexample"
+﻿@page "/form-example"
 @using Pig_n_Go.Common.Passenger
 @using Pig_n_Go.BLL.Passenger
 @inject HttpClient _http
 
-<h3>FormExample</h3>
+<h3>RegisterForm</h3>
 
-<EditForm Model="@_passengerInfo" OnValidSubmit="@HandleValidSubmit">
+<EditForm Model="@_passengerArguments" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator/>
     <ValidationSummary/>
 
-    <InputText id="name" @bind-Value="_passengerInfo.Name"/>
+    <InputText id="name" placeholder="Name" @bind-Value="_passengerArguments.PassengerInfo.Name"/>
     <p/>
-    <InputText id="surname" @bind-Value="_passengerInfo.Surname"/>
+    <InputText id="surname" placeholder="Surname" @bind-Value="_passengerArguments.PassengerInfo.Surname"/>
     <p/>
     <button class="btn btn-primary" type="submit">Sumbit</button>
 </EditForm>
 
-@if (_passengerModel is not null)
+@if (_passengerDto is not null)
 {
-        <p>Passenger created succefully</p>
-        <p>@_passengerModel.Id</p>
-        @if (_passengerModel.PassengerInfo is not null)
+    <div class="alert alert-secondary blockquote mt-4">
+        <p>
+            <b>Passenger created succefully</b>
+        </p>
+        <p>
+            <b>@nameof(_passengerDto.Id): </b>@_passengerDto.Id
+        </p>
+        @if (_passengerDto.PassengerInfo is not null)
         {
-            <p>@_passengerModel.PassengerInfo.Name</p>
-            <p>@_passengerModel.PassengerInfo.Surname</p>
+            <p>
+                <b>@nameof(_passengerDto.PassengerInfo.Name): </b>@_passengerDto.PassengerInfo.Name
+            </p>
+            <p>
+                <b>@nameof(_passengerDto.PassengerInfo.Surname): </b>@_passengerDto.PassengerInfo.Surname
+            </p>
         }
+    </div>
+}
+
+@if (_registerPassengerError)
+{
+    <div class="alert alert-secondary blockquote mt-4">
+        <b>Something went wrong</b>
+    </div>
 }
 
 @code
 {
-    private readonly PassengerInfo _passengerInfo = new PassengerInfo();
-    private PassengerModel _passengerModel;
+    private readonly PassengerCreationArguments _passengerArguments = new PassengerCreationArguments { PassengerInfo = new PassengerInfo() };
+    private PassengerDto _passengerDto;
+    private bool _registerPassengerError;
 
     private async Task HandleValidSubmit()
     {
-        HttpResponseMessage response = await _http.PostAsJsonAsync(
-            "https://localhost:5001/passengers/add",
-            new PassengerCreationArguments { PassengerInfo = _passengerInfo });
+        try
+        {
+            HttpResponseMessage response = await _http.PostAsJsonAsync(
+                "https://localhost:5001/passengers/add",
+                _passengerArguments);
 
-        if (response.IsSuccessStatusCode)
-            _passengerModel = await response.Content.ReadFromJsonAsync<PassengerModel>();
+            if (response.IsSuccessStatusCode)
+                _passengerDto = await response.Content.ReadFromJsonAsync<PassengerDto>();
+        }
+        catch (Exception)
+        {
+            _registerPassengerError = true;
+        }
     }
 
 }
