@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Pig_n_Go.BLL.Driver;
 using Pig_n_Go.BLL.Order;
 using Pig_n_Go.BLL.Services;
+using Pig_n_Go.BLL.Tariffs;
 using Pig_n_Go.Common.Order;
 using Pig_n_Go.DAL.DatabaseContexts;
 using Pig_n_Go.DAL.Extensions;
@@ -37,6 +38,9 @@ namespace Pig_n_Go.Application.Services
         public async Task<OrderDto> AddAsync(OrderDto dto)
         {
             OrderModel model = _mapper.Map<OrderModel>(dto);
+
+            TariffModel tariff = await _dbContext.Tariffs.FindAsync(dto.Tariff.Id); // dont touch!!!
+            model.Tariff = tariff; // dont touch!!!
 
             EntityEntry<OrderModel> result = await _dbContext.Orders.AddAsync(model);
             await _dbContext.SaveChangesAsync();
@@ -69,12 +73,11 @@ namespace Pig_n_Go.Application.Services
 
         public async Task<List<OrderDto>> GetAvailableOrders()
         {
-            List<OrderModel> result = await _dbContext.Orders.Where(model => model.Status == OrderStatus.Searching)
+            List<OrderModel> result = await _dbContext.Orders.LoadDependencies()
+                                                      .Where(model => model.Status == OrderStatus.Searching)
                                                       .AsQueryable()
                                                       .ToListAsync();
-            return await result.Select(model => _mapper.Map<OrderDto>(model))
-                               .AsQueryable()
-                               .ToListAsync();
+            return await Task.FromResult(result.Select(model => _mapper.Map<OrderDto>(model)).ToList());
         }
 
         public async Task AcceptOrderAsync(Guid orderId, Guid driverId)
