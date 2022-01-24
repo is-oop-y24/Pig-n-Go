@@ -67,17 +67,14 @@ namespace Pig_n_Go.Application.Services
             _logger.LogInformation($"Remove order with id {id}");
         }
 
-        public async Task HandleOrderAsync(Guid orderId)
+        public async Task<List<OrderDto>> GetAvailableOrders()
         {
-            OrderModel order = await _dbContext.Orders.LoadDependencies()
-                                               .FirstOrDefaultAsync(model => model.Id == orderId);
-            List<DriverModel> drivers = await _service.FindClosestDrivers(
-                _dbContext.Drivers.ToList(),
-                order.Route.LocationUnits.ElementAtOrDefault(0));
-
-            await _service.HandleOrderAsync(order, drivers);
-
-            _logger.LogInformation("Handle new order");
+            List<OrderModel> result = await _dbContext.Orders.Where(model => model.Status == OrderStatus.Searching)
+                                                      .AsQueryable()
+                                                      .ToListAsync();
+            return await result.Select(model => _mapper.Map<OrderDto>(model))
+                               .AsQueryable()
+                               .ToListAsync();
         }
 
         public async Task AcceptOrderAsync(Guid orderId, Guid driverId)

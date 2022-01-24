@@ -66,15 +66,12 @@ namespace Pig_n_Go.Server.Controllers
         }
 
         [HttpPatch("update/location")]
-        public async Task<IActionResult> UpdateLocation(
-            [FromQuery] Guid driverId,
-            [FromBody] CartesianLocationUnit locationUnit)
+        public async Task<IActionResult> UpdateLocation(Guid driverId, [FromBody] CartesianLocationUnit locationUnit)
         {
             if (driverId == Guid.Empty || locationUnit is null)
                 return BadRequest();
 
-            await _applicationService.UpdateLocation(driverId, locationUnit);
-            return Ok();
+            return Ok(await _applicationService.UpdateLocation(driverId, locationUnit));
         }
 
         [HttpPatch("update/rating")]
@@ -87,7 +84,7 @@ namespace Pig_n_Go.Server.Controllers
             return Ok();
         }
 
-        [HttpPut("online")]
+        [HttpPut("go-online")]
         public async Task<IActionResult> GoOnline([FromQuery] Guid driverId, [FromQuery] Guid tariffId)
         {
             if (driverId == Guid.Empty || tariffId == Guid.Empty)
@@ -97,7 +94,7 @@ namespace Pig_n_Go.Server.Controllers
             return Ok();
         }
 
-        [HttpPut("offline")]
+        [HttpPut("go-offline")]
         public async Task<IActionResult> GoOffline([FromQuery] Guid driverId)
         {
             if (driverId == Guid.Empty)

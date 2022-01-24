@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +16,10 @@ namespace Pig_n_Go.Server.Controllers
         private readonly PassengerApplication _passengerApplication;
         private readonly IMapper _mapper;
 
-        public OrderController(OrderApplication orderApplication, PassengerApplication passengerApplication, IMapper mapper)
+        public OrderController(
+            OrderApplication orderApplication,
+            PassengerApplication passengerApplication,
+            IMapper mapper)
         {
             _orderApplication = orderApplication;
             _passengerApplication = passengerApplication;
@@ -40,6 +44,17 @@ namespace Pig_n_Go.Server.Controllers
                 return BadRequest();
 
             OrderDto order = await _orderApplication.FindAsync(orderId);
+
+            if (order is null)
+                return NotFound();
+
+            return Ok(order);
+        }
+
+        [HttpGet("all/available")]
+        public async Task<IActionResult> GetAvailableOrders()
+        {
+            List<OrderDto> order = await _orderApplication.GetAvailableOrders();
 
             if (order is null)
                 return NotFound();
