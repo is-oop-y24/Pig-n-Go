@@ -8,7 +8,7 @@ namespace Pig_n_Go.BLL.Driver
 {
     public class DriverRating
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
         public List<OrderRating> RatingHistory { get; set; } = new List<OrderRating>();
 
         [JsonIgnore]

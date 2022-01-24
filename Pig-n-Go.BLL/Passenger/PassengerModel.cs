@@ -4,7 +4,7 @@ namespace Pig_n_Go.BLL.Passenger
 {
     public class PassengerModel
     {
-        public Guid Id { get; init; }
-        public PassengerInfo PassengerInfo { get; init; }
+        public Guid Id { get; set; }
+        public PassengerInfo PassengerInfo { get; set; }
     }
 }

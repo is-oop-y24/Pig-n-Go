@@ -5,7 +5,7 @@ namespace Pig_n_Go.BLL.Order
 {
     public class OrderStatusHistory
     {
-        public Guid Id { get; init; } = Guid.NewGuid();
-        public List<OrderStatusHistoryEntry> Entries { get; init; } = new List<OrderStatusHistoryEntry>();
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public List<OrderStatusHistoryEntry> Entries { get; set; } = new List<OrderStatusHistoryEntry>();
     }
 }
