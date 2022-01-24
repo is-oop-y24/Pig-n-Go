@@ -7,8 +7,8 @@ namespace Pig_n_Go.BLL.Order
 {
     public class OrderModel
     {
-        public Guid Id { get; init; }
-        public Route Route { get; init; }
+        public Guid Id { get; set; }
+        public Route Route { get; set; }
         public PassengerModel Passenger { get; set; }
         public DriverModel Driver { get; set; }
         public DateTime CreationDate { get; set; }
@@ -17,6 +17,6 @@ namespace Pig_n_Go.BLL.Order
         public TariffModel Tariff { get; set; }
 
         public OrderStatus Status { get; set; }
-        public OrderStatusHistory StatusHistory { get; init; } = new OrderStatusHistory();
+        public OrderStatusHistory StatusHistory { get; set; } = new OrderStatusHistory();
     }
 }

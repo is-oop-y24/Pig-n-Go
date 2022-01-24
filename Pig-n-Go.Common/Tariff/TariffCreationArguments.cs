@@ -3,6 +3,6 @@
     public class TariffCreationArguments
     {
         public string Name { get; set; }
-        public decimal ChargePerLocationUnit { get; init; }
+        public decimal ChargePerLocationUnit { get; set; }
     }
 }

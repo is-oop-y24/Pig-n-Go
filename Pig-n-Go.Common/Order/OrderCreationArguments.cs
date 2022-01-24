@@ -6,8 +6,8 @@ namespace Pig_n_Go.Common.Order
 {
     public class OrderCreationArguments
     {
-        public Route Route { get; init; }
+        public Route Route { get; set; }
         public PassengerDto Passenger { get; set; }
-        public Guid TariffId { get; init; }
+        public Guid TariffId { get; set; }
     }
 }

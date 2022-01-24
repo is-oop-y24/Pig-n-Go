@@ -6,6 +6,6 @@ namespace Pig_n_Go.BLL.Tariffs
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public decimal ChargePerLocationUnit { get; init; }
+        public decimal ChargePerLocationUnit { get; set; }
     }
 }
