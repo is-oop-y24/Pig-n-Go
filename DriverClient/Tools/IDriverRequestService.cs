@@ -16,5 +16,6 @@ namespace DriverClient.Tools
         Task FinishOrder(Guid orderId);
         Task<TariffDto[]> GetTariffs();
         Task GoOnline(Guid driverId, Guid tariffId);
+        Task<List<OrderDto>> UpdateLocation(Guid driverId, CartesianLocationUnit locationUnit);
     }
 }
