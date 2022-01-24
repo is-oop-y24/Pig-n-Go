@@ -66,7 +66,7 @@ namespace Pig_n_Go.Server.Controllers
         }
 
         [HttpPatch("update/location")]
-        public async Task<IActionResult> UpdateLocation(Guid driverId, [FromBody] CartesianLocationUnit locationUnit)
+        public async Task<IActionResult> UpdateLocation(Guid driverId, [FromQuery] CartesianLocationUnit locationUnit)
         {
             if (driverId == Guid.Empty || locationUnit is null)
                 return BadRequest();
