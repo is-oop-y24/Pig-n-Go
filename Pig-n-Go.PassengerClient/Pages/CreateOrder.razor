@@ -1,0 +1,118 @@
+﻿@page "/create-order"
+@using Pig_n_Go.Common.Tariff
+@using Pig_n_Go.BLL.Driver
+@using Pig_n_Go.BLL.Order
+@using Pig_n_Go.Common.Order
+@inject HttpClient _http
+
+<h3>CreateOrder</h3>
+
+@if (_getTariffsError)
+{
+    <p>Unable to get tariffs from server. Please try again later.</p>
+}
+else
+{
+    @foreach (TariffDto tariffDto in _dtos)
+    {
+        <button class="btn btn-primary" @onclick="() => ChooseTariff(tariffDto)">
+            <p>@tariffDto.Name</p>
+        </button>
+    }
+
+    <br/>
+    <div class="alert alert-secondary blockquote">
+
+        <p>
+            Your choose is:
+            @if (_tariff is not null)
+            {
+                @_tariff.Name
+            }
+        </p>
+    </div>
+
+    <div class="alert alert-secondary blockquote">
+        <p>From: <b>@_startLocation.Abscissa, @_startLocation.Ordinate</b> to <b>@_finishLocation.Abscissa, @_finishLocation.Ordinate</b></p>
+    </div>
+
+    <EditForm Model="@_startLocation">
+        <InputNumber id="abscissa" @bind-Value="_startLocation.Abscissa"></InputNumber>
+        <InputNumber id="ordinate" @bind-Value="_startLocation.Ordinate"></InputNumber>
+    </EditForm>
+    <p/>
+    <EditForm Model="@_finishLocation">
+        <InputNumber id="abscissa" @bind-Value="_finishLocation.Abscissa"></InputNumber>
+        <InputNumber id="ordinate" @bind-Value="_finishLocation.Ordinate"></InputNumber>
+    </EditForm>
+    <p/>
+
+    <button class="btn btn-primary" type="submit" @onclick="() => SubmitOrder()">Start!</button>
+
+    @if (_orderSubmitError)
+    {
+        <p>Please try again later.</p>
+    }
+    else
+    {
+        <p>Your order id: @if (_orderDto is not null) @_orderDto.Id</p>
+    }
+    <!--
+    <img alt="map" src="https://img.tourister.ru/files/8/1/0/3/6/6/810366.jpg" height="700px" hspace="100px" align="bottom"/>
+    -->
+}
+
+@code {
+    private TariffDto[] _dtos = Array.Empty<TariffDto>();
+    private bool _getTariffsError;
+    private TariffDto _tariff;
+    private CartesianLocationUnit _startLocation = new CartesianLocationUnit(), _finishLocation = new CartesianLocationUnit();
+    private OrderDto _orderDto;
+    private bool _orderSubmitError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        HttpResponseMessage response = await _http.GetAsync("https://localhost:5001/tariffs/all");
+        if (response.IsSuccessStatusCode)
+        {
+            try
+            {
+                _dtos = await response.Content.ReadFromJsonAsync<TariffDto[]>();
+            }
+            catch (Exception)
+            {
+                _getTariffsError = true;
+            }
+        }
+        else
+        {
+            _getTariffsError = true;
+        }
+    }
+
+    private void ChooseTariff(TariffDto tariffDto)
+    {
+        _tariff = tariffDto;
+    }
+
+    private async Task SubmitOrder()
+    {
+        var orderArgs = new OrderCreationArguments
+        {
+            Tariff = _tariff, Route = new Route { Id = Guid.NewGuid(), LocationUnits = new List<CartesianLocationUnit> { _startLocation, _finishLocation } },
+        };
+        try
+        {
+            HttpResponseMessage response = await _http.PostAsJsonAsync(
+                "https://localhost:5001/orders/add",
+                orderArgs);
+
+            if (response.IsSuccessStatusCode)
+                _orderDto = await response.Content.ReadFromJsonAsync<OrderDto>();
+        }
+        catch (Exception)
+        {
+            _orderSubmitError = true;
+        }
+    }
+}

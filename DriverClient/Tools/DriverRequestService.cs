@@ -52,7 +52,7 @@ namespace DriverClient.Tools
             using (var httpClient = new HttpClient())
             {
                 response =
-                    await httpClient.GetAsync($"https://localhost:5001/drivers/accept/order?driverId={driverId}&orderId={orderId}");
+                    await httpClient.PatchAsync($"https://localhost:5001/orders/accept?orderId={orderId}&driverId={driverId}", null!);
             }
 
             if (!response.IsSuccessStatusCode)
@@ -99,11 +99,26 @@ namespace DriverClient.Tools
             using (var httpClient = new HttpClient())
             {
                 response =
-                    await httpClient.GetAsync($"https://localhost:5001/drivers/go-online?driverId={driverId}&tariffId={tariffId}");
+                    await httpClient.PutAsync($"https://localhost:5001/drivers/go-online?driverId={driverId}&tariffId={tariffId}", null!);
             }
             
             if (!response.IsSuccessStatusCode)
                 throw new Exception("Http request error.");
+        }
+
+        public async Task<List<OrderDto>> UpdateLocation(Guid driverId, CartesianLocationUnit locationUnit)
+        {
+            var http = new HttpClient();
+            var response = await http.PatchAsync(
+                $"https://localhost:5001/drivers/update/location?driverId={driverId}&Abscissa={locationUnit.Abscissa}&Ordinate={locationUnit.Ordinate}", null!);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine(response.StatusCode);
+                throw new Exception("Http request error.");
+            }
+
+            return await response.Content.ReadFromJsonAsync<List<OrderDto>>();
         }
     }
 }

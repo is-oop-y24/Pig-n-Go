@@ -11,6 +11,7 @@ using Pig_n_Go.BLL.Order;
 using Pig_n_Go.BLL.Services;
 using Pig_n_Go.BLL.Tariffs;
 using Pig_n_Go.Common.Driver;
+using Pig_n_Go.Common.Order;
 using Pig_n_Go.DAL.DatabaseContexts;
 using Pig_n_Go.DAL.Extensions;
 
@@ -70,15 +71,20 @@ namespace Pig_n_Go.Application.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<DriverDto> UpdateLocation(Guid driverId, CartesianLocationUnit locationUnit)
+        public async Task<List<OrderDto>> UpdateLocation(Guid driverId, CartesianLocationUnit locationUnit)
         {
             DriverModel driverModel =
                 await _dbContext.Drivers.LoadDependencies().FirstOrDefaultAsync(model => model.Id == driverId);
 
             DriverModel result = await _driverService.UpdateLocation(driverModel, locationUnit);
             _dbContext.Drivers.Update(result);
+            await _dbContext.SaveChangesAsync();
 
-            return _mapper.Map<DriverDto>(result);
+            List<OrderModel> orders = await _dbContext.Orders.LoadDependencies()
+                                                      .Where(model => model.Status == OrderStatus.Searching)
+                                                      .AsQueryable()
+                                                      .ToListAsync();
+            return await Task.FromResult(orders.Select(model => _mapper.Map<OrderDto>(model)).ToList());
         }
 
         public async Task UpdateRating(Guid driverId, Guid orderId)
@@ -89,6 +95,7 @@ namespace Pig_n_Go.Application.Services
 
             await _driverService.UpdateRating(driverModel, orderModel);
             _dbContext.Drivers.Update(driverModel);
+            await _dbContext.SaveChangesAsync();
 
             _logger.LogInformation($"Update rating of driver with id {driverId}");
         }

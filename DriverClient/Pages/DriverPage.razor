@@ -111,7 +111,7 @@
     private List<OrderDto> _orders = new List<OrderDto>();
     private GuidStringMapper _driverGuidStringMapper = new GuidStringMapper();
 
-    private CartesianLocationUnitDto _currentLocation = new CartesianLocationUnitDto();
+    private CartesianLocationUnit _currentLocation = new CartesianLocationUnit();
     private GuidStringMapper _orderGuidStringMapper = new GuidStringMapper();
     private OrderDto _currentOrder;
 
@@ -137,8 +137,9 @@
         _driverStatus = DriverStatus.Online;
     }
 
-    private async Task UpdateLocation() {
-        // TODO get orders
+    private async Task UpdateLocation()
+    {
+        _orders = await _requestService.UpdateLocation(_driverDto.Id, _currentLocation);
     }
 
     private async Task AcceptOrder() {

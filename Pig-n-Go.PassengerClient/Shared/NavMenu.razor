@@ -13,24 +13,20 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="form-example">
+                <span class="oi oi-plus" aria-hidden="true"></span> RegisterForm
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="formexample">
-                <span class="oi oi-plus" aria-hidden="true"></span> FormExample
+            <NavLink class="nav-link" href="create-order">
+                <span class="oi oi-transfer" aria-hidden="true"></span> Go!
             </NavLink>
         </li>
     </ul>
 </div>
 
-@code {
+@code
+{
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;

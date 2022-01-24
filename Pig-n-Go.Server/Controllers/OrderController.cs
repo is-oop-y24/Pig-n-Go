@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Pig_n_Go.Application.Services;
+using Pig_n_Go.BLL.Order;
 using Pig_n_Go.Common.Order;
 
 namespace Pig_n_Go.Server.Controllers
@@ -32,6 +33,7 @@ namespace Pig_n_Go.Server.Controllers
             arguments.Passenger = await _passengerApplication.FindAsync(passengerId);
             OrderDto dto = _mapper.Map<OrderDto>(arguments);
 
+            dto.Status = OrderStatus.Searching;
             OrderDto result = await _orderApplication.AddAsync(dto);
 
             return Ok(result);
