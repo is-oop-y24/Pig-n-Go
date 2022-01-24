@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.PassengerClient", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pig-n-Go.Application", "Pig-n-Go.Application\Pig-n-Go.Application.csproj", "{BBC50DE0-FD82-4DFE-B739-759CDBA8BC79}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverClient", "DriverClient\DriverClient.csproj", "{CA5FC9FF-6B80-48A7-B944-87A12929A142}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,5 +55,9 @@ Global
 		{BBC50DE0-FD82-4DFE-B739-759CDBA8BC79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBC50DE0-FD82-4DFE-B739-759CDBA8BC79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBC50DE0-FD82-4DFE-B739-759CDBA8BC79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA5FC9FF-6B80-48A7-B944-87A12929A142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA5FC9FF-6B80-48A7-B944-87A12929A142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA5FC9FF-6B80-48A7-B944-87A12929A142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA5FC9FF-6B80-48A7-B944-87A12929A142}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
