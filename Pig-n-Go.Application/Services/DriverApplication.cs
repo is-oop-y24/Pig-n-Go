@@ -72,27 +72,25 @@ namespace Pig_n_Go.Application.Services
 
         public async Task<DriverDto> UpdateLocation(Guid driverId, CartesianLocationUnit locationUnit)
         {
-            DriverModel result =
+            DriverModel driverModel =
                 await _dbContext.Drivers.LoadDependencies().FirstOrDefaultAsync(model => model.Id == driverId);
 
-            _driverService.UpdateLocation(result, locationUnit);
+            DriverModel result = await _driverService.UpdateLocation(driverModel, locationUnit);
             _dbContext.Drivers.Update(result);
 
             return _mapper.Map<DriverDto>(result);
         }
 
-        public async Task<DriverDto> UpdateRating(Guid driverId, Guid orderId)
+        public async Task UpdateRating(Guid driverId, Guid orderId)
         {
-            DriverModel result =
+            DriverModel driverModel =
                 await _dbContext.Drivers.LoadDependencies().FirstOrDefaultAsync(model => model.Id == driverId);
             OrderModel orderModel = await _dbContext.Orders.FindAsync(orderId);
 
-            _driverService.UpdateRating(result, orderModel);
-            _dbContext.Drivers.Update(result);
+            await _driverService.UpdateRating(driverModel, orderModel);
+            _dbContext.Drivers.Update(driverModel);
 
             _logger.LogInformation($"Update rating of driver with id {driverId}");
-
-            return _mapper.Map<DriverDto>(result);
         }
 
         public async Task GoOnline(Guid driverId, Guid tariffId)
@@ -101,8 +99,7 @@ namespace Pig_n_Go.Application.Services
                                                       .FirstOrDefaultAsync(model => model.Id == driverId);
             TariffModel tariffModel = await _dbContext.Tariffs.FindAsync(tariffId);
 
-            driverModel.Tariff = tariffModel;
-            driverModel.IsOnline = true;
+            driverModel = await _driverService.GoOnline(driverModel, tariffModel);
 
             _dbContext.Drivers.Update(driverModel);
             await _dbContext.SaveChangesAsync();
@@ -115,8 +112,7 @@ namespace Pig_n_Go.Application.Services
             DriverModel driverModel = await _dbContext.Drivers.LoadDependencies()
                                                       .FirstOrDefaultAsync(model => model.Id == driverId);
 
-            driverModel.Tariff = null;
-            driverModel.IsOnline = false;
+            driverModel = await _driverService.GoOffline(driverModel);
 
             _dbContext.Drivers.Update(driverModel);
             await _dbContext.SaveChangesAsync();
