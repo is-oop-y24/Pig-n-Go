@@ -4,6 +4,7 @@
     {
         LoggedOut,
         LoggedIn,
+        Online,
         Driving,
     }
 }

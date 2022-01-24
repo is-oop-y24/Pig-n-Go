@@ -4,6 +4,8 @@
 @using Pig_n_Go.Common.Driver
 @using Pig_n_Go.Common.Order
 @using System.Runtime.Versioning
+@using Pig_n_Go.BLL.Tariffs
+@using Pig_n_Go.Common.Tariff
 @inject HttpClient _http
 @inject IDriverRequestService _requestService
 
@@ -18,7 +20,7 @@
         <p/>
         <InputText id="surname" @bind-Value="_driverInfo.Surname" />
         <p/>
-        <button type="submit">Register</button>
+        <button class="btn-primary" type="submit">Register</button>
     </EditForm>
     
     <p/>
@@ -27,15 +29,41 @@
     <h3>Login with ID</h3>
     <EditForm Model="@_driverGuidStringMapper" OnValidSubmit="@Login">
         <InputText @bind-Value="_driverGuidStringMapper.StringGuid"/>
-        <button type="submit">Login</button>
+        <p/>
+        <button class="btn-primary" type="submit">Login</button>
     </EditForm>
 }
 
 @if (_driverStatus == DriverStatus.LoggedIn) {
     <h3>Hello, @_driverDto.DriverInfo.Name!</h3>
-    <p/>
+    <h4>Here's available tariffs:</h4>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+        @foreach (TariffDto tariff in _tariffs) 
+        {
+            <tr>
+                <td>@tariff.Id</td>
+                <td>@tariff.Name</td>
+                <td>@tariff.ChargePerLocationUnit</td>
+            </tr>
+        }
+    </table>
+    <h4>Choose yours:</h4>
+
+    <EditForm Model="@_tariffGuidStringMapper" OnValidSubmit="@GoOnline">
+        <InputText @bind-Value="@_tariffGuidStringMapper.StringGuid" />
+        <p/>
+        <button class="btn-primary" type="submit">Go online</button>
+    </EditForm>
+}
+
+@if (_driverStatus == DriverStatus.Online) {
     <h4>Your location: @_currentLocation.Abscissa, @_currentLocation.Ordinate</h4>
-    <EditForm Model="_currentLocation" OnValidSubmit="@UpdateLocation">
+    <EditForm Model="@_currentLocation" OnValidSubmit="@UpdateLocation">
         <InputNumber id="abscissa" @bind-Value="_currentLocation.Abscissa"></InputNumber>
         <InputNumber id="ordinate" @bind-Value="_currentLocation.Ordinate"></InputNumber>
         <button type="submit">Update location</button>
@@ -62,7 +90,7 @@
     <EditForm Model="@_orderGuidStringMapper" OnSubmit="AcceptOrder">
         <InputText id="orderGuid" @bind-Value="_orderGuidStringMapper.StringGuid"/>
         <p/>
-        <button type="submit">Accept order</button>
+        <button class="btn-primary" type="submit">Accept order</button>
     </EditForm>  
 }
 
@@ -87,6 +115,13 @@
     private GuidStringMapper _orderGuidStringMapper = new GuidStringMapper();
     private OrderDto _currentOrder;
 
+    private TariffDto[] _tariffs;
+    private GuidStringMapper _tariffGuidStringMapper = new GuidStringMapper();
+    
+    protected override async Task OnInitializedAsync() {
+        _tariffs = await _requestService.GetTariffs();
+    }
+
     private async Task Register() {
         _driverDto = await _requestService.Register(_driverInfo);
         _driverStatus = DriverStatus.LoggedIn;
@@ -95,6 +130,11 @@
     private async Task Login() {
         _driverDto = await _requestService.Login(_driverGuidStringMapper.Id);
         _driverStatus = DriverStatus.LoggedIn;
+    }
+
+    private async Task GoOnline() {
+        await _requestService.GoOnline(_driverDto.Id, _tariffGuidStringMapper.Id);
+        _driverStatus = DriverStatus.Online;
     }
 
     private async Task UpdateLocation() {
