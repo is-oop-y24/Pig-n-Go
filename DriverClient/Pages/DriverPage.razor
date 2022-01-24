@@ -1,10 +1,11 @@
 ﻿@page "/driverpage"
-@using Pig_n_Go.Core.Driver
+@using Pig_n_Go.BLL.Driver
 @using DriverClient.Tools
-@using Pig_n_Go.Common.DTO.Driver
-@using Pig_n_Go.Common.DTO.Order
-@using Pig_n_Go.Core.Order
+@using Pig_n_Go.Common.Driver
+@using Pig_n_Go.Common.Order
+@using System.Runtime.Versioning
 @inject HttpClient _http
+@inject IDriverRequestService _requestService
 
 @if (_driverStatus == DriverStatus.LoggedOut) {
     <h3>Register</h3>
@@ -24,9 +25,8 @@
     <h4>or</h4>
     <p/>
     <h3>Login with ID</h3>
-    <EditForm Model="@_driverGuid" OnValidSubmit="@Login">
-        <InputText id="guid" @bind-Value="_driverGuid.StringGuid" />
-        <p/>
+    <EditForm Model="@_driverGuidStringMapper" OnValidSubmit="@Login">
+        <InputText @bind-Value="_driverGuidStringMapper.StringGuid"/>
         <button type="submit">Login</button>
     </EditForm>
 }
@@ -36,27 +36,34 @@
     <p/>
     <h4>Your location: @_currentLocation.Abscissa, @_currentLocation.Ordinate</h4>
     <EditForm Model="_currentLocation" OnValidSubmit="@UpdateLocation">
-        <InputText id="abscissa" @bind-Value="_currentLocation.Abscissa"></InputText>
-        <InputText id="ordinate" @bind-Value="_currentLocation.Ordinate"></InputText>
+        <InputNumber id="abscissa" @bind-Value="_currentLocation.Abscissa"></InputNumber>
+        <InputNumber id="ordinate" @bind-Value="_currentLocation.Ordinate"></InputNumber>
         <button type="submit">Update location</button>
     </EditForm>
     <p/>
-    
+
     <h4>Available orders:</h4>
-    <table>
+    <table class="table">
         <tr>
             <th>Order ID</th>
             <th>Start</th>
             <th>Finish</th>
         </tr>
-        @foreach (OrderDTO order in _orders) {
+        @foreach (OrderDto order in _orders) {
             <tr>
                 <td>@order.Id</td>
                 <td>@order.Route.LocationUnits.First().Abscissa, @order.Route.LocationUnits.First().Ordinate</td>
                 <td>@order.Route.LocationUnits.Last().Abscissa, @order.Route.LocationUnits.Last().Ordinate</td>
             </tr>
         }
-    </table>
+    </table> 
+    <p/>
+    <h4>Choose order:</h4>
+    <EditForm Model="@_orderGuidStringMapper" OnSubmit="AcceptOrder">
+        <InputText id="orderGuid" @bind-Value="_orderGuidStringMapper.StringGuid"/>
+        <p/>
+        <button type="submit">Accept order</button>
+    </EditForm>  
 }
 
 @if (_driverStatus == DriverStatus.Driving) {
@@ -69,33 +76,24 @@
 }
 
 @code {
-    private DriverDTO _driverDto;
+    private DriverDto _driverDto;
     private DriverInfo _driverInfo = new DriverInfo();
     DriverStatus _driverStatus = DriverStatus.LoggedOut;
 
-    private DriverGuid _driverGuid = new DriverGuid();
-    private List<OrderDTO> _orders = new List<OrderDTO>();
+    private List<OrderDto> _orders = new List<OrderDto>();
+    private GuidStringMapper _driverGuidStringMapper = new GuidStringMapper();
 
     private CartesianLocationUnitDto _currentLocation = new CartesianLocationUnitDto();
-    private OrderDTO _currentOrder;
+    private GuidStringMapper _orderGuidStringMapper = new GuidStringMapper();
+    private OrderDto _currentOrder;
 
     private async Task Register() {
-        var creationArgs = new DriverCreationArguments
-        {
-            DriverInfo = _driverInfo
-        };
-        HttpResponseMessage response = await _http.PostAsJsonAsync("http://localhost:5001/drivers/add", creationArgs);
-
-        if (response.IsSuccessStatusCode)
-            _driverDto = await response.Content.ReadFromJsonAsync<DriverDTO>();
-        
+        _driverDto = await _requestService.Register(_driverInfo);
         _driverStatus = DriverStatus.LoggedIn;
     }
 
     private async Task Login() {
-        HttpResponseMessage response = await _http.GetAsync("https://localhost:5001/drivers/get?driverId=553428d7-dfe2-4306-83ea-7d853653a080");
-        if (response.IsSuccessStatusCode)
-            _driverDto = await response.Content.ReadFromJsonAsync<DriverDTO>();
+        _driverDto = await _requestService.Login(_driverGuidStringMapper.Id);
         _driverStatus = DriverStatus.LoggedIn;
     }
 
@@ -104,12 +102,12 @@
     }
 
     private async Task AcceptOrder() {
-        // TODO logic
+        _currentOrder = await _requestService.AcceptOrder(_driverDto.Id, _orderGuidStringMapper.Id);
         _driverStatus = DriverStatus.Driving;
     }
 
     private async Task FinishOrder() {
-        // TODO logic
+        await _requestService.FinishOrder(_currentOrder.Id);
         _currentOrder = null;
         _driverStatus = DriverStatus.LoggedIn;
     }

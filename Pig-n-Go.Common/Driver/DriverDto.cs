@@ -6,7 +6,7 @@ namespace Pig_n_Go.Common.Driver
 {
     public class DriverDto
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
         public DriverInfo DriverInfo { get; set; }
         public CarInfo CarInfo { get; set; }
         public CartesianLocationUnit Location { get; set; }
